@@ -109,7 +109,7 @@ export class PartnerStaffGrid extends AgGridCommon {
   gridResource = rxResource({
     params: () => this.gridQuery(),
     stream: ({params}) => this.http.get<ResponseList<PartnerStaff>>(
-      GlobalProperty.serverUrl() + `/api/system/webresource`,
+      GlobalProperty.serverUrl() + `/api/hrm/partnerstaff`,
       getHttpOptions(params)
     )
   })

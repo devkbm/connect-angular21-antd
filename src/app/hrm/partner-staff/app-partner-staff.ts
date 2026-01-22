@@ -25,7 +25,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 
 @Component({
-  selector: 'app-pay-table',
+  selector: 'app-partner-staff',
   imports: [
     CommonModule,
     FormsModule,
@@ -61,7 +61,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 <ng-page [header]="{template: header, height: 'var(--page-header-height)'}" [search]="{template: search, height: 'var(--page-search-height)'}">
   <div class="container">
     <div>
-      <h3 class="grid-title">급여항목 목록 {{drawer| json}} </h3>
+      <h3 class="grid-title">협력직원 목록 {{drawer| json}} </h3>
     </div>
     <div style="height: 500px">
       <partner-staff-grid #grid
