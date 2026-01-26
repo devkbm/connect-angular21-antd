@@ -94,11 +94,15 @@ export class PartnerStaffGrid extends AgGridCommon {
       width: 70,
       cellStyle: {'text-align': 'center'}
     },
-    { headerName: '리소스ID',     field: 'resourceId',      width: 150 },
-    { headerName: '리소스명',     field: 'resourceName',    width: 200 },
-    { headerName: '리소스타입',   field: 'resourceType',    width: 200 },
-    { headerName: 'Url',          field: 'url',             width: 200 },
-    { headerName: '설명',         field: 'description',     width: 300 }
+    { headerName: '직원번호',     field: 'staffNo',             width: 150 },
+    { headerName: '직원명',       field: 'name',                width: 200 },
+    { headerName: '성별',         field: 'gender',              width: 200 },
+    { headerName: '생년월일',     field: 'birthday',            width: 200 },
+    { headerName: '협력회사',     field: 'partnerCompanyCode',  width: 300 },
+    { headerName: '입사일',       field: 'joinDate',            width: 300 },
+    { headerName: '퇴사일',       field: 'retireDate',          width: 300 },
+    { headerName: '소속부서',     field: 'blngDeptCode',        width: 300 },
+    { headerName: '근무부서',     field: 'workDeptCode',        width: 300 },
   ];
 
   getRowId: GetRowIdFunc<PartnerStaff> = (params: GetRowIdParams<PartnerStaff>) => {

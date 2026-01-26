@@ -38,7 +38,7 @@ import { CompanyFormDrawer } from "./company-form-drawer";
 <ng-template #search>
   <company-search
     (search)="getList($event)"
-    (newForm)="newResource()"
+    (newForm)="newForm()"
     (deleteForm)="delete()">
   </company-search>
 </ng-template>
@@ -53,12 +53,12 @@ import { CompanyFormDrawer } from "./company-form-drawer";
       @if (view === 'grid') {
         <company-grid #grid
           (rowClicked)="resourceGridRowClicked($event)"
-          (editButtonClicked)="editResource($event)"
-          (rowDoubleClicked)="editResource($event)">
+          (editButtonClicked)="editForm($event)"
+          (rowDoubleClicked)="editForm($event)">
         </company-grid>
       }
       @else if (view === 'list') {
-        <company-list (editButtonClicked)="editResource($event)">
+        <company-list (editButtonClicked)="editForm($event)">
         </company-list>
       }
     }
@@ -133,12 +133,12 @@ export class AppCompany implements OnInit {
     this.grid().gridQuery.set(params);
   }
 
-  newResource(): void {
+  newForm(): void {
     this.drawer.company.formDataId = null;
     this.drawer.company.visible = true;
   }
 
-  editResource(item: any): void {
+  editForm(item: any): void {
     this.drawer.company.formDataId = item.companyCode;
     this.drawer.company.visible = true;
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, AfterViewInit, viewChild } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -52,7 +52,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   <nz-search-area>
     <partner-staff-search
       (search)="getList($event)"
-      (newForm)="newResource()"
+      (newForm)="newForm()"
       (deleteForm)="delete()">
     </partner-staff-search>
   </nz-search-area>
@@ -66,15 +66,15 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     <div style="height: 500px">
       <partner-staff-grid #grid
         (rowClicked)="gridRowClicked($event)"
-        (editButtonClicked)="editResource($event)"
-        (rowDoubleClicked)="editResource($event)">
+        (editButtonClicked)="editForm($event)"
+        (rowDoubleClicked)="editForm($event)">
       </partner-staff-grid>
     </div>
   </div>
 </ng-page>
 
 <partner-staff-form-drawer
-  [drawer]="drawer.paytable"
+  [drawer]="drawer.staff"
   (drawerClosed)="getList('')">
 </partner-staff-form-drawer>
   `,
@@ -106,43 +106,35 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
   `
 })
-export class AppPartnerStaff implements OnInit, AfterViewInit {
+export class AppPartnerStaff {
 
   private http = inject(HttpClient);
 
   grid = viewChild.required(PartnerStaffGrid);
 
   drawer: {
-    paytable: { visible: boolean, formDataId: any }
+    staff: { visible: boolean, formDataId: any }
   } = {
-    paytable: { visible: false, formDataId: null }
-  }
-
-  ngOnInit(): void {
-  }
-
-  ngAfterViewInit(): void {
-    //throw new Error('Method not implemented.');
+    staff: { visible: false, formDataId: null }
   }
 
   getList(params: any): void {
-    this.drawer.paytable.visible = false;
+    this.drawer.staff.visible = false;
     console.log(params);
     this.grid().gridQuery.set(params);
   }
 
-  newResource(): void {
-    this.drawer.paytable.formDataId = null;
-    this.drawer.paytable.visible = true;
+  newForm(): void {
+    this.drawer.staff.formDataId = null;
+    this.drawer.staff.visible = true;
   }
 
-  editResource(item: any): void {
-    this.drawer.paytable.formDataId = item.id;
-    this.drawer.paytable.visible = true;
+  editForm(item: any): void {
+    this.drawer.staff.formDataId = item.id;
+    this.drawer.staff.visible = true;
   }
 
   delete(): void {
-
     const id = this.grid().getSelectedRows()[0].id;
 
     const url = GlobalProperty.serverUrl() + `/api/hrm/payitem/${id}`;
@@ -160,7 +152,7 @@ export class AppPartnerStaff implements OnInit, AfterViewInit {
 
   gridRowClicked(item: any): void {
     if (item) {
-      this.drawer.paytable.formDataId = item.id;
+      this.drawer.staff.formDataId = item.id;
     }
   }
 

@@ -37,7 +37,7 @@ export interface PartnerStaff {
     FormsModule,
     ReactiveFormsModule,
     NzFormModule,
-
+    NzInputModule,
   ],
   template: `
     <form nz-form [formGroup]="fg" nzLayout="vertical" style="padding: 0px; margin: 0px;">
@@ -56,7 +56,7 @@ export interface PartnerStaff {
           <nz-form-item>
             <nz-form-label nzFor="staffNo" nzRequired>직원번호</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="staffNo" formControlName="staffNo" required readonly/>
+              <input nz-input id="staffNo" formControlName="staffNo" required/>
             </nz-form-control>
           </nz-form-item>
         </div>

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, input, output, viewChild } from '@a
 
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
-import { WebResourceForm } from 'src/app/system/webresource/web-resource-form';
 import { NzCrudButtonGroup } from 'src/app/third-party/ng-zorro/nz-crud-button-group/nz-crud-button-group';
 
 import { PartnerStaffForm } from "./partner-staff-form";
@@ -43,23 +42,22 @@ import { PartnerStaffForm } from "./partner-staff-form";
       </div>
     </ng-template>
   `,
-  styles: `
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: ``,
+  //changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PartnerStaffFormDrawer {
 
   drawer = input.required<{visible: boolean, formDataId: any}>();
   drawerClosed = output<any>();
 
-  form = viewChild.required(WebResourceForm);
+  form = viewChild.required(PartnerStaffForm);
 
   save() {
     this.form().save();
   }
 
   remove() {
-    this.form().remove();
+    //this.form().remove();
   }
 
   closeDrawer(params?: any) {

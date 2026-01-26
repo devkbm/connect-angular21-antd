@@ -53,7 +53,7 @@ export interface WebResource {
 <ng-template #search>
   <web-resource-search
     (search)="getList($event)"
-    (newForm)="newResource()"
+    (newForm)="newForm()"
     (deleteForm)="delete()"
   />
 </ng-template>
@@ -71,12 +71,12 @@ export interface WebResource {
       @if (view === 'grid') {
         <web-resource-grid #grid
           (rowClicked)="resourceGridRowClicked($event)"
-          (editButtonClicked)="editResource($event)"
-          (rowDoubleClicked)="editResource($event)">
+          (editButtonClicked)="editForm($event)"
+          (rowDoubleClicked)="editForm($event)">
         </web-resource-grid>
       }
       @else if (view === 'list') {
-        <web-resource-list (editButtonClicked)="editResource($event)">
+        <web-resource-list (editButtonClicked)="editForm($event)">
         </web-resource-list>
       }
     }
@@ -136,12 +136,12 @@ export class WebResourceApp implements OnInit {
     this.grid().gridQuery.set(params);
   }
 
-  newResource(): void {
+  newForm(): void {
     this.drawer.resource.formDataId = null;
     this.drawer.resource.visible = true;
   }
 
-  editResource(item: any): void {
+  editForm(item: any): void {
     this.drawer.resource.formDataId = item.resourceId;
     this.drawer.resource.visible = true;
   }

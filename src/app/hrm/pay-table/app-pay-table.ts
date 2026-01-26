@@ -51,7 +51,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   <nz-search-area>
     <pay-table-search
       (search)="getList($event)"
-      (newForm)="newResource()"
+      (newForm)="newForm()"
       (deleteForm)="delete()">
     </pay-table-search>
   </nz-search-area>
@@ -65,8 +65,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     <div style="height: 500px">
       <pay-table-grid #grid
         (rowClicked)="gridRowClicked($event)"
-        (editButtonClicked)="editResource($event)"
-        (rowDoubleClicked)="editResource($event)">
+        (editButtonClicked)="editForm($event)"
+        (rowDoubleClicked)="editForm($event)">
       </pay-table-grid>
     </div>
   </div>
@@ -130,12 +130,12 @@ export class AppPayTable implements OnInit, AfterViewInit {
     this.grid().gridQuery.set(params);
   }
 
-  newResource(): void {
+  newForm(): void {
     this.drawer.paytable.formDataId = null;
     this.drawer.paytable.visible = true;
   }
 
-  editResource(item: any): void {
+  editForm(item: any): void {
     this.drawer.paytable.formDataId = item.id;
     this.drawer.paytable.visible = true;
   }
