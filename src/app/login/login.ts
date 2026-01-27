@@ -152,6 +152,9 @@ export class Login implements OnInit {
         if (this.serverType() === 'LOCAL') {
           GlobalProperty._serverUrl = 'https://localhost:8090'
           sessionStorage.setItem('serverUrl', 'https://localhost:8090');
+
+          this.form.controls.staffNo.setValue('admin');
+          this.form.controls.password.setValue('1234');
         } else if (this.serverType() === 'PROD') {
           sessionStorage.setItem('serverUrl', 'https://connect-one.kro.kr');
         }

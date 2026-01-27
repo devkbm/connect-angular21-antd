@@ -14,6 +14,10 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { GlobalProperty } from 'src/app/core/global-property';
 import { getHttpOptions } from 'src/app/core/http/http-utils';
 import { ResponseObject } from 'src/app/core/model/response-object';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
+import { DeptResourceService } from 'src/app/shared-service/dept-resource-service';
 
 export interface PartnerStaff {
   companyCode: string | null;
@@ -38,6 +42,9 @@ export interface PartnerStaff {
     ReactiveFormsModule,
     NzFormModule,
     NzInputModule,
+    NzRadioModule,
+    NzDatePickerModule,
+    NzTreeSelectModule,
   ],
   template: `
     <form nz-form [formGroup]="fg" nzLayout="vertical" style="padding: 0px; margin: 0px;">
@@ -68,10 +75,104 @@ export interface PartnerStaff {
               <input nz-input id="name" formControlName="name" required/>
             </nz-form-control>
           </nz-form-item>
+        </div>
 
+         <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-label nzFor="gender" nzRequired>성별</nz-form-label>
+            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+              <nz-radio-group
+                formControlName="gender" itemId="gender">
+                @for (o of genderOptions; track o.value) {
+                  <label nz-radio [nzValue]="o.value">{{ o.label }}</label>
+                }
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
         </div>
       </div>
 
+      <div nz-row nzGutter="8">
+        <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-label nzFor="nameEng">직원명(영문)</nz-form-label>
+            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+              <input nz-input id="nameEng" formControlName="nameEng"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-label nzFor="nameChi">직원명(한문)</nz-form-label>
+            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+              <input nz-input id="nameChi" formControlName="nameChi"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div nz-row nzGutter="8">
+        <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-label nzFor="birthday">생년월일</nz-form-label>
+            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+              <nz-date-picker nzId="birthday" formControlName="birthday">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-label nzFor="joinDate">입사일</nz-form-label>
+            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+              <nz-date-picker nzId="joinDate" formControlName="joinDate">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-label nzFor="retireDate">퇴사일</nz-form-label>
+            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+              <nz-date-picker nzId="retireDate" formControlName="retireDate">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div nz-row nzGutter="8">
+        <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-label nzFor="blngDeptCode" nzRequired>소속부서</nz-form-label>
+            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+              <nz-tree-select
+                nzId="blngDeptCode"
+                formControlName="blngDeptCode"
+                [nzNodes]="deptResource.getData()!"
+                >
+              </nz-tree-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-label nzFor="workDeptCode" nzRequired>근무부서</nz-form-label>
+            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+              <nz-tree-select
+                nzId="workDeptCode"
+                formControlName="workDeptCode"
+                [nzNodes]="deptResource.getData()!"
+                >
+              </nz-tree-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
 
     </form>
   `,
@@ -82,6 +183,7 @@ export interface PartnerStaff {
 export class PartnerStaffForm {
 
   private http = inject(HttpClient);
+  deptResource = inject(DeptResourceService);
 
   formSaved = output<any>();
   formDeleted = output<any>();
@@ -103,6 +205,11 @@ export class PartnerStaffForm {
   });
 
   formDataId = input<string>('');
+
+  genderOptions = [
+    {label: '남', value: 'M'},
+    {label: '여', value: 'F'}
+  ];
 
   constructor() {
     effect(() => {

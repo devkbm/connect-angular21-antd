@@ -15,7 +15,7 @@ import { NewStaffForm } from './new-staff-form';
   template: `
     <nz-drawer
       nzTitle="신규직원 등록"
-      nzWidth="80%"
+      nzWidth="40%"
       [nzMaskClosable]="true"
       [nzVisible]="drawer().visible"
       [nzFooter]="footerTpl"

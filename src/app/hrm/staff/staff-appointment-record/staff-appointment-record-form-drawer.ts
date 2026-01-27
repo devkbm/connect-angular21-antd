@@ -15,7 +15,7 @@ import { StaffAppointmentRecordForm } from './staff-appointment-record-form';
   template: `
     <nz-drawer
       nzTitle="발령 등록"
-      nzWidth="80%"
+      nzWidth="40%"
       [nzMaskClosable]="true"
       [nzVisible]="drawer().visible"
       [nzFooter]="footerTpl"
