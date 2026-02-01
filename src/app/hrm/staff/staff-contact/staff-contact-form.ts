@@ -49,7 +49,7 @@ export interface StaffContact {
         (saveClick)="save()">
     </app-nz-crud-button-group>
 
-    {{fg.getRawValue() | json}} - {{fg.valid}}
+    <!-- {{fg.getRawValue() | json}} - {{fg.valid}} -->
     <form nz-form [formGroup]="fg" nzLayout="vertical">
       <!-- 폼 오류 메시지 템플릿 -->
       <ng-template #errorTpl let-control>
@@ -124,8 +124,8 @@ export interface StaffContact {
     <nz-divider nzText="주소 검색" nzOrientation="left" nzPlain nzVariant="solid"></nz-divider>
 
     <app-nz-list-road-address
-      [height]="'300px'"
-      [countPerPage]="5"
+      [height]="'calc(100vh - 646px)'"
+      [countPerPage]="3"
       (itemClicked)="changeRoadAddress($event)">
     </app-nz-list-road-address>
 

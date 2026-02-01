@@ -19,24 +19,24 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzInputModule,
     NzListModule,
     NzPaginationModule,
-    NzSpaceModule
-  ],
+    NzSpaceModule,
+],
   providers: [NzMessageService],
   template: `
-    111- {{searchText()}}
-    <div class="container" [style.height]="height()">
-      <nz-space-compact nzBlock>
-        <nz-input-search>
-          <input nz-input type="text" [(ngModel)]="searchText" (keyup.enter)="fetch()" placeholder="input search text"/>
-        </nz-input-search>
-        <button nz-button nzType="primary" nzSearch on-click="fetch()"><span nz-icon nzType="search"></span></button>
-      </nz-space-compact>
+    <!--111- {{searchText()}}-->
 
+    <nz-space-compact nzBlock>
+      <nz-input-search>
+        <input nz-input type="text" [(ngModel)]="searchText" (keyup.enter)="fetch()" placeholder="input search text"/>
+      </nz-input-search>
+      <button nz-button nzType="primary" nzSearch on-click="fetch()"><span nz-icon nzType="search"></span></button>
+    </nz-space-compact>
+
+    <div class="container" [style.overflow]="'auto'" [style.height]="height()" [style.background-color]="'red'">
       <nz-list [nzLoading]="_isLoading">
         @for (item of _data?.juso; track item.roadAddr) {
         <nz-list-item (click)="choice(item)">
-          <span nz-typography> {{ item.roadAddr }} </span>
-          {{ item.zipNo }}
+          <span nz-typography> {{ item.roadAddr }} </span>  <span>{{ item.zipNo }}</span>
         </nz-list-item>
         }
       </nz-list>
@@ -48,9 +48,12 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
       text-decoration: underline;
     }
 
+    /*
     .container {
       overflow: auto;
     }
+      */
+
   `]
 })
 export class NzListRoadAddressComponent implements OnInit {

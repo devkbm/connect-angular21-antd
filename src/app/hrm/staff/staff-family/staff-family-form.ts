@@ -223,7 +223,7 @@ export class StaffFamilyForm implements OnInit, AfterViewInit, OnChanges {
   }
 
   get(staffId: string, seq: string): void {
-    const url = GlobalProperty.serverUrl() + `/api/hrm/staff/${staffId}/family`;
+    const url = GlobalProperty.serverUrl() + `/api/hrm/staff/${staffId}/family/${seq}`;
     const options = getHttpOptions();
 
     this.http
