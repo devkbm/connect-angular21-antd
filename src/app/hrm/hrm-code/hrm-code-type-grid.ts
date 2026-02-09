@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, output } from '@angular/core';
+import { Component, output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -7,6 +7,8 @@ import { ModuleRegistry, ClientSideRowModelModule, RowSelectionModule } from 'ag
 import { GetRowIdFunc, GetRowIdParams } from 'ag-grid-community';
 import { AgGridCommon } from 'src/app/third-party/ag-grid/ag-grid-common';
 import { ButtonRenderer } from 'src/app/third-party/ag-grid/renderer/button-renderer';
+import { HrmCodeTypeService } from '../shared/hrm-code-type.service';
+import { ResponseList } from 'src/app/core/model/response-list';
 
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -38,7 +40,7 @@ export interface HrmType {
   template: `
     <ag-grid-angular
       [theme]="theme"
-      [rowData]="list"
+      [rowData]="list()"
       [style.height]="'100%'"
       [rowSelection]="rowSelection"
       [columnDefs]="columnDefs"
@@ -52,7 +54,7 @@ export interface HrmType {
 })
 export class HrmCodeTypeGridComponent extends AgGridCommon {
 
-  @Input() list: HrmType[] = [];
+  list = signal<HrmType[]>([]);
 
   rowClicked = output<HrmType>();
   rowDoubleClicked = output<HrmType>();
@@ -85,6 +87,22 @@ export class HrmCodeTypeGridComponent extends AgGridCommon {
   getRowId: GetRowIdFunc<HrmType> = (params: GetRowIdParams<HrmType>) => {
     return params.data.typeId!;
   };
+
+  private hrmCodeTypeService = inject(HrmCodeTypeService);
+
+  getGridHrmCodeTypeList(hrmType: string): void {
+      const params = {
+        hrmType : hrmType
+      };
+
+      this.hrmCodeTypeService
+          .getList(params)
+          .subscribe(
+            (model: ResponseList<HrmType>) => {
+              this.list.set(model.data);
+            }
+          );
+    }
 
   selectionChanged(event: any) {
     const selectedRows = this.gridApi.getSelectedRows();

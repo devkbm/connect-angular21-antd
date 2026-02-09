@@ -4,10 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HrmCodeTypeGridComponent } from './hrm-code-type-grid';
 import { HrmCodeGridComponent } from './hrm-code-grid';
+
 import { NotifyService } from 'src/app/core/service/notify.service';
-import { HrmCodeService } from '../shared/hrm-code.service';
-import { ResponseList } from 'src/app/core/model/response-list';
-import { HrmCodeTypeService } from '../shared/hrm-code-type.service';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -21,37 +19,6 @@ import { NzPageHeaderCustom } from 'src/app/third-party/ng-zorro/nz-page-header-
 import { HrmCodeTypeFormDrawerComponent } from './hrm-code-type-form-drawer';
 import { HrmCodeFormDrawerComponent } from './hrm-code-form-drawer';
 import { NgPage } from "src/app/core/app/nz-page";
-
-
-export interface HrmType {
-  typeId: string | null;
-  typeName: string | null;
-  sequence: number | null;
-  comment: string | null;
-  fieldConfig: string | null;
-  /*
-  the1AddInfoDesc: string | null;
-	the2AddInfoDesc: string | null;
-	the3AddInfoDesc: string | null;
-	the4AddInfoDesc: string | null;
-	the5AddInfoDesc: string | null;
-  */
-}
-
-export interface HrmCode {
-  typeId: string | null;
-  code: string | null;
-  codeName: string | null;
-  useYn: boolean | null;
-  sequence: number | null;
-  comment: string | null;
-  fieldConfig: string | null;
-  extraInfo: any;
-}
-
-
-
-
 
 @Component({
   selector: 'hrm-code-app',
@@ -104,7 +71,6 @@ export interface HrmCode {
   <div class="grid-2row-2col">
       <h3 class="header1">코드 분류 목록 {{drawer.codeType | json}}</h3>
       <hrm-code-type-grid #gridHrmType
-        [list]="gridHrmCodeTypeList"
         (rowClicked)="rowClickHrmCodeType($event)"
         (rowDoubleClicked)="editHrmCodeType($event)"
         (editButtonClicked)="editHrmCodeType($event)">
@@ -112,7 +78,6 @@ export interface HrmCode {
 
       <h3 class="header2">코드 목록 {{drawer.code | json}}</h3>
       <hrm-code-grid #gridHrmTypeCode
-        [list]="gridHrmCodeList"
         (rowClicked)="rowClickHrmCode($event)"
         (rowDoubleClicked)="editHrmCode($event)"
         (editButtonClicked)="editHrmCode($event)">
@@ -191,14 +156,9 @@ export interface HrmCode {
 export class HrmCodeApp implements OnInit {
 
   private notifyService = inject(NotifyService);
-  private hrmCodeService = inject(HrmCodeService);
-  private hrmCodeTypeService = inject(HrmCodeTypeService);
 
   gridHrmCodeType = viewChild.required(HrmCodeTypeGridComponent);
   gridHrmCode = viewChild.required(HrmCodeGridComponent);
-
-  gridHrmCodeTypeList: HrmType[] = [];
-  gridHrmCodeList: HrmCode[] = [];
 
   drawer: {
     codeType: { visible: boolean, formDataId: any },
@@ -254,31 +214,11 @@ export class HrmCodeApp implements OnInit {
   }
 
   public gridHrmCodeGridList(typeId: string): void {
-    const params = {
-      typeId : typeId
-    };
-
-    this.hrmCodeService
-        .getList(params)
-        .subscribe(
-          (model: ResponseList<HrmCode>) => {
-            this.gridHrmCodeList = model.data;
-          }
-        );
+    this.gridHrmCode().gridHrmCodeGridList(typeId);
   }
 
   getGridHrmCodeTypeList(hrmType: string): void {
-    const params = {
-      hrmType : hrmType
-    };
-
-    this.hrmCodeTypeService
-        .getList(params)
-        .subscribe(
-          (model: ResponseList<HrmType>) => {
-            this.gridHrmCodeTypeList = model.data;
-          }
-        );
+    this.gridHrmCodeType().getGridHrmCodeTypeList(hrmType);
   }
 
 }

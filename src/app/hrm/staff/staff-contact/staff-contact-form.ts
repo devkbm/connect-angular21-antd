@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnChanges, SimpleChanges, inject, input, effect, output } from '@angular/core';
+import { Component, inject, input, effect, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -143,7 +143,7 @@ export interface StaffContact {
     }
   `]
 })
-export class StaffContactForm implements OnInit, AfterViewInit, OnChanges {
+export class StaffContactForm {
 
   private notifyService = inject(NotifyService);
   private http = inject(HttpClient);
@@ -176,17 +176,6 @@ export class StaffContactForm implements OnInit, AfterViewInit, OnChanges {
         this.newForm();
       }
     })
-  }
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-  }
-
-  ngOnInit() {
-  }
-
-  ngAfterViewInit(): void {
-
   }
 
   newForm() {

@@ -19,6 +19,9 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { DeptResourceService } from 'src/app/shared-service/dept-resource-service';
 
+import { HrmCode, HrmCodeService } from '../shared/hrm-code.service';
+import { ResponseList } from 'src/app/core/model/response-list';
+
 export interface PartnerStaff {
   companyCode: string | null;
   staffNo: string | null;
@@ -210,6 +213,24 @@ export class PartnerStaffForm {
     {label: '남', value: 'M'},
     {label: '여', value: 'F'}
   ];
+
+  partnerCompanyCodeList: HrmCode[] = [];
+  hrmCodeService = inject(HrmCodeService);
+
+  getHrmCodeList() {
+
+    const params = {
+      typeId : 'HR0012'
+    };
+
+    this.hrmCodeService
+            .getList(params)
+            .subscribe(
+              (model: ResponseList<HrmCode>) => {
+                this.partnerCompanyCodeList = model.data;
+              }
+          );
+  }
 
   constructor() {
     effect(() => {

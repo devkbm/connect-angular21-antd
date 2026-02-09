@@ -1,4 +1,4 @@
-import { Component, Input, output } from '@angular/core';
+import { Component, inject, Input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -8,6 +8,8 @@ import { GetRowIdFunc, GetRowIdParams } from 'ag-grid-community';
 import { AgGridCommon } from 'src/app/third-party/ag-grid/ag-grid-common';
 import { ButtonRenderer } from 'src/app/third-party/ag-grid/renderer/button-renderer';
 import { CheckboxRenderer } from 'src/app/third-party/ag-grid/renderer/checkbox-renderer';
+import { HrmCodeService } from '../shared/hrm-code.service';
+import { ResponseList } from 'src/app/core/model/response-list';
 
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -36,7 +38,7 @@ export interface HrmCode {
   template: `
     <ag-grid-angular
       [theme]="theme"
-      [rowData]="list"
+      [rowData]="list()"
       [style.height]="'100%'"
       [rowSelection]="rowSelection"
       [columnDefs]="columnDefs"
@@ -50,7 +52,7 @@ export interface HrmCode {
 })
 export class HrmCodeGridComponent extends AgGridCommon {
 
-  @Input() list: HrmCode[] = [];
+  list= signal<HrmCode[]>([]);
   @Input() appointmentCode: any = '';
 
   rowClicked = output<HrmCode>();
@@ -96,6 +98,20 @@ export class HrmCodeGridComponent extends AgGridCommon {
     return params.data.typeId! + params.data.code!;
   };
 
+  private hrmCodeService = inject(HrmCodeService);
+  public gridHrmCodeGridList(typeId: string): void {
+      const params = {
+        typeId : typeId
+      };
+
+      this.hrmCodeService
+          .getList(params)
+          .subscribe(
+            (model: ResponseList<HrmCode>) => {
+              this.list.set(model.data);
+            }
+          );
+    }
 
   selectionChanged(event: any) {
     const selectedRows = this.gridApi.getSelectedRows();

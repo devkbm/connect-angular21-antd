@@ -44,7 +44,7 @@
     "ag-grid-angular": "^35.0.0",
     "ag-grid-community": "^35.0.0",
     "file-saver": "^2.0.5",
-    "ng-zorro-antd": "^21.0.2",
+    "ng-zorro-antd": "^21.1.0",
     "ngx-colors": "^3.6.0",
     "ngx-infinite-scroll": "^21.0.0",
     "ngx-mask": "^20.0.3",
