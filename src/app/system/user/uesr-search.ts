@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { NzButtonExcelUpload } from 'src/app/third-party/ng-zorro/nz-button-excel-upload/nz-button-excel-upload';
-import { NzSearchArea } from "src/app/third-party/ng-zorro/nz-search-area/nz-search-area";
+import { NzButtonExcelUpload } from '@src/app/third-party/ng-zorro/nz-button-excel-upload/nz-button-excel-upload';
+import { NzSearchArea } from '@src/app/third-party/ng-zorro/nz-search-area/nz-search-area';
 
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzInputModule } from 'ng-zorro-antd/input';

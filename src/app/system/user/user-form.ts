@@ -5,11 +5,11 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators 
 
 import { UserImageUpload } from './user-image-upload';
 
-import { NotifyService } from 'src/app/core/service/notify.service';
-import { ResponseList } from 'src/app/core/model/response-list';
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { NotifyService } from '@src/app/core/service/notify.service';
+import { ResponseList } from '@src/app/core/model/response-list';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 import { UserFormValidatorService } from './validator/user-form-validator.service';
 
@@ -18,7 +18,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
-import { DeptResourceService } from 'src/app/shared-service/dept-resource-service';
+import { DeptResourceService } from '@src/app/shared-service/dept-resource-service';
 
 export interface UserFormData {
   userId: string | null;

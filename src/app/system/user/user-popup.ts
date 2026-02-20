@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SystemUserProfile, UserSessionService } from 'src/app/core/service/user-session.service';
-import { ResponseObject } from 'src/app/core/model/response-object';
+import { SystemUserProfile, UserSessionService } from '@src/app/core/service/user-session.service';
+import { ResponseObject } from '@src/app/core/model/response-object';
 
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';

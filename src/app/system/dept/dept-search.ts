@@ -10,7 +10,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
-import { CompanyResourceService } from 'src/app/shared-service/company-resource-service';
+import { CompanyResourceService } from '@src/app/shared-service/company-resource-service';
 
 @Component({
   selector: 'dept-search',

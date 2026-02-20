@@ -2,15 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, AfterViewInit, inject, Renderer2, input, effect, output } from '@angular/core';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { NotifyService } from 'src/app/core/service/notify.service';
-import { ResponseObject } from 'src/app/core/model/response-object';
+import { NotifyService } from '@src/app/core/service/notify.service';
+import { ResponseObject } from '@src/app/core/model/response-object';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 
 import { HttpClient } from '@angular/common/http';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 import { MenuGroupFormValidatorService } from './validator/menu-group-form-validator.service';
 
 export interface MenuGroupFormData {

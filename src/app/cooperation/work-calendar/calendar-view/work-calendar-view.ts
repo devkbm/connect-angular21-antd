@@ -1,13 +1,13 @@
 import { Component, Input, AfterViewInit, inject, viewChild, output } from '@angular/core';
 import { CommonModule, formatDate } from '@angular/common';
 
-import { ResponseList } from 'src/app/core/model/response-list';
+import { ResponseList } from '@src/app/core/model/response-list';
 
-import { ModeChangedArgs } from 'src/app/third-party/daypilot/calendar-daypilot.component';
+import { ModeChangedArgs } from '@src/app/third-party/daypilot/calendar-daypilot.component';
 import { CalendarFullcalendar } from "../../../third-party/fullcalendar/calendar-fullcalendar/calendar-fullcalendar";
 import { HttpClient } from '@angular/common/http';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 export interface WorkCalendarEvent {
   id: string | null;

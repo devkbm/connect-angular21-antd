@@ -9,11 +9,11 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 
 import { MenuHierarchy } from '../app-layout.model';
 
-import { SessionManager } from 'src/app/core/session-manager';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { SessionManager } from '@src/app/core/session-manager';
+import { ResponseList } from '@src/app/core/model/response-list';
 
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 import { filter } from 'rxjs';
 
 @Component({

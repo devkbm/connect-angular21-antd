@@ -21,9 +21,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
-import { NgPage } from "src/app/core/app/nz-page";
-import { NzPageHeaderCustom } from 'src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
-import { NzButtonExcelUpload } from "src/app/third-party/ng-zorro/nz-button-excel-upload/nz-button-excel-upload";
+import { NgPage } from '@src/app/core/app/nz-page';
+import { NzPageHeaderCustom } from '@src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
+import { NzButtonExcelUpload } from '@src/app/third-party/ng-zorro/nz-button-excel-upload/nz-button-excel-upload';
 
 import { NewStaffFormDrawer } from './new-staff-form/new-staff-form-drawer';
 import { StaffAppointmentRecordFormDrawer } from './staff-appointment-record/staff-appointment-record-form-drawer';

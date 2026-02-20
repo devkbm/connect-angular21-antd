@@ -1,7 +1,7 @@
 import { Component, OnInit, input, output } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzUploadChangeParam, NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
-import { GlobalProperty } from 'src/app/core/global-property';
+import { GlobalProperty } from '@src/app/core/global-property';
 
 @Component({
   selector: 'app-nz-file-upload',

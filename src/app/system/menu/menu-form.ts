@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-import { ResponseList } from 'src/app/core/model/response-list';
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { NotifyService } from 'src/app/core/service/notify.service';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { ResponseList } from '@src/app/core/model/response-list';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { NotifyService } from '@src/app/core/service/notify.service';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 import { MenuFormValidatorService } from './validator/menu-form-validator.service';
 

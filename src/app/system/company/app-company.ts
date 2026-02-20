@@ -3,13 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-import { NzPageHeaderCustom } from "src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom";
+import { NzPageHeaderCustom } from '@src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
+import { NgPage } from '@src/app/core/app/nz-page';
 
-import { NgPage } from "src/app/core/app/nz-page";
-
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { ResponseObject } from 'src/app/core/model/response-object';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { ResponseObject } from '@src/app/core/model/response-object';
 
 import { CompanyList } from './company-list';
 import { CompanySearch } from "./company-search";

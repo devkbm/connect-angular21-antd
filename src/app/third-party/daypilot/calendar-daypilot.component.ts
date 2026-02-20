@@ -1,10 +1,10 @@
-import {Component, AfterViewInit, Input, viewChild, output, model, signal, input, effect} from "@angular/core";
+import {Component, AfterViewInit, viewChild, output, model, signal, input, effect} from '@angular/core';
 import {
   DayPilot,
   DayPilotCalendarComponent,
   DayPilotModule,
   DayPilotMonthComponent
-} from "@daypilot/daypilot-lite-angular";
+} from '@daypilot/daypilot-lite-angular';
 import { CalendarDaypilotHeaderComponent } from "./calendar-daypilot-header.component";
 
 export interface ModeChangedArgs {

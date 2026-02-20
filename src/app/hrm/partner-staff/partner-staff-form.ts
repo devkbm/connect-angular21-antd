@@ -11,16 +11,16 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { ResponseObject } from 'src/app/core/model/response-object';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { ResponseObject } from '@src/app/core/model/response-object';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
-import { DeptResourceService } from 'src/app/shared-service/dept-resource-service';
+import { DeptResourceService } from '@src/app/shared-service/dept-resource-service';
 
 import { HrmCode, HrmCodeService } from '../shared/hrm-code.service';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 export interface PartnerStaff {
   companyCode: string | null;

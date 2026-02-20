@@ -1,8 +1,8 @@
 
-import { Injectable, inject } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanActivateChildFn, CanActivateFn, Router, RouterStateSnapshot } from "@angular/router";
+import { Injectable, inject } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanActivateChildFn, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from "rxjs/internal/Observable";
-import { LoginService } from "src/app/login/login.service";
+import { LoginService } from '@src/app/login/login.service';
 import { UserToken } from "../session-manager";
 
 @Injectable()

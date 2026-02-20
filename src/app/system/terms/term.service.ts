@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
 
-import { DataService } from 'src/app/core/service/data.service';
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { DataService } from '@src/app/core/service/data.service';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { ResponseList } from '@src/app/core/model/response-list';
 
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 
 export interface Term {

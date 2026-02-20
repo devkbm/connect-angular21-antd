@@ -1,6 +1,6 @@
 // https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html#the-complete-implementation
 
-import { GlobalProperty } from "src/app/core/global-property";
+import { GlobalProperty } from '@src/app/core/global-property';
 
 export class CkeditorUploadAdapter {
   xhr: any;

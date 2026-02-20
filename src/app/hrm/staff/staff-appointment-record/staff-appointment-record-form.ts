@@ -4,12 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-import { ResponseList } from 'src/app/core/model/response-list';
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { NotifyService } from 'src/app/core/service/notify.service';
-import { ResponseMap } from 'src/app/core/model/response-map';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { ResponseList } from '@src/app/core/model/response-list';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { NotifyService } from '@src/app/core/service/notify.service';
+import { ResponseMap } from '@src/app/core/model/response-map';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 import { HrmCodeService, HrmCode } from '../../shared/hrm-code.service';
 
@@ -20,7 +20,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
-import { DeptResourceService } from 'src/app/shared-service/dept-resource-service';
+import { DeptResourceService } from '@src/app/shared-service/dept-resource-service';
 
 export interface StaffAppointmentRecord {
   staffNo: string | null;

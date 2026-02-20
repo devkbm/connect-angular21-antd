@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { NgPage } from "src/app/core/app/nz-page";
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { NgPage } from '@src/app/core/app/nz-page';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
-import { NzPageHeaderCustom } from 'src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
+import { NzPageHeaderCustom } from '@src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
 
 import { WebResourceGrid } from './web-resource-grid';
 import { WebResourceFormDrawer } from './web-resource-form-drawer';

@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
 
-import { DataService } from 'src/app/core/service/data.service';
-import { ResponseList } from 'src/app/core/model/response-list';
-import { ResponseObject } from 'src/app/core/model/response-object';
+import { DataService } from '@src/app/core/service/data.service';
+import { ResponseList } from '@src/app/core/model/response-list';
+import { ResponseObject } from '@src/app/core/model/response-object';
 
-import { ResponseMap } from 'src/app/core/model/response-map';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { ResponseMap } from '@src/app/core/model/response-map';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 export interface HrmCode {
   typeId: string | null;

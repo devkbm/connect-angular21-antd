@@ -19,7 +19,7 @@ import { PostView } from './post/post-view';
 import { PostGrid } from './post/post-grid';
 import { PostList, PostListData } from './post/post-list';
 
-import { WindowRef } from 'src/app/core/window-ref';
+import { WindowRef } from '@src/app/core/window-ref';
 
 export interface TabInfo {
   tabName: string;

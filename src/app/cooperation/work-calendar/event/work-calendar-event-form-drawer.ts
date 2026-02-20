@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
-import { NzCrudButtonGroup } from 'src/app/third-party/ng-zorro/nz-crud-button-group/nz-crud-button-group';
+import { NzCrudButtonGroup } from '@src/app/third-party/ng-zorro/nz-crud-button-group/nz-crud-button-group';
 import { NewFormValue, WorkCalendarEventForm } from './work-calendar-event-form';
 
 @Component({

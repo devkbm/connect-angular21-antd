@@ -2,16 +2,16 @@ import { Component, OnInit, AfterViewInit, inject, Renderer2, input, effect, out
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { NotifyService } from 'src/app/core/service/notify.service';
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { NotifyService } from '@src/app/core/service/notify.service';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 
 import { HttpClient } from '@angular/common/http';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 import { WebResourceFormValidatorService } from './validator/web-resource-form-validator.service';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 

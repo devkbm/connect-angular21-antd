@@ -4,10 +4,10 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators 
 import { formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 import { pairwise } from 'rxjs';
 

@@ -2,7 +2,7 @@ import { Component, computed, effect, Input, input, OnInit, output } from '@angu
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzUploadModule, NzUploadFile, NzUploadChangeParam } from 'ng-zorro-antd/upload';
-import { GlobalProperty } from 'src/app/core/global-property';
+import { GlobalProperty } from '@src/app/core/global-property';
 
 @Component({
   selector: 'app-nz-button-excel-upload',

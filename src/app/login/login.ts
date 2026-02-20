@@ -4,10 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { SessionManager, UserToken } from 'src/app/core/session-manager';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { WindowRef } from 'src/app/core/window-ref';
-import { GlobalProperty } from 'src/app/core/global-property';
+import { SessionManager, UserToken } from '@src/app/core/session-manager';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { WindowRef } from '@src/app/core/window-ref';
+import { GlobalProperty } from '@src/app/core/global-property';
 
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 

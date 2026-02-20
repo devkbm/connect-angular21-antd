@@ -8,20 +8,20 @@ import { ActivatedRoute } from '@angular/router';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzUploadChangeParam, NzUploadComponent, NzUploadFile } from 'ng-zorro-antd/upload';
-import { NzCrudButtonGroup } from 'src/app/third-party/ng-zorro/nz-crud-button-group/nz-crud-button-group';
-import { NzInputCkeditor } from 'src/app/third-party/ckeditor/nz-input-ckeditor';
-import { NzFileUpload } from 'src/app/third-party/ng-zorro/nz-file-upload/nz-file-upload';
+import { NzCrudButtonGroup } from '@src/app/third-party/ng-zorro/nz-crud-button-group/nz-crud-button-group';
+import { NzInputCkeditor } from '@src/app/third-party/ckeditor/nz-input-ckeditor';
+import { NzFileUpload } from '@src/app/third-party/ng-zorro/nz-file-upload/nz-file-upload';
 
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { GlobalProperty } from 'src/app/core/global-property';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { GlobalProperty } from '@src/app/core/global-property';
 // import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 //import { ChangeEvent, CKEditorComponent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 import { ChangeEvent, CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { PostFileUpload } from './post-file-upload';
-import { SessionManager } from 'src/app/core/session-manager';
+import { SessionManager } from '@src/app/core/session-manager';
 import { HttpClient } from '@angular/common/http';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 export interface Post {
   postId: string;

@@ -2,8 +2,8 @@ import { AfterViewInit, Component, inject, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { NgPage } from "src/app/core/app/nz-page";
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { NgPage } from '@src/app/core/app/nz-page';
 
 import { RoleGrid } from './role-grid';
 import { RoleFormDrawer } from './role-form-drawer';
@@ -14,10 +14,10 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzPageHeaderCustom } from 'src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
+import { NzPageHeaderCustom } from '@src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
 
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 import { HttpClient } from '@angular/common/http';
 import { RoleList } from './role-list';
 import { NzSpaceModule } from 'ng-zorro-antd/space';

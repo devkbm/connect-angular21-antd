@@ -7,7 +7,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 
-import { DeptResourceService } from 'src/app/shared-service/dept-resource-service';
+import { DeptResourceService } from '@src/app/shared-service/dept-resource-service';
 
 @Component({
   selector: 'app-form-test',

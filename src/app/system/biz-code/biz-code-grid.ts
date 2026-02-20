@@ -6,17 +6,17 @@ import { AgGridAngular } from 'ag-grid-angular';
 import type { ColDef, RowClickedEvent, RowDoubleClickedEvent } from 'ag-grid-community';
 import { ModuleRegistry, ClientSideRowModelModule, RowSelectionModule } from 'ag-grid-community';
 import { GetRowIdFunc, GetRowIdParams } from 'ag-grid-community';
-import { AgGridCommon } from 'src/app/third-party/ag-grid/ag-grid-common';
-import { ButtonRenderer } from 'src/app/third-party/ag-grid/renderer/button-renderer';
+import { AgGridCommon } from '@src/app/third-party/ag-grid/ag-grid-common';
+import { ButtonRenderer } from '@src/app/third-party/ag-grid/renderer/button-renderer';
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   RowSelectionModule,
 ]);
 
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
-import { ResponseList } from 'src/app/core/model/response-list';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 export interface BizCode {
   typeId: string | null;

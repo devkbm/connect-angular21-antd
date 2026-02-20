@@ -12,12 +12,12 @@ ModuleRegistry.registerModules([
   RowSelectionModule,
 ]);
 
-import { AgGridCommon } from 'src/app/third-party/ag-grid/ag-grid-common';
-import { ButtonRenderer } from 'src/app/third-party/ag-grid/renderer/button-renderer';
+import { AgGridCommon } from '@src/app/third-party/ag-grid/ag-grid-common';
+import { ButtonRenderer } from '@src/app/third-party/ag-grid/renderer/button-renderer';
 
-import { ResponseList } from 'src/app/core/model/response-list';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { ResponseList } from '@src/app/core/model/response-list';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 export interface Company {
   /**

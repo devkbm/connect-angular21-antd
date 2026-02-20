@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-import { SessionManager } from 'src/app/core/session-manager';
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { ResponseList } from 'src/app/core/model/response-list';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { SessionManager } from '@src/app/core/session-manager';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { ResponseList } from '@src/app/core/model/response-list';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 
-import { NzInputNgxColors } from 'src/app/third-party/ngx-colors/nz-input-ngx-colors';
+import { NzInputNgxColors } from '@src/app/third-party/ngx-colors/nz-input-ngx-colors';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
 export interface WorkCalendarMember {

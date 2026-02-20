@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
-import { NzInputCkeditor } from 'src/app/third-party/ckeditor/nz-input-ckeditor';
+import { NzInputCkeditor } from '@src/app/third-party/ckeditor/nz-input-ckeditor';
 
 
 import { DutyDateListComponent } from './duty-date-list.component';

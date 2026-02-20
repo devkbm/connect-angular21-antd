@@ -1,9 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 export interface Staff {
     staffId: string;

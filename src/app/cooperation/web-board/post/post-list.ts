@@ -7,9 +7,9 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 
-import { ResponseSpringslice } from 'src/app/core/model/response-springslice';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { ResponseSpringslice } from '@src/app/core/model/response-springslice';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 import { PostListRow } from './post-list-row';
 

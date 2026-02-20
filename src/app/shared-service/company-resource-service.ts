@@ -4,9 +4,9 @@ import { rxResource } from '@angular/core/rxjs-interop';
 
 import { Observable } from 'rxjs';
 
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 export interface Company {
   /**

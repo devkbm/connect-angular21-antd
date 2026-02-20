@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { NzTreeComponent, NzTreeModule, NzTreeNode } from 'ng-zorro-antd/tree';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
 
-import { ResponseList } from 'src/app/core/model/response-list';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 import { NzTreeNodeKey } from 'ng-zorro-antd/core/tree';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { HttpClient } from '@angular/common/http';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 
 export interface MenuRoleHierarchy {

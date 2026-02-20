@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, SimpleChanges, inject, input, model, effe
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { GlobalProperty } from 'src/app/core/global-property';
+import { GlobalProperty } from '@src/app/core/global-property';
 
 import { saveAs } from 'file-saver';
 

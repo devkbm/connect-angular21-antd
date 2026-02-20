@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpXsrfTokenExtractor } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { GlobalProperty } from 'src/app/core/global-property';
+import { GlobalProperty } from '@src/app/core/global-property';
 import { UnauthorizedError } from '../error/unauthorized-error';
 
 export class DataService {

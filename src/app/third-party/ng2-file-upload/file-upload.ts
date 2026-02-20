@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 //import { FileUploader, FileUploadModule } from 'ng2-file-upload';
 
-import { GlobalProperty } from 'src/app/core/global-property';
+import { GlobalProperty } from '@src/app/core/global-property';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { FileUploader } from './file-upload/file-uploader.class';
 

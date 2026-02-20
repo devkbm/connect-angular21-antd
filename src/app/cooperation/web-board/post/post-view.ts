@@ -2,13 +2,13 @@ import { Component, inject, effect, input, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { TrustHtmlPipe } from "src/app/core/pipe/trust-html.pipe";
+import { TrustHtmlPipe } from '@src/app/core/pipe/trust-html.pipe';
 
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { SessionManager } from 'src/app/core/session-manager';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { NzFileDownload } from 'src/app/third-party/ng-zorro/nz-file-download/nz-file-download';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { SessionManager } from '@src/app/core/session-manager';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { NzFileDownload } from '@src/app/third-party/ng-zorro/nz-file-download/nz-file-download';
 
 import { PostFileUpload } from './post-file-upload';
 

@@ -10,8 +10,8 @@ import { WorkCalendarForm } from './calendar/work-calendar-form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
-import { CalendarDaypilotNavigatorComponent } from 'src/app/third-party/daypilot/calendar-daypilot-navigator.component';
-import { ModeChangedArgs } from 'src/app/third-party/daypilot/calendar-daypilot.component';
+import { CalendarDaypilotNavigatorComponent } from '@src/app/third-party/daypilot/calendar-daypilot-navigator.component';
+import { ModeChangedArgs } from '@src/app/third-party/daypilot/calendar-daypilot.component';
 import { MyWorkCalendarList } from "./calendar/my-work-calendar-list";
 
 @Component({

@@ -2,14 +2,14 @@ import { Component, OnInit, AfterViewInit, OnChanges, SimpleChanges, inject, out
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { NotifyService } from 'src/app/core/service/notify.service';
-import { ResponseObject } from 'src/app/core/model/response-object';
+import { NotifyService } from '@src/app/core/service/notify.service';
+import { ResponseObject } from '@src/app/core/model/response-object';
 import { TeamService } from './team.service';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzCrudButtonGroup } from 'src/app/third-party/ng-zorro/nz-crud-button-group/nz-crud-button-group';
+import { NzCrudButtonGroup } from '@src/app/third-party/ng-zorro/nz-crud-button-group/nz-crud-button-group';
 
 import { NzSelectModule } from 'ng-zorro-antd/select';
 

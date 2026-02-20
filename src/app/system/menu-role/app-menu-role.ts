@@ -2,7 +2,7 @@ import { Component, inject, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { ResponseList } from 'src/app/core/model/response-list';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 import { MenuGroupGrid } from '../menu/menu-group-grid';
 import { RoleGrid } from '../role/role-grid';
@@ -17,8 +17,8 @@ import { MenuRoleTree } from './menu-role-tree';
 import { NzFormModule } from 'ng-zorro-antd/form';
 
 import { HttpClient } from '@angular/common/http';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
 

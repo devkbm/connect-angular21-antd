@@ -12,10 +12,10 @@ import listPlugin from '@fullcalendar/list';
 import ko from '@fullcalendar/core/locales/ko';
 
 import { createEventId, INITIAL_EVENTS } from './event-util';
-import { HolidayService } from 'src/app/system/holiday/holiday.service';
-import { ResponseList } from 'src/app/core/model/response-list';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { HolidayService } from '@src/app/system/holiday/holiday.service';
+import { ResponseList } from '@src/app/core/model/response-list';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 export interface WorkCalendarEvent {
   id: string | null;

@@ -2,10 +2,10 @@ import { Component, OnInit, AfterViewInit, inject, Renderer2, output } from '@an
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { ResponseList } from 'src/app/core/model/response-list';
-import { ResponseObject } from 'src/app/core/model/response-object';
+import { ResponseList } from '@src/app/core/model/response-list';
+import { ResponseObject } from '@src/app/core/model/response-object';
 
-import { NotifyService } from 'src/app/core/service/notify.service';
+import { NotifyService } from '@src/app/core/service/notify.service';
 
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -14,8 +14,8 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzInputModule } from 'ng-zorro-antd/input';
 
 import { HttpClient } from '@angular/common/http';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 import { DeptFormValidatorService } from './validator/dept-form-validator.service';
 
 export interface DeptFormData {

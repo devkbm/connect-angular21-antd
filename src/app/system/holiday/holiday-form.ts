@@ -2,16 +2,16 @@ import { Component, AfterViewInit, inject, Renderer2, input, effect, output } fr
 import { CommonModule, formatDate } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { NotifyService } from 'src/app/core/service/notify.service';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { NotifyService } from '@src/app/core/service/notify.service';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 import { HttpClient } from '@angular/common/http';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 export interface DateInfo {
   date: Date | null;

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { NzSearchArea } from "src/app/third-party/ng-zorro/nz-search-area/nz-search-area";
+import { NzSearchArea } from '@src/app/third-party/ng-zorro/nz-search-area/nz-search-area';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDividerModule } from 'ng-zorro-antd/divider';

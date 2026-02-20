@@ -5,9 +5,9 @@ import { HttpClient } from '@angular/common/http';
 
 import { NzListModule } from 'ng-zorro-antd/list';
 
-import { ResponseList } from 'src/app/core/model/response-list';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { ResponseList } from '@src/app/core/model/response-list';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 export interface StaffDutyResponsibility {
   staffNo: string | null;

@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { ResponseMap } from 'src/app/core/model/response-map';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { ResponseMap } from '@src/app/core/model/response-map';
 
 import { HrmCode, HrmCodeService } from '../shared/hrm-code.service';
 import { PayItemResource } from '../shared/pay-item-resource';

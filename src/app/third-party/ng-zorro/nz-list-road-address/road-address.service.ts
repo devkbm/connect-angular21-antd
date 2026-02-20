@@ -4,7 +4,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
 
-import { DataService } from 'src/app/core/service/data.service';
+import { DataService } from '@src/app/core/service/data.service';
 
 import { RoadAddressResult } from './road-address.model';
 

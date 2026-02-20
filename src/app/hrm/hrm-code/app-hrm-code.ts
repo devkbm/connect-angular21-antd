@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HrmCodeTypeGridComponent } from './hrm-code-type-grid';
 import { HrmCodeGridComponent } from './hrm-code-grid';
 
-import { NotifyService } from 'src/app/core/service/notify.service';
+import { NotifyService } from '@src/app/core/service/notify.service';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -15,10 +15,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzPageHeaderCustom } from 'src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
+import { NzPageHeaderCustom } from '@src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
 import { HrmCodeTypeFormDrawerComponent } from './hrm-code-type-form-drawer';
 import { HrmCodeFormDrawerComponent } from './hrm-code-form-drawer';
-import { NgPage } from "src/app/core/app/nz-page";
+import { NgPage } from '@src/app/core/app/nz-page';
 
 @Component({
   selector: 'hrm-code-app',

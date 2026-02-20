@@ -12,8 +12,8 @@ import ko from '@angular/common/locales/ko';
 
 registerLocaleData(ko);
 
-import { CustomHttpInterceptor } from 'src/app/core/interceptor/custom-http-interceptor';
-import { ErrorInterceptorService } from 'src/app/core/interceptor/error-interceptor';
+import { CustomHttpInterceptor } from '@src/app/core/interceptor/custom-http-interceptor';
+import { ErrorInterceptorService } from '@src/app/core/interceptor/error-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

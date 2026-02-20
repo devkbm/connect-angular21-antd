@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { NotifyService } from 'src/app/core/service/notify.service';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { NotifyService } from '@src/app/core/service/notify.service';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -12,8 +12,8 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 
 import { HrmCodeTypeFormValidatorService } from './validator/hrm-code-type-form-validator.service';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 import { HttpClient } from '@angular/common/http';
 
 export interface HrmType {

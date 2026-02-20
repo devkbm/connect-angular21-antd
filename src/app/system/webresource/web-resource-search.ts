@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { NzSearchArea } from "src/app/third-party/ng-zorro/nz-search-area/nz-search-area";
+import { NzSearchArea } from '@src/app/third-party/ng-zorro/nz-search-area/nz-search-area';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';

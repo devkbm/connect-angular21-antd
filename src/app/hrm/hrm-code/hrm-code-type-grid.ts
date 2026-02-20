@@ -5,10 +5,10 @@ import { AgGridAngular } from 'ag-grid-angular';
 import type { ColDef, RowDoubleClickedEvent } from 'ag-grid-community';
 import { ModuleRegistry, ClientSideRowModelModule, RowSelectionModule } from 'ag-grid-community';
 import { GetRowIdFunc, GetRowIdParams } from 'ag-grid-community';
-import { AgGridCommon } from 'src/app/third-party/ag-grid/ag-grid-common';
-import { ButtonRenderer } from 'src/app/third-party/ag-grid/renderer/button-renderer';
+import { AgGridCommon } from '@src/app/third-party/ag-grid/ag-grid-common';
+import { ButtonRenderer } from '@src/app/third-party/ag-grid/renderer/button-renderer';
 import { HrmCodeTypeService } from '../shared/hrm-code-type.service';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,

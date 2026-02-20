@@ -4,9 +4,9 @@ import { formatDate } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { ResponseList } from 'src/app/core/model/response-list';
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { NotifyService } from 'src/app/core/service/notify.service';
+import { ResponseList } from '@src/app/core/model/response-list';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { NotifyService } from '@src/app/core/service/notify.service';
 
 import { HrmCodeService, HrmCode } from '../shared/hrm-code.service';
 import { DutyDateListComponent } from './duty-date-list';
@@ -16,12 +16,12 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 
-import { NzCrudButtonGroup } from 'src/app/third-party/ng-zorro/nz-crud-button-group/nz-crud-button-group';
+import { NzCrudButtonGroup } from '@src/app/third-party/ng-zorro/nz-crud-button-group/nz-crud-button-group';
 
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 import { HttpClient } from '@angular/common/http';
-import { StaffSelectService } from 'src/app/shared-service/stafff-select.service';
+import { StaffSelectService } from '@src/app/shared-service/stafff-select.service';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
 export interface AttendanceApplication {

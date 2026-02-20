@@ -13,8 +13,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzPageHeaderCustom } from 'src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
-import { NgPage } from "src/app/core/app/nz-page";
+import { NzPageHeaderCustom } from '@src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
+import { NgPage } from '@src/app/core/app/nz-page';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { MenuSearch } from "./menu-search";
 

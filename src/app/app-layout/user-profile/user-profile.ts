@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 
 import { catchError, of, switchMap } from 'rxjs';
 
-import { SystemUserProfile, UserSessionService } from 'src/app/core/service/user-session.service';
-import { ResponseObject } from 'src/app/core/model/response-object';
+import { SystemUserProfile, UserSessionService } from '@src/app/core/service/user-session.service';
+import { ResponseObject } from '@src/app/core/model/response-object';
 
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -16,9 +16,9 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 @Component({
   selector: 'app-user-profile',

@@ -4,10 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { NotifyService } from 'src/app/core/service/notify.service';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { NotifyService } from '@src/app/core/service/notify.service';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
@@ -21,7 +21,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 
 
 import { HrmCodeFormValidatorService } from './validator/hrm-code-form-validator.service';
-import { AutoFocusDirective } from 'src/app/core/form/auto-focus.directive';
+import { AutoFocusDirective } from '@src/app/core/form/auto-focus.directive';
 
 export interface HrmCode {
   typeId: string | null;

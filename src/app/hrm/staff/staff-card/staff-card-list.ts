@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { StaffCard } from './staff-card';
 
 import { Component, OnInit, inject } from '@angular/core';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { ResponseList } from '@src/app/core/model/response-list';
 import { StaffCardService } from './staff-card.service';
 
 export interface StaffCardModel {

@@ -8,7 +8,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { NzSearchArea } from "src/app/third-party/ng-zorro/nz-search-area/nz-search-area";
+import { NzSearchArea } from '@src/app/third-party/ng-zorro/nz-search-area/nz-search-area';
 
 @Component({
   selector: 'role-seacrh',

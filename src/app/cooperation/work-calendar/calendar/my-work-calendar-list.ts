@@ -7,11 +7,11 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCheckboxModule, NzCheckboxOption } from 'ng-zorro-antd/checkbox';
 
-import { ResponseList } from 'src/app/core/model/response-list';
-import { NotifyService } from 'src/app/core/service/notify.service';
+import { ResponseList } from '@src/app/core/model/response-list';
+import { NotifyService } from '@src/app/core/service/notify.service';
 
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { GlobalProperty } from 'src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
 
 @Component({
   selector: 'my-work-calendar-list',

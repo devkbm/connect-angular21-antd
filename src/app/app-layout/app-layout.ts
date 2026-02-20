@@ -3,8 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
-import { UserSessionService } from 'src/app/core/service/user-session.service';
-import { NotifyService } from 'src/app/core/service/notify.service';
+import { UserSessionService } from '@src/app/core/service/user-session.service';
+import { NotifyService } from '@src/app/core/service/notify.service';
 
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -12,12 +12,12 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { UserProfile } from 'src/app/app-layout/user-profile/user-profile';
-import { SideMenu } from 'src/app/app-layout/side-menu/side-menu';
+import { UserProfile } from '@src/app/app-layout/user-profile/user-profile';
+import { SideMenu } from '@src/app/app-layout/side-menu/side-menu';
 
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { ResponseList } from '@src/app/core/model/response-list';
 import { catchError, combineLatest, of, switchMap } from 'rxjs';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 

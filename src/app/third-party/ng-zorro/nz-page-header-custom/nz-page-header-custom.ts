@@ -2,7 +2,7 @@ import { Component, TemplateRef, inject, input } from '@angular/core';
 import { Location } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { MenuBreadCrumb, SessionManager } from 'src/app/core/session-manager';
+import { MenuBreadCrumb, SessionManager } from '@src/app/core/session-manager';
 
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';

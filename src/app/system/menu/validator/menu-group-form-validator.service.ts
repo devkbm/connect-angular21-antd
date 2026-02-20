@@ -4,9 +4,9 @@ import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 
 import { catchError, debounceTime, map, Observable, of, switchMap } from 'rxjs';
 
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { ResponseObject } from 'src/app/core/model/response-object';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { ResponseObject } from '@src/app/core/model/response-object';
 
 @Injectable({
   providedIn: 'root'

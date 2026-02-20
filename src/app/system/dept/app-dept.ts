@@ -12,8 +12,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSplitterModule } from 'ng-zorro-antd/splitter';
 
-import { NzPageHeaderCustom } from 'src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
-import { NgPage } from "src/app/core/app/nz-page";
+import { NzPageHeaderCustom } from '@src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
+import { NgPage } from '@src/app/core/app/nz-page';
 import { DeptSearch } from "./dept-search";
 
 @Component({

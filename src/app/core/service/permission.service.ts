@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { DataService } from 'src/app/core/service/data.service';
+import { DataService } from '@src/app/core/service/data.service';
 import { getHttpOptions } from '../http/http-utils';
 
 @Injectable({

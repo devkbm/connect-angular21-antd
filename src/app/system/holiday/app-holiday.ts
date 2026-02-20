@@ -3,15 +3,15 @@ import { CommonModule, formatDate } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-import { ResponseObject } from 'src/app/core/model/response-object';
-import { NgPage } from "src/app/core/app/nz-page";
-import { NotifyService } from 'src/app/core/service/notify.service';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { ResponseObject } from '@src/app/core/model/response-object';
+import { NgPage } from '@src/app/core/app/nz-page';
+import { NotifyService } from '@src/app/core/service/notify.service';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
-import { NzPageHeaderCustom } from 'src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
-import { CalendarDaypilotNavigatorComponent } from 'src/app/third-party/daypilot/calendar-daypilot-navigator.component';
-import { CalendarFullcalendar } from "src/app/third-party/fullcalendar/calendar-fullcalendar/calendar-fullcalendar";
+import { NzPageHeaderCustom } from '@src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
+import { CalendarDaypilotNavigatorComponent } from '@src/app/third-party/daypilot/calendar-daypilot-navigator.component';
+import { CalendarFullcalendar } from '@src/app/third-party/fullcalendar/calendar-fullcalendar/calendar-fullcalendar';
 
 import { HolidayFormDrawer } from './holiday-form-drawer';
 import { HolidayGrid } from './holiday-grid';

@@ -6,14 +6,14 @@ import type { ColDef, RowDoubleClickedEvent } from 'ag-grid-community';
 import { ModuleRegistry, ClientSideRowModelModule, RowSelectionModule } from 'ag-grid-community';
 import { GetRowIdFunc, GetRowIdParams } from 'ag-grid-community';
 
-import { AgGridCommon } from 'src/app/third-party/ag-grid/ag-grid-common';
-import { ButtonRenderer } from 'src/app/third-party/ag-grid/renderer/button-renderer';
-import { CheckboxRenderer } from 'src/app/third-party/ag-grid/renderer/checkbox-renderer';
+import { AgGridCommon } from '@src/app/third-party/ag-grid/ag-grid-common';
+import { ButtonRenderer } from '@src/app/third-party/ag-grid/renderer/button-renderer';
+import { CheckboxRenderer } from '@src/app/third-party/ag-grid/renderer/checkbox-renderer';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { HttpClient } from '@angular/common/http';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,

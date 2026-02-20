@@ -3,7 +3,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzCardModule } from 'ng-zorro-antd/card';
 
 import { Component, Input, OnInit } from '@angular/core';
-import { GlobalProperty } from 'src/app/core/global-property';
+import { GlobalProperty } from '@src/app/core/global-property';
 
 export interface StaffCardModel {
   staffId: string | null;

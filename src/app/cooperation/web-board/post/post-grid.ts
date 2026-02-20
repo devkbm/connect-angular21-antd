@@ -9,15 +9,15 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   RowSelectionModule,
 ]);
-import { AgGridCommon } from 'src/app/third-party/ag-grid/ag-grid-common';
-import { ButtonRenderer } from 'src/app/third-party/ag-grid/renderer/button-renderer';
+import { AgGridCommon } from '@src/app/third-party/ag-grid/ag-grid-common';
+import { ButtonRenderer } from '@src/app/third-party/ag-grid/renderer/button-renderer';
 
-import { NotifyService } from 'src/app/core/service/notify.service';
-import { ResponseList } from 'src/app/core/model/response-list';
+import { NotifyService } from '@src/app/core/service/notify.service';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 import { HttpClient } from '@angular/common/http';
-import { GlobalProperty } from 'src/app/core/global-property';
-import { getHttpOptions } from 'src/app/core/http/http-utils';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 export interface Post {
   postId: string;

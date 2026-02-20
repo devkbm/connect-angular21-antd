@@ -2,6 +2,11 @@ import { Component, OnInit, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { NzPageHeaderCustom } from '@src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
+import { NzSearchArea } from '@src/app/third-party/ng-zorro/nz-search-area/nz-search-area';
+import { NgPage } from '@src/app/core/app/nz-page';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+
 import { TermGrid } from './term-grid';
 import { DataDomainGrid } from './data-domain-grid';
 import { WordGrid } from './word-grid';
@@ -17,10 +22,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { NzPageHeaderCustom } from 'src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
-import { NzSearchArea } from 'src/app/third-party/ng-zorro/nz-search-area/nz-search-area';
-import { NgPage } from "src/app/core/app/nz-page";
-import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @Component({
   selector: 'term-app',

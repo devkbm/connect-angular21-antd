@@ -1,7 +1,6 @@
 import { Component, Input, output, viewChild } from '@angular/core';
-import { DayPilotModule, DayPilot, DayPilotNavigatorComponent } from "@daypilot/daypilot-lite-angular";
-import { OptionalSignal } from 'node_modules/@daypilot/daypilot-lite-angular/lib/util';
-
+import { DayPilotModule, DayPilot, DayPilotNavigatorComponent } from '@daypilot/daypilot-lite-angular';
+import { OptionalSignal } from '../../../../node_modules/@daypilot/daypilot-lite-angular/lib/util';
 
 interface NavigatorTimeRangeSelectedArgs {
   readonly start: DayPilot.Date;

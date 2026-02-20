@@ -3,7 +3,10 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    //"baseUrl": "./",
+    "paths": {
+      "@src/*": ["./src/*"],
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

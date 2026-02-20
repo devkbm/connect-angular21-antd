@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
 
-import { GlobalProperty } from 'src/app/core/global-property';
+import { GlobalProperty } from '@src/app/core/global-property';
 
 import { PostListData } from './post-list';
 

@@ -1,14 +1,14 @@
-import { Component, OnInit, inject, AfterViewInit, viewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { NgPage } from "src/app/core/app/nz-page";
+import { NgPage } from '@src/app/core/app/nz-page';
 
 import { HierarchyCodeForm } from './hierarchy-code-form';
 import { HierarchyCodeTree } from './hierarchy-code-tree';
 import { HierarchyCodeSeacrh } from "./hierarchy-code-search";
 
-import { NzPageHeaderCustom } from 'src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
+import { NzPageHeaderCustom } from '@src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';

@@ -5,9 +5,9 @@ import { AgGridAngular } from 'ag-grid-angular';
 import type { ColDef, RowDoubleClickedEvent, SelectionChangedEvent } from 'ag-grid-community';
 import { ModuleRegistry, ClientSideRowModelModule, RowSelectionModule } from 'ag-grid-community';
 import { GetRowIdFunc, GetRowIdParams } from 'ag-grid-community';
-import { ButtonRenderer } from 'src/app/third-party/ag-grid/renderer/button-renderer';
+import { ButtonRenderer } from '@src/app/third-party/ag-grid/renderer/button-renderer';
 
-import { AgGridCommon } from 'src/app/third-party/ag-grid/ag-grid-common';
+import { AgGridCommon } from '@src/app/third-party/ag-grid/ag-grid-common';
 
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
