@@ -13,7 +13,7 @@ export const routes: Routes = [
   {
     path: '', component: AppLayout/*, canActivateChild: [AuthGuardService]*/,
     children: [
-      {path: 'hrmtype',           loadComponent: () => import('./hrm-code/app-hrm-code').then(m => m.HrmCodeApp), providers: [provideFormlyConfig({})]},
+      {path: 'hrmtype',           loadComponent: () => import('./hrm-code/app-hrm-code')/*.then(m => m.HrmCodeApp)*/, providers: [provideFormlyConfig({})]},
       {path: 'dutyapplication',   loadComponent: () => import('./attendance-application/app-attendance-application').then(m => m.AttendanceApplicationApp)},
       {path: 'staff',             loadComponent: () => import('./staff/app-staff-management').then(m => m.StaffManagementApp)},
       {path: 'partnerstaff',      loadComponent: () => import('./partner-staff/app-partner-staff').then(m => m.AppPartnerStaff)},

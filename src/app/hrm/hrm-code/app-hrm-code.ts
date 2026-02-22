@@ -153,7 +153,7 @@ import { NgPage } from '@src/app/core/app/nz-page';
 
   `
 })
-export class HrmCodeApp implements OnInit {
+export default class AppHrmCode implements OnInit {
 
   private notifyService = inject(NotifyService);
 

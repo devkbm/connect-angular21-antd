@@ -32,7 +32,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
       <button nz-button nzType="primary" nzSearch on-click="fetch()"><span nz-icon nzType="search"></span></button>
     </nz-space-compact>
 
-    <div class="container" [style.overflow]="'auto'" [style.height]="height()" [style.background-color]="'red'">
+    <div class="container" [style.overflow]="'auto'" [style.height]="height()">
       <nz-list [nzLoading]="_isLoading">
         @for (item of _data?.juso; track item.roadAddr) {
         <nz-list-item (click)="choice(item)">

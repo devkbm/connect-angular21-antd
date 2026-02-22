@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnChanges, SimpleChanges, inject, input, effect, output } from '@angular/core';
+import { Component, inject, input, effect, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -58,7 +58,7 @@ export interface StaffFamily {
           <nz-form-item>
             <nz-form-label nzFor="familyRelation" nzRequired>가족관계</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="familyRelation" formControlName="familyRelation">
+              <nz-select nzId="familyRelation" formControlName="familyRelation" nzPlaceHolder="가족관계를 선택해주세요.">
                 @for (option of familyRelationList; track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
@@ -74,8 +74,7 @@ export interface StaffFamily {
           <nz-form-item>
             <nz-form-label nzFor="familyName" nzRequired>가족명</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="familyName" formControlName="familyName" required
-                placeholder="가족명을 입력해주세요."/>
+              <input nz-input id="familyName" formControlName="familyName" required placeholder="가족명을 입력해주세요."/>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -84,8 +83,7 @@ export interface StaffFamily {
           <nz-form-item>
             <nz-form-label nzFor="familyRRN" nzRequired>주민등록번호</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="familyRRN" formControlName="familyRRN" required
-                placeholder="가족 주민번호를 입력해주세요."/>
+              <input nz-input id="familyRRN" formControlName="familyRRN" required placeholder="가족 주민번호를 입력해주세요."/>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -97,8 +95,7 @@ export interface StaffFamily {
           <nz-form-item>
             <nz-form-label nzFor="occupation">직업</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="occupation" formControlName="occupation"
-                placeholder="직업을 입력해주세요."/>
+              <input nz-input id="occupation" formControlName="occupation" placeholder="직업을 입력해주세요."/>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -107,8 +104,7 @@ export interface StaffFamily {
           <nz-form-item>
             <nz-form-label nzFor="schoolCareerType">학력</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="schoolCareerType" formControlName="schoolCareerType"
-                placeholder="학력을 입력해주세요."/>
+              <input nz-input id="schoolCareerType" formControlName="schoolCareerType" placeholder="학력을 입력해주세요."/>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -120,8 +116,7 @@ export interface StaffFamily {
             <nz-form-item>
               <nz-form-label nzFor="comment">비고</nz-form-label>
               <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-                <textarea nz-input id="comment" formControlName="comment"
-                placeholder="비고를 입력해주세요." [rows]="23">
+                <textarea nz-input id="comment" formControlName="comment" placeholder="비고를 입력해주세요." [rows]="23">
                 </textarea>
               </nz-form-control>
             </nz-form-item>
@@ -143,7 +138,7 @@ export interface StaffFamily {
   `,
   styles: []
 })
-export class StaffFamilyForm implements OnInit, AfterViewInit, OnChanges {
+export class StaffFamilyForm {
 
   /**
    * 가족관계 - HR0008
@@ -182,16 +177,8 @@ export class StaffFamilyForm implements OnInit, AfterViewInit, OnChanges {
         this.newForm();
       }
     })
-  }
 
-  ngOnInit() {
     this.getFamilyRelationList();
-  }
-
-  ngAfterViewInit(): void {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
   }
 
   newForm() {

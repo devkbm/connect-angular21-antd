@@ -393,6 +393,7 @@ export class StaffManagementApp implements OnInit {
   }
 
   newAppoint() {
+    this.drawer.appointment.formDataId = null;
     this.drawer.appointment.visible = true;
   }
 

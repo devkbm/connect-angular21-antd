@@ -124,7 +124,7 @@ export interface StaffContact {
     <nz-divider nzText="주소 검색" nzOrientation="left" nzPlain nzVariant="solid"></nz-divider>
 
     <app-nz-list-road-address
-      [height]="'calc(100vh - 646px)'"
+      [height]="'calc(100vh - 624px)'"
       [countPerPage]="3"
       (itemClicked)="changeRoadAddress($event)">
     </app-nz-list-road-address>

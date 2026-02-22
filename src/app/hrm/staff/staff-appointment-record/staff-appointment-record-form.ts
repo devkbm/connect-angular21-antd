@@ -19,6 +19,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 import { DeptResourceService } from '@src/app/shared-service/dept-resource-service';
 
@@ -41,7 +42,7 @@ export interface StaffAppointmentRecord {
   jobGradeCode: string | null;
   payStepCode: string | null;
   jobCode: string | null;
-  dutyResponsibilityCode: string | null;
+  dutyResponsibilityCode: string[] | null;
 }
 
 
@@ -57,10 +58,11 @@ export interface StaffAppointmentRecord {
     NzDividerModule,
     NzSelectModule,
     NzTreeSelectModule,
+    NzButtonModule
   ],
   template: `
     {{fg.value | json}}
-    <form nz-form [formGroup]="fg" nzLayout="vertical">
+    <form nz-form [formGroup]="fg" nzLayout="vertical" nzSize="small">
 
       <!-- ERROR TEMPLATE-->
       <ng-template #errorTpl let-control>
@@ -76,8 +78,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="staffNo" nzRequired>직원번호</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="staffNo" formControlName="staffNo" required
-                placeholder="직원번호를 입력해주세요."/>
+              <input nz-input id="staffNo" formControlName="staffNo" required placeholder="직원번호를 입력해주세요."/>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -86,8 +87,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="staffName" nzRequired>직원명</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="staffName" formControlName="staffName" required
-                placeholder="직원명을 입력해주세요."/>
+              <input nz-input id="staffName" formControlName="staffName" required placeholder="직원명을 입력해주세요."/>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -99,8 +99,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="seq">발령순번</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="seq" formControlName="seq" readonly
-                placeholder="신규"/>
+              <input nz-input id="seq" formControlName="seq" readonly placeholder="신규"/>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -109,8 +108,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="appointmentTypeCode" nzRequired>발령분류</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="appointmentTypeCode" formControlName="appointmentTypeCode"
-                nzPlaceHolder="Please select">
+              <nz-select nzId="appointmentTypeCode" formControlName="appointmentTypeCode" nzPlaceHolder="Please select">
                 @for (option of appointmentTypeList; track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
@@ -126,8 +124,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="applyType" nzRequired>적용구분</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="applyType" formControlName="applyType"
-                nzPlaceHolder="Please select">
+              <nz-select nzId="applyType" formControlName="applyType" nzPlaceHolder="Please select">
                 @for (option of applyTypeList; track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
@@ -167,8 +164,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="recordName" nzRequired>발령내용</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="recordName" formControlName="recordName" required
-                placeholder="발령내용을 입력해주세요."/>
+              <input nz-input id="recordName" formControlName="recordName" required placeholder="발령내용을 입력해주세요."/>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -177,8 +173,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="comment" nzRequired>비고</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="comment" formControlName="comment" required
-                placeholder="비고내용을 입력해주세요."/>
+              <input nz-input id="comment" formControlName="comment" required placeholder="비고내용을 입력해주세요."/>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -186,7 +181,7 @@ export interface StaffAppointmentRecord {
       </div>
 
       <nz-divider nzPlain nzText="발령 내역" nzOrientation="center"></nz-divider>
-      <!-- 4 row -->
+      <button nz-button nzType="primary" (click)="test()">테스트</button>
       <div nz-row nzGutter="8">
         <div nz-col nzSpan="8">
           <nz-form-item>
@@ -221,8 +216,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="dutyResponsibilityCode">직책</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="dutyResponsibilityCode" formControlName="dutyResponsibilityCode"
-                nzPlaceHolder="Please select">
+              <nz-select nzId="dutyResponsibilityCode" formControlName="dutyResponsibilityCode" nzMode="multiple" nzPlaceHolder="Please select">
                 @for (option of dutyResponsibilityCodeList; track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
@@ -242,8 +236,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="jobGroupCode" nzRequired>직군</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="jobGroupCode" formControlName="jobGroupCode"
-                nzPlaceHolder="Please select">
+              <nz-select nzId="jobGroupCode" formControlName="jobGroupCode" nzPlaceHolder="Please select">
                 @for (option of groupJobCodeList; track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
@@ -259,8 +252,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="jobPositionCode" nzRequired>직위</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="jobPositionCode" formControlName="jobPositionCode"
-                nzPlaceHolder="Please select">
+              <nz-select nzId="jobPositionCode" formControlName="jobPositionCode" nzPlaceHolder="Please select">
                 @for (option of jobPositionCodeList; track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
@@ -276,8 +268,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="jobCode" nzRequired>직무</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="jobCode" formControlName="jobCode"
-                nzPlaceHolder="Please select">
+              <nz-select nzId="jobCode" formControlName="jobCode" nzPlaceHolder="Please select">
                 @for (option of jobCodeList; track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
@@ -297,8 +288,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="occupationCode" nzRequired>직종</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="occupationCode" formControlName="occupationCode"
-                nzPlaceHolder="Please select">
+              <nz-select nzId="occupationCode" formControlName="occupationCode" nzPlaceHolder="Please select">
                 @for (option of occupationCodeList; track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
@@ -314,8 +304,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="jobGradeCode" nzRequired>직급</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="jobGradeCode" formControlName="jobGradeCode"
-                nzPlaceHolder="Please select">
+              <nz-select nzId="jobGradeCode" formControlName="jobGradeCode" nzPlaceHolder="Please select">
                 @for (option of jobGradeCodeList; track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
@@ -331,8 +320,7 @@ export interface StaffAppointmentRecord {
           <nz-form-item>
             <nz-form-label nzFor="payStepCode" nzRequired>호봉</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="payStepCode" formControlName="payStepCode"
-                nzPlaceHolder="Please select">
+              <nz-select nzId="payStepCode" formControlName="payStepCode" nzPlaceHolder="Please select">
                 @for (option of payStepCodeList; track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
@@ -422,7 +410,7 @@ export class StaffAppointmentRecordForm implements OnInit {
       jobGradeCode            : new FormControl<string | null>(null),
       payStepCode             : new FormControl<string | null>(null),
       jobCode                 : new FormControl<string | null>(null),
-      dutyResponsibilityCode  : new FormControl<string | null>(null)
+      dutyResponsibilityCode  : new FormControl<string[] | null>(null)
   });
 
   formDataId = input<{staffId: string, seq: string}>();
@@ -546,7 +534,19 @@ export class StaffAppointmentRecordForm implements OnInit {
             }
           }
       );
-
   }
+
+  test() {
+    this.fg.controls.blngDeptCode.setValue('A');              // A팀
+    this.fg.controls.workDeptCode.setValue('B');              // B팀
+    this.fg.controls.jobGroupCode.setValue('A');              // A직군
+    this.fg.controls.jobPositionCode.setValue('101');         // 사원
+    this.fg.controls.occupationCode.setValue('102');          // 사무직
+    this.fg.controls.jobGradeCode.setValue('A1');             // 1급
+    this.fg.controls.payStepCode.setValue('01');              // 1호봉
+    this.fg.controls.jobCode.setValue('1001');                // 사무원
+    this.fg.controls.dutyResponsibilityCode.setValue(['101']);  // 팀장
+  }
+
 
 }
