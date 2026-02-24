@@ -110,7 +110,7 @@ export class AppointmentListGrid extends AgGridCommon {
   ];
 
   getRowId: GetRowIdFunc<StaffAppointmentRecord> = (params: GetRowIdParams<StaffAppointmentRecord>) => {
-    return params.data.seq!;
+    return params.data.staffNo + params.data.seq!;
   };
 
 
