@@ -63,73 +63,53 @@ export interface CompanyFormData {
         }
       </ng-template>
 
-      <!-- 1 row -->
-      <div nz-row nzGutter="8">
+      <nz-form-item>
+        <nz-form-label nzFor="companyCode" nzRequired>회사코드</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <input nz-input id="companyCode" formControlName="companyCode" required
+            placeholder="회사코드를 입력해주세요."/>
+        </nz-form-control>
+      </nz-form-item>
 
-        <div nz-col nzSpan="8">
-          <nz-form-item>
-            <nz-form-label nzFor="companyCode" nzRequired>회사코드</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="companyCode" formControlName="companyCode" required
-                placeholder="회사코드를 입력해주세요."/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+      <nz-form-item>
+        <nz-form-label nzFor="companyName" nzRequired>회사명</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <input nz-input id="companyName" formControlName="companyName" required
+            placeholder="회사명을 입력해주세요."/>
+        </nz-form-control>
+      </nz-form-item>
 
-        <div nz-col nzSpan="8">
-          <nz-form-item>
-            <nz-form-label nzFor="companyName" nzRequired>회사명</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="companyName" formControlName="companyName" required
-                placeholder="회사명을 입력해주세요."/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+      <nz-form-item>
+        <nz-form-label nzFor="businessRegistrationNumber" nzRequired>사업자등록번호</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <input nz-input id="businessRegistrationNumber" formControlName="businessRegistrationNumber" required
+            placeholder="사업자등록번호를 입력해주세요."/>
+        </nz-form-control>
+      </nz-form-item>
 
-      </div>
+      <nz-form-item>
+        <nz-form-label nzFor="coporationNumber" nzRequired>법인번호</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <input nz-input id="coporationNumber" formControlName="coporationNumber" required
+            placeholder="법인번호를 입력해주세요."/>
+        </nz-form-control>
+      </nz-form-item>
 
-      <!-- 2 row -->
-      <div nz-row nzGutter="8">
-        <div nz-col nzSpan="8">
-          <nz-form-item>
-            <nz-form-label nzFor="businessRegistrationNumber" nzRequired>사업자등록번호</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="businessRegistrationNumber" formControlName="businessRegistrationNumber" required
-                placeholder="사업자등록번호를 입력해주세요."/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+      <nz-form-item>
+        <nz-form-label nzFor="nameOfRepresentative" nzRequired>대표자</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <input nz-input id="nameOfRepresentative" formControlName="nameOfRepresentative" required
+            placeholder="대표자를 입력해주세요."/>
+        </nz-form-control>
+      </nz-form-item>
 
-        <div nz-col nzSpan="8">
-          <nz-form-item>
-            <nz-form-label nzFor="coporationNumber" nzRequired>법인번호</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="coporationNumber" formControlName="coporationNumber" required
-                placeholder="법인번호를 입력해주세요."/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
-        <div nz-col nzSpan="8">
-          <nz-form-item>
-            <nz-form-label nzFor="nameOfRepresentative" nzRequired>대표자</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="nameOfRepresentative" formControlName="nameOfRepresentative" required
-                placeholder="대표자를 입력해주세요."/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
-        <div nz-col nzSpan="8">
-          <nz-form-item>
-            <nz-form-label nzFor="establishmentDate" nzRequired>시작일</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-date-picker nzId="establishmentDate" formControlName="establishmentDate">
-              </nz-date-picker>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
+      <nz-form-item>
+        <nz-form-label nzFor="establishmentDate" nzRequired>설립일</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <nz-date-picker nzId="establishmentDate" formControlName="establishmentDate">
+          </nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
 
     </form>
   `,

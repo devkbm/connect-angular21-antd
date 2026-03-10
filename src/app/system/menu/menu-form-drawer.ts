@@ -16,7 +16,7 @@ import { MenuForm } from './menu-form';
     <nz-drawer
       [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom':'53px' }"
       [nzMaskClosable]="true"
-      nzWidth="80%"
+      nzWidth="25%"
       [nzVisible]="drawer().visible"
       nzTitle="메뉴 등록"
       [nzFooter]="footerTpl"

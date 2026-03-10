@@ -16,6 +16,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 export interface MenuGroup {
   menuGroupCode: string | null;
@@ -68,157 +69,132 @@ export interface MenuFormData {
     NzInputNumberModule,
     NzTreeSelectModule,
     NzSelectModule,
+    NzDividerModule,
   ],
   template: `
+    <!-- 폼 오류 메시지 템플릿 -->
+    <ng-template #errorTpl let-control>
+      @if (control.hasError('required')) {
+        필수 입력 값입니다.
+      }
+      @if (control.hasError('exists')) {
+        기존 코드가 존재합니다.
+      }
+    </ng-template>
+
     {{fg.getRawValue() | json}}
     {{fg.valid}}
     <form nz-form [formGroup]="fg" nzLayout="vertical">
-      <!-- 폼 오류 메시지 템플릿 -->
-      <ng-template #errorTpl let-control>
-        @if (control.hasError('required')) {
-          필수 입력 값입니다.
-        }
-        @if (control.hasError('exists')) {
-          기존 코드가 존재합니다.
-        }
-      </ng-template>
 
-      <!-- 1 Row -->
-      <div nz-row nzGutter="8">
-        <div nz-col nzSpan="12">
-          <nz-form-item>
-            <nz-form-label nzFor="menuGroupCode" nzRequired>메뉴그룹코드</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="menuGroupCode" formControlName="menuGroupCode" (ngModelChange)="selectMenuGroup($event)">
-                @for (option of menuGroupList; track option) {
-                  <nz-option
-                    [nzLabel]="option.menuGroupName"
-                    [nzValue]="option.menuGroupCode">
-                  </nz-option>
-                }
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
-        <div nz-col nzSpan="12">
-          <nz-form-item>
-            <nz-form-label nzFor="parentMenuCode" nzRequired>상위 메뉴</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-tree-select
-                nzId="parentMenuCode"
-                formControlName="parentMenuCode"
-                [nzNodes]="menuHiererachy"
-                nzPlaceHolder="상위 메뉴 없음"
-                >
-              </nz-tree-select>
-
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
-
-      <!-- 2 Row -->
-      <div nz-row nzGutter="8">
-        <div nz-col nzSpan="6">
-          <nz-form-item>
-            <nz-form-label nzFor="menuCode" nzRequired>메뉴코드</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="menuCode" formControlName="menuCode" required
-                placeholder="메뉴코드를 입력해주세요."
-              />
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
-        <div nz-col nzSpan="6">
-          <nz-form-item>
-            <nz-form-label nzFor="menuName" nzRequired>메뉴명</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="menuName" formControlName="menuName" required
-                placeholder="메뉴명을 입력해주세요."/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
-        <div nz-col nzSpan="6">
-          <nz-form-item>
-            <nz-form-label nzFor="menuType" nzRequired>메뉴타입</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="menuType" formControlName="menuType">
-                @for (option of menuTypeList; track option) {
-                  <nz-option
-                    [nzLabel]="option.label"
-                    [nzValue]="option.value">
-                  </nz-option>
-                }
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
-        <div nz-col nzSpan="6">
-          <nz-form-item>
-            <nz-form-label nzFor="sequence" nzRequired>순번</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-input-number nzId="sequence" formControlName="sequence" required
-                [nzMin]="0" [nzMax]="9999" placeholder="순번을 입력해주세요.">
-              </nz-input-number>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
-      </div>
-
-      <!-- 3 Row -->
-      <div nz-row nzGutter="8">
-        <div nz-col nzSpan="8">
-          <nz-form-item>
-            <nz-form-label nzFor="appUrl" nzRequired>APP URL</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="appUrl" formControlName="appUrl" required
-                placeholder="URL을 입력해주세요."/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
-        <div nz-col nzSpan="8">
-          <nz-form-item>
-            <nz-form-label nzFor="appIconType" nzRequired>APP ICON TYPE</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="appIconType" formControlName="appIconType">
-                @for (option of appIconTypeList; track option) {
-                  <nz-option
-                    [nzLabel]="option.label"
-                    [nzValue]="option.value">
-                  </nz-option>
-                }
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
-        <div nz-col nzSpan="8">
-          <nz-form-item>
-            <nz-form-label nzFor="appIcon" nzRequired>APP ICON</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-            @if (this.fg.controls.appIconType.value === 'RESOURCE') {
-              <nz-select nzId="appIcon" formControlName="appIcon">
-                @for (option of resourceList; track option) {
-                  <nz-option
-                    [nzLabel]="option.resourceName"
-                    [nzValue]="option.resourceId">
-                  </nz-option>
-                }
-              </nz-select>
-            } @else {
-              <input nz-input id="appIcon" formControlName="appIcon" required
-                placeholder="ICON을 입력해주세요."/>
+      <nz-form-item>
+        <nz-form-label nzFor="menuGroupCode" nzRequired>메뉴그룹코드</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <nz-select nzId="menuGroupCode" formControlName="menuGroupCode" (ngModelChange)="selectMenuGroup($event)">
+            @for (option of menuGroupList; track option) {
+              <nz-option
+                [nzLabel]="option.menuGroupName"
+                [nzValue]="option.menuGroupCode">
+              </nz-option>
             }
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="parentMenuCode" nzRequired>상위 메뉴</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <nz-tree-select
+            nzId="parentMenuCode"
+            formControlName="parentMenuCode"
+            [nzNodes]="menuHiererachy"
+            nzPlaceHolder="상위 메뉴 없음"
+            >
+          </nz-tree-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="menuCode" nzRequired>메뉴코드</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <input nz-input id="menuCode" formControlName="menuCode" required
+            placeholder="메뉴코드를 입력해주세요."
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="menuName" nzRequired>메뉴명</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <input nz-input id="menuName" formControlName="menuName" required
+            placeholder="메뉴명을 입력해주세요."/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="menuType" nzRequired>메뉴타입</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <nz-select nzId="menuType" formControlName="menuType">
+            @for (option of menuTypeList; track option) {
+              <nz-option
+                [nzLabel]="option.label"
+                [nzValue]="option.value">
+              </nz-option>
+            }
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="sequence" nzRequired>순번</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <nz-input-number nzId="sequence" formControlName="sequence" required
+            [nzMin]="0" [nzMax]="9999" placeholder="순번을 입력해주세요.">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-divider nzPlain nzText="APP" nzOrientation="left" />
+
+      <nz-form-item>
+        <nz-form-label nzFor="appUrl" nzRequired>APP URL</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <input nz-input id="appUrl" formControlName="appUrl" required
+            placeholder="URL을 입력해주세요."/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="appIconType" nzRequired>APP ICON TYPE</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <nz-select nzId="appIconType" formControlName="appIconType">
+            @for (option of appIconTypeList; track option) {
+              <nz-option
+                [nzLabel]="option.label"
+                [nzValue]="option.value">
+              </nz-option>
+            }
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="appIcon" nzRequired>APP ICON</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+        @if (this.fg.controls.appIconType.value === 'RESOURCE') {
+          <nz-select nzId="appIcon" formControlName="appIcon">
+            @for (option of resourceList; track option) {
+              <nz-option
+                [nzLabel]="option.resourceName"
+                [nzValue]="option.resourceId">
+              </nz-option>
+            }
+          </nz-select>
+        } @else {
+          <input nz-input id="appIcon" formControlName="appIcon" required
+            placeholder="ICON을 입력해주세요."/>
+        }
+        </nz-form-control>
+      </nz-form-item>
 
     </form>
   `,

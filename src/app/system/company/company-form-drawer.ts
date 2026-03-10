@@ -15,7 +15,7 @@ import { CompanyForm } from './company-form';
   template: `
     <nz-drawer
       [nzMaskClosable]="true"
-      nzWidth="80%"
+      nzWidth="20%"
       [nzVisible]="drawer().visible"
       nzTitle="회사 등록"
       [nzFooter]="footerTpl"
