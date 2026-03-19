@@ -14,6 +14,7 @@ import { CompanyList } from './company-list';
 import { CompanySearch } from "./company-search";
 import { CompanyGrid } from './company-grid';
 import { CompanyFormDrawer } from "./company-form-drawer";
+import { CompanyTable } from './company-table';
 
 @Component({
   selector: 'app-company',
@@ -25,6 +26,7 @@ import { CompanyFormDrawer } from "./company-form-drawer";
     NgPage,
     CompanyGrid,
     CompanyList,
+    CompanyTable,
     CompanyFormDrawer,
     CompanySearch
 ],
@@ -59,6 +61,9 @@ import { CompanyFormDrawer } from "./company-form-drawer";
       @else if (view === 'list') {
         <company-list (editButtonClicked)="editForm($event)">
         </company-list>
+      } @else if (view === 'table') {
+        <company-table>
+        </company-table>
       }
     }
     </div>
@@ -100,7 +105,7 @@ export class AppCompany implements OnInit {
   grid = viewChild.required(CompanyGrid);
   list = viewChild.required(CompanyList);
 
-  view: 'grid' | 'list' = 'grid';
+  view: 'grid' | 'list' | 'table' = 'grid';
 
   query: {
     company : { key: string, value: string, list: {label: string, value: string}[] }

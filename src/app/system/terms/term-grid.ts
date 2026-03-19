@@ -23,14 +23,14 @@ import { rxResource } from '@angular/core/rxjs-interop';
 
 
 export interface Term {
-  termId: string | null;
-  system: string | null;
   term: string | null;
   termEng: string | null;
+  definition: string | null;
+  status: string | null;
+  system: string | null;
   columnName: string | null;
   dataDomainId: string | null;
   domainName?: string | null;
-  description: string | null;
   comment: string | null;
 }
 
@@ -82,18 +82,17 @@ export class TermGrid extends AgGridCommon {
       width: 70,
       cellStyle: {'text-align': 'center'}
     },
-    {headerName: '용어ID',      field: 'termId',            width: 200 },
-    {headerName: '시스템',      field: 'system',            width: 100 },
     {headerName: '용어',        field: 'term',              width: 200 , tooltipField: 'term'},
     {headerName: '용어(영문)',  field: 'termEng',           width: 150 },
+    {headerName: '정의',        field: 'definition',        width: 400 },
+    {headerName: '시스템',      field: 'system',            width: 100 },
     {headerName: '컬럼명',      field: 'columnName',        width: 200 },
     {headerName: '도메인명',    field: 'dataDomainName',    width: 100 },
-    {headerName: '설명',        field: 'description',       width: 400 },
     {headerName: '비고',        field: 'comment',           width: 400 }
   ];
 
   getRowId: GetRowIdFunc<Term> = (params: GetRowIdParams<Term>) => {
-      return params.data.termId!;
+      return params.data.term!;
   };
 
   gridQuery = signal<any>('');

@@ -62,8 +62,7 @@ export interface DataDomainFormData {
           <nz-form-item>
             <nz-form-label nzFor="domainId" nzRequired>도메인ID</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="domainId" formControlName="domainId" required
-                placeholder="도메인Id를 입력해주세요."/>
+              <input nz-input id="domainId" formControlName="domainId"/>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -149,7 +148,7 @@ export class DataDomainForm implements OnInit, AfterViewInit, OnChanges {
   formClosed = output<any>();
 
   fg = inject(FormBuilder).group({
-    domainId      : new FormControl<string | null>(null, { validators: Validators.required }),
+    domainId      : new FormControl<string | null>(null),
     domainName    : new FormControl<string | null>(null, { validators: Validators.required }),
     database      : new FormControl<string | null>(null, { validators: Validators.required }),
     dataType      : new FormControl<string | null>(null),
@@ -172,23 +171,19 @@ export class DataDomainForm implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngAfterViewInit(): void {
-    this.focusInput();
   }
 
-  focusInput() {
-    this.renderer.selectRootElement('#domainId').focus();
-  }
 
   newForm() {
+    this.fg.controls.domainId.disable();
     this.fg.controls.database.enable();
     this.fg.controls.domainName.enable();
 
-    this.fg.controls.domainName.setValue('MYSQL');
-
-    this.focusInput();
+    //this.fg.controls.database.setValue(this.databaseList[0].value.toString());
   }
 
   modifyForm(formData: DataDomainFormData) {
+    this.fg.controls.domainId.disable();
     this.fg.controls.database.disable();
     this.fg.controls.domainName.disable();
 

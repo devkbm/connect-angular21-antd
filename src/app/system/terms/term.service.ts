@@ -11,14 +11,14 @@ import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 
 export interface Term {
-  termId: string | null;
-  system: string | null;
   term: string | null;
   termEng: string | null;
+  definition: string | null;
+  status: string | null;
+  system: string[] | null;
   columnName: string | null;
   dataDomainId: string | null;
   domainName?: string | null;
-  description: string | null;
   comment: string | null;
 }
 

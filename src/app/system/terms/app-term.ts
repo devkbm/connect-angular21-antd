@@ -9,10 +9,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 import { TermGrid } from './term-grid';
 import { DataDomainGrid } from './data-domain-grid';
-import { WordGrid } from './word-grid';
 import { DataDomainForm } from './data-domain-form';
 import { TermForm } from './term-form';
-import { WordForm } from './word-form';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -44,8 +42,6 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     DataDomainGrid,
     TermForm,
     TermGrid,
-    WordForm,
-    WordGrid,
     NgPage,
 
 ],
@@ -79,10 +75,6 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
           <span nz-icon nzType="form" nzTheme="outline"></span>신규 용어
         </button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button (click)="newWord()">
-          <span nz-icon nzType="form" nzTheme="outline"></span>신규 단어
-        </button>
-        <nz-divider nzType="vertical"></nz-divider>
         <button nz-button (click)="newDomain()">
           <span nz-icon nzType="form" nzTheme="outline"></span>신규 도메인
         </button>
@@ -105,18 +97,6 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
       </div>
     </nz-tab>
 
-    <nz-tab nzTitle="단어사전">
-      <div [style.height]="'calc(100vh - var(--page-header-height) - var(--page-search-height) - 155px)'">
-        @defer {
-        <app-word-grid
-          (rowClicked)="wordGridSelected($event)"
-          (editButtonClicked)="editWord($event)"
-          (rowDoubleClicked)="editWord($event)">
-        </app-word-grid>
-        }
-      </div>
-    </nz-tab>
-
     <nz-tab nzTitle="도메인">
       <div [style.height]="'calc(100vh - var(--page-header-height) - var(--page-search-height) - 155px)'">
         @defer {
@@ -134,7 +114,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 <nz-drawer
   [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom':'53px' }"
   [nzMaskClosable]="true"
-  nzWidth="80%"
+  nzWidth="25%"
   [nzVisible]="drawer.term.visible"
   nzTitle="용어 등록"
   (nzOnClose)="this.drawer.term.visible = false">
@@ -150,22 +130,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 <nz-drawer
   [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom':'53px' }"
   [nzMaskClosable]="true"
-  nzWidth="80%"
-  [nzVisible]="drawer.word.visible"
-  nzTitle="단어 등록"
-  (nzOnClose)="this.drawer.word.visible = false">
-    <word-form *nzDrawerContent #wordForm
-      [formDataId]="drawer.word.formDataId"
-      (formSaved)="getWordList()"
-      (formDeleted)="getWordList()"
-      (formClosed)="drawer.word.visible = false">
-    </word-form>
-</nz-drawer>
-
-<nz-drawer
-  [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom':'53px' }"
-  [nzMaskClosable]="true"
-  nzWidth="80%"
+  nzWidth="25%"
   [nzVisible]="drawer.domain.visible"
   nzTitle="도메인 등록"
   (nzOnClose)="drawer.domain.visible = false">
@@ -201,7 +166,6 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 export class TermApp implements OnInit {
 
   termGrid = viewChild.required(TermGrid);
-  wordGrid = viewChild.required(WordGrid);
   domainGrid = viewChild.required(DataDomainGrid);
 
   query: {
@@ -236,8 +200,6 @@ export class TermApp implements OnInit {
     if (this.tabIndex === 0) {
       this.getTermList();
     } else if (this.tabIndex === 1) {
-      this.getWordList();
-    } else if (this.tabIndex === 2) {
       this.getDomainList();
     }
   }
@@ -259,35 +221,14 @@ export class TermApp implements OnInit {
   }
 
   editTerm(item: any) {
-    this.drawer.term.formDataId = item.termId;
+    this.drawer.term.formDataId = item.term;
     this.drawer.term.visible = true;
   }
 
   termGridSelected(item: any) {
-    this.drawer.term.formDataId = item.termId;
+    this.drawer.term.formDataId = item.term;
   }
   //#endregion 용어사전
-
-  //#region 단어사전
-  getWordList() {
-    this.drawer.word.visible = false;
-    this.wordGrid().gridResource.reload();
-  }
-
-  newWord() {
-    this.drawer.word.formDataId = null;
-    this.drawer.word.visible = true;
-  }
-
-  editWord(item: any) {
-    this.drawer.word.formDataId = item.logicalName;
-    this.drawer.word.visible = true;
-  }
-
-  wordGridSelected(item: any) {
-    this.drawer.word.formDataId = item.logicalName;
-  }
-  //#endregion 단어사전
 
   //#region 도메인
   getDomainList() {
