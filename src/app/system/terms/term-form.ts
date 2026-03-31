@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, inject, Renderer2, output, input } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, Renderer2, output, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -57,7 +57,7 @@ export interface DataDomain {
         필수 입력 값입니다.
       }
     </ng-template>
-    {{fg.value | json}}
+
     <form nz-form [formGroup]="fg" nzLayout="vertical">
 
       <nz-form-item>
@@ -164,7 +164,7 @@ export interface DataDomain {
 
   `]
 })
-export class TermForm implements OnInit, AfterViewInit {
+export class TermForm implements OnChanges {
   systemTypeList: any;
   dataDomainList: DataDomain[] = [];
 
@@ -177,17 +177,6 @@ export class TermForm implements OnInit, AfterViewInit {
   formDeleted = output<any>();
   formClosed = output<any>();
 
-  /*
-  term: string | null;
-  termEng: string | null;
-  definition: string | null;
-  status: string | null;
-  system: string | null;
-  columnName: string | null;
-  dataDomainId: string | null;
-  domainName?: string | null;
-  comment: string | null;
-*/
   fg = inject(FormBuilder).group({
     term         : new FormControl<string | null>(null, { validators: Validators.required }),
     termEng      : new FormControl<string | null>(null),
@@ -201,27 +190,25 @@ export class TermForm implements OnInit, AfterViewInit {
 
   formDataId = input<string>('');
 
-  ngOnInit(): void {
+  constructor() {
     this.getSystemTypeList();
     this.getDataDoaminList();
+  }
 
-    if (this.formDataId()) {
-      this.get(this.formDataId());
-    } else {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.formDataId() === '') {
       this.newForm();
+    } else {
+      this.get(this.formDataId());
     }
   }
 
-  ngAfterViewInit(): void {
-
-  }
-
   focusInput() {
-    this.renderer.selectRootElement('#termId').focus();
+    //this.renderer.selectRootElement('#termId').focus();
   }
-
 
   newForm() {
+    this.fg.reset();
     this.fg.controls.term.enable();
 
     this.focusInput();
@@ -288,7 +275,10 @@ export class TermForm implements OnInit, AfterViewInit {
         .getSystemTypeList()
         .subscribe(
           (model: ResponseList<any>) => {
-            this.systemTypeList = model.data;
+            if (model.data) {
+              this.systemTypeList = model.data;
+            }
+
           }
         );
   }
@@ -298,7 +288,9 @@ export class TermForm implements OnInit, AfterViewInit {
         .getList()
         .subscribe(
           (model: ResponseList<DataDomain>) => {
-            this.dataDomainList = model.data;
+            if (model.data) {
+              this.dataDomainList = model.data;
+            }
           }
         );
   }

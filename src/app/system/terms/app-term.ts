@@ -1,4 +1,4 @@
-import { Component, OnInit, viewChild } from '@angular/core';
+import { Component, OnInit, viewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -8,9 +8,9 @@ import { NgPage } from '@src/app/core/app/nz-page';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 import { TermGrid } from './term-grid';
+import { TermFormDrawer } from './term-form-drawer';
 import { DataDomainGrid } from './data-domain-grid';
-import { DataDomainForm } from './data-domain-form';
-import { TermForm } from './term-form';
+import { DataDomainFormDrawer } from "./data-domain-form-drawer";
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -20,6 +20,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+
 
 @Component({
   selector: 'term-app',
@@ -38,9 +39,9 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     NzPageHeaderCustom,
     NzSearchArea,
     NzSpaceModule,
-    DataDomainForm,
+    DataDomainFormDrawer,
     DataDomainGrid,
-    TermForm,
+    TermFormDrawer,
     TermGrid,
     NgPage,
 
@@ -102,8 +103,8 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
         @defer {
         <data-domain-grid
           (rowClicked)="domainGridSelected($event)"
-          (editButtonClicked)="this.drawer.domain.visible = true"
-          (rowDoubleClicked)="this.drawer.domain.visible = true">
+          (editButtonClicked)="this.drawer().domain.visible = true"
+          (rowDoubleClicked)="this.drawer().domain.visible = true">
         </data-domain-grid>
         }
       </div>
@@ -111,22 +112,35 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
   </nz-tabs>
 </ng-page>
 
+<!--
 <nz-drawer
   [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom':'53px' }"
   [nzMaskClosable]="true"
   nzWidth="25%"
-  [nzVisible]="drawer.term.visible"
+  [nzVisible]="drawer().term.visible"
   nzTitle="용어 등록"
-  (nzOnClose)="this.drawer.term.visible = false">
+  (nzOnClose)="this.drawer().term.visible = false">
     <term-form *nzDrawerContent
       #termForm
-      [formDataId]="drawer.term.formDataId"
+      [formDataId]="drawer().term.formDataId"
       (formSaved)="getTermList()"
       (formDeleted)="getTermList()"
-      (formClosed)="this.drawer.term.visible = false">
+      (formClosed)="this.drawer().term.visible = false">
     </term-form>
 </nz-drawer>
+      -->
 
+<term-form-drawer
+  [drawer]="drawer().term"
+  (drawerClosed)="drawer().term.visible = false">
+</term-form-drawer>
+
+<data-domain-form-drawer
+  [drawer]="drawer().domain"
+  (drawerClosed)="drawer().domain.visible = false">
+</data-domain-form-drawer>
+
+<!--
 <nz-drawer
   [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom':'53px' }"
   [nzMaskClosable]="true"
@@ -141,6 +155,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
       (formClosed)="drawer.domain.visible = false">
     </data-domain-form>
 </nz-drawer>
+      -->
 
   `,
   styles: `
@@ -181,6 +196,7 @@ export class TermApp implements OnInit {
     }
   }
 
+  /*
   drawer: {
     term: { visible: boolean, formDataId: any },
     word: { visible: boolean, formDataId: any },
@@ -190,6 +206,13 @@ export class TermApp implements OnInit {
     word: { visible: false, formDataId: null },
     domain: { visible: false, formDataId: null },
   }
+  */
+
+  drawer = signal({
+    term: { visible: false, formDataId: '' },
+    word: { visible: false, formDataId: '' },
+    domain: { visible: false, formDataId: '' },
+  });
 
   tabIndex: number = 0;
 
@@ -211,38 +234,47 @@ export class TermApp implements OnInit {
       params[this.query.term.key] = this.query.term.value;
     }
 
-    this.drawer.term.visible = false;
+    //this.drawer.term.visible = false;
+    this.drawer.update(current => ({...current, term: {visible: false, formDataId: current.term.formDataId}}));
     this.termGrid().gridQuery.set(params);
   }
 
   newTerm() {
-    this.drawer.term.formDataId = null;
-    this.drawer.term.visible = true;
+    //this.drawer.term.formDataId = '';
+    //this.drawer.term.visible = true;
+
+    this.drawer.update(current => ({...current, term: {visible: true, formDataId: ''}}));
   }
 
   editTerm(item: any) {
-    this.drawer.term.formDataId = item.term;
-    this.drawer.term.visible = true;
+    //this.drawer.term.formDataId = item.term;
+    //this.drawer.term.visible = true;
+    this.drawer.update(current => ({...current, term: {visible: true, formDataId: item.term}}));
   }
 
   termGridSelected(item: any) {
-    this.drawer.term.formDataId = item.term;
+    //this.drawer.term.formDataId = item.term;
+    this.drawer.update(current => ({...current, term: {visible: current.term.visible, formDataId: item.term}}));
   }
   //#endregion 용어사전
 
   //#region 도메인
   getDomainList() {
-    this.drawer.domain.visible = false;
+    //this.drawer.domain.visible = false;
+    this.drawer.update(current => ({...current, domain: {visible: false, formDataId: current.domain.formDataId}}));
     this.domainGrid().gridResource.reload();
   }
 
   newDomain() {
-    this.drawer.domain.formDataId = null;
-    this.drawer.domain.visible = true;
+    //this.drawer.domain.formDataId = null;
+    //this.drawer.domain.visible = true;
+
+    this.drawer.update(current => ({...current, domain: {visible: true, formDataId: ''}}));
   }
 
   domainGridSelected(item: any) {
-    this.drawer.domain.formDataId = item.domainId;
+    //this.drawer.domain.formDataId = item.domainId;
+    this.drawer.update(current => ({...current, domain: {visible: current.domain.visible, formDataId: item.domainId}}));
   }
   //#endregion 도메인
 

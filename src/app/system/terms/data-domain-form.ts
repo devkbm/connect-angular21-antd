@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnChanges, SimpleChanges, inject, viewChild, Renderer2, input, output } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, Renderer2, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -75,7 +75,7 @@ export interface DataDomainFormData {
             <nz-form-label nzFor="database" nzRequired>database</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="database" formControlName="database">
-                @for (option of databaseList; track option) {
+                @for (option of databaseList(); track option) {
                   <nz-option
                     [nzLabel]="option.label"
                     [nzValue]="option.value">
@@ -135,9 +135,11 @@ export interface DataDomainFormData {
   `,
   styles: [``]
 })
-export class DataDomainForm implements OnInit, AfterViewInit, OnChanges {
+export class DataDomainForm implements OnChanges {
 
-  databaseList: HtmlSelectOption[] = [];
+  //databaseList: HtmlSelectOption[] = [];
+  databaseList = signal<HtmlSelectOption[]>([]);
+
 
   private service = inject(DataDomainService);
   private notifyService = inject(NotifyService);
@@ -157,24 +159,20 @@ export class DataDomainForm implements OnInit, AfterViewInit, OnChanges {
 
   formDataId = input<string>('');
 
-  ngOnChanges(changes: SimpleChanges): void {
+  constructor() {
+    this.getDatabaseList();
   }
 
-  ngOnInit() {
-    this.getDatabaseList();
-
-    if (this.formDataId()) {
-      this.get(this.formDataId());
-    } else {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.formDataId() === '') {
       this.newForm();
+    } else {
+      this.get(this.formDataId());
     }
   }
 
-  ngAfterViewInit(): void {
-  }
-
-
   newForm() {
+    this.fg.reset();
     this.fg.controls.domainId.disable();
     this.fg.controls.database.enable();
     this.fg.controls.domainName.enable();
@@ -246,7 +244,9 @@ export class DataDomainForm implements OnInit, AfterViewInit, OnChanges {
         .getDatabaseList()
         .subscribe(
           (model: ResponseList<HtmlSelectOption>) => {
-            this.databaseList = model.data;
+            if (model.data) {
+              this.databaseList.set(model.data);
+            }
           }
         );
   }
