@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import type { ColDef, RowClickedEvent, RowDoubleClickedEvent } from 'ag-grid-community';
-import { ModuleRegistry, ClientSideRowModelModule, RowSelectionModule } from 'ag-grid-community';
+import { ModuleRegistry, ClientSideRowModelModule, RowSelectionModule, ValidationModule, CellStyleModule } from 'ag-grid-community';
 import { GetRowIdFunc, GetRowIdParams } from 'ag-grid-community';
 import { AgGridCommon } from '@src/app/third-party/ag-grid/ag-grid-common';
 import { ButtonRenderer } from '@src/app/third-party/ag-grid/renderer/button-renderer';
@@ -13,6 +13,8 @@ import { ButtonRenderer } from '@src/app/third-party/ag-grid/renderer/button-ren
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   RowSelectionModule,
+  CellStyleModule,
+  ValidationModule
 ]);
 
 import { ResponseList } from '@src/app/core/model/response-list';

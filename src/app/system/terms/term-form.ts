@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, inject, Renderer2, output, input } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, inject, Renderer2, output, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -16,6 +16,11 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCrudButtonGroup } from '@src/app/third-party/ng-zorro/nz-crud-button-group/nz-crud-button-group';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
+export interface HtmlSelectOption {
+  label: string;
+  value: string | number;
+  [key: string]: any;
+}
 
 export interface TermFormData {
   term: string | null;
@@ -88,7 +93,7 @@ export interface DataDomain {
         <nz-form-label nzFor="dataDomainId" nzRequired>도메인</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
           <nz-select nzId="dataDomainId" formControlName="dataDomainId" >
-            @for (option of dataDomainList; track option) {
+            @for (option of dataDomainList(); track option) {
               <nz-option
                 [nzLabel]="option.domainName"
                 [nzValue]="option.domainId">
@@ -109,7 +114,7 @@ export interface DataDomain {
         <nz-form-label nzFor="system" nzRequired>시스템</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
           <nz-select nzId="system" formControlName="system" nzMode="multiple">
-            @for (option of systemTypeList; track option) {
+            @for (option of systemTypeList(); track option) {
               <nz-option
                 [nzLabel]="option.label"
                 [nzValue]="option.value">
@@ -130,6 +135,7 @@ export interface DataDomain {
 
     </form>
 
+    <!--
     <div class="footer">
       <app-nz-crud-button-group
         [searchVisible]="false"
@@ -139,7 +145,7 @@ export interface DataDomain {
         (deleteClick)="remove()">
       </app-nz-crud-button-group>
     </div>
-
+          -->
   `,
   styles: [`
     .btn-group {
@@ -165,8 +171,11 @@ export interface DataDomain {
   `]
 })
 export class TermForm implements OnChanges {
-  systemTypeList: any;
-  dataDomainList: DataDomain[] = [];
+  //systemTypeList: any;
+  //dataDomainList: DataDomain[] = [];
+
+  systemTypeList = signal<HtmlSelectOption[]>([]);
+  dataDomainList= signal<DataDomain[]>([]);
 
   private service = inject(TermService);
   private dataDomainService = inject(DataDomainService);
@@ -276,7 +285,7 @@ export class TermForm implements OnChanges {
         .subscribe(
           (model: ResponseList<any>) => {
             if (model.data) {
-              this.systemTypeList = model.data;
+              this.systemTypeList.set(model.data);
             }
 
           }
@@ -289,7 +298,7 @@ export class TermForm implements OnChanges {
         .subscribe(
           (model: ResponseList<DataDomain>) => {
             if (model.data) {
-              this.dataDomainList = model.data;
+              this.dataDomainList.set(model.data);
             }
           }
         );

@@ -42,7 +42,7 @@ import { TermForm } from './term-form';
     </ng-template>
   `,
   styles: [],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TermFormDrawer {
 

@@ -42,7 +42,7 @@ import { DataDomainForm } from './data-domain-form';
     </ng-template>
   `,
   styles: [],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataDomainFormDrawer {
 

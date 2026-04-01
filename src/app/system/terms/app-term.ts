@@ -132,12 +132,12 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 <term-form-drawer
   [drawer]="drawer().term"
-  (drawerClosed)="drawer().term.visible = false">
+  (drawerClosed)="getTermList()">
 </term-form-drawer>
 
 <data-domain-form-drawer
   [drawer]="drawer().domain"
-  (drawerClosed)="drawer().domain.visible = false">
+  (drawerClosed)="getDomainList()">
 </data-domain-form-drawer>
 
 <!--
@@ -234,46 +234,34 @@ export class TermApp implements OnInit {
       params[this.query.term.key] = this.query.term.value;
     }
 
-    //this.drawer.term.visible = false;
     this.drawer.update(current => ({...current, term: {visible: false, formDataId: current.term.formDataId}}));
     this.termGrid().gridQuery.set(params);
   }
 
   newTerm() {
-    //this.drawer.term.formDataId = '';
-    //this.drawer.term.visible = true;
-
     this.drawer.update(current => ({...current, term: {visible: true, formDataId: ''}}));
   }
 
   editTerm(item: any) {
-    //this.drawer.term.formDataId = item.term;
-    //this.drawer.term.visible = true;
     this.drawer.update(current => ({...current, term: {visible: true, formDataId: item.term}}));
   }
 
   termGridSelected(item: any) {
-    //this.drawer.term.formDataId = item.term;
     this.drawer.update(current => ({...current, term: {visible: current.term.visible, formDataId: item.term}}));
   }
   //#endregion 용어사전
 
   //#region 도메인
   getDomainList() {
-    //this.drawer.domain.visible = false;
     this.drawer.update(current => ({...current, domain: {visible: false, formDataId: current.domain.formDataId}}));
     this.domainGrid().gridResource.reload();
   }
 
   newDomain() {
-    //this.drawer.domain.formDataId = null;
-    //this.drawer.domain.visible = true;
-
     this.drawer.update(current => ({...current, domain: {visible: true, formDataId: ''}}));
   }
 
   domainGridSelected(item: any) {
-    //this.drawer.domain.formDataId = item.domainId;
     this.drawer.update(current => ({...current, domain: {visible: current.domain.visible, formDataId: item.domainId}}));
   }
   //#endregion 도메인

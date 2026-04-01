@@ -29,8 +29,6 @@ export interface DataDomainFormData {
   comment: string | null;
 }
 
-
-
 @Component({
   selector: 'data-domain-form',
   imports: [
@@ -123,6 +121,7 @@ export interface DataDomainFormData {
 
     </form>
 
+    <!--
     <div class="footer">
       <app-nz-crud-button-group
         [isSavePopupConfirm]="false"
@@ -131,7 +130,7 @@ export interface DataDomainFormData {
         (deleteClick)="remove()">
       </app-nz-crud-button-group>
     </div>
-
+              -->
   `,
   styles: [``]
 })
