@@ -341,7 +341,7 @@ export interface StaffSchoolCareer {
 }
   `
 })
-export class StaffManagementApp implements OnInit {
+export default class AppStaffManagement implements OnInit {
 
   gridStaff = viewChild.required(StaffGrid);
   formStaff = viewChild.required(StaffRegistForm);

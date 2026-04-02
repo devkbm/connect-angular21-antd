@@ -96,7 +96,7 @@ import { MyWorkCalendarList } from "./calendar/my-work-calendar-list";
     }
   `
 })
-export class WorkCalendarApp implements AfterViewInit {
+export default class AppWorkCalendar implements AfterViewInit {
 
   myWorkGroupList = viewChild.required(MyWorkCalendarList);
   workGroupForm = viewChild.required(WorkCalendarForm);

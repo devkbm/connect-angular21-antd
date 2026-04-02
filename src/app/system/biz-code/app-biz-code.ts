@@ -134,7 +134,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 }
   `
 })
-export class BizCodeApp {
+export default class AppBizCode {
 
   gridCodeType = viewChild.required(BizCodeTypeGrid);
   gridCode = viewChild.required(BizCodeGrid);

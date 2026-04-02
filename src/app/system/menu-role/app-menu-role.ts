@@ -224,7 +224,7 @@ export interface MenuGroup {
 
   `
 })
-export class MenuRoleApp {
+export default class AppMenuRole {
 
   menuGroup: {list: any, selectedItem: string} = {list: [], selectedItem: ''};
   role: {list: any, selectedItem: string} = {list: [], selectedItem: ''};

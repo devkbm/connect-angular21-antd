@@ -106,7 +106,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
   `
 })
-export class AppPartnerStaff {
+export default class AppPartnerStaff {
 
   private http = inject(HttpClient);
 

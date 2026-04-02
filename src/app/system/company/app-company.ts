@@ -98,7 +98,7 @@ import { CompanyTable } from './company-table';
   }
   `
 })
-export class AppCompany implements OnInit {
+export default class AppCompany implements OnInit {
 
   private http = inject(HttpClient);
 

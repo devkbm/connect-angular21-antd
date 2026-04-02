@@ -106,7 +106,7 @@ export class SystemTypeEnum {
 
   `
 })
-export class AppHierarchyCode implements OnInit, AfterViewInit {
+export default class AppHierarchyCode implements OnInit, AfterViewInit {
 
   tree = viewChild.required(HierarchyCodeTree);
   form = viewChild.required(HierarchyCodeForm);

@@ -162,7 +162,7 @@ export interface TabInfo {
 
   `
 })
-export class BoardApp implements AfterViewInit {
+export default class AppBoard implements AfterViewInit {
 
   boardTree = viewChild.required(BoardTree);
   postGrid = viewChild.required(PostGrid);

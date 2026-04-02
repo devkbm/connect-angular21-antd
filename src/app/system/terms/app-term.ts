@@ -178,7 +178,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 }
   `
 })
-export class TermApp implements OnInit {
+export default class AppTerm implements OnInit {
 
   termGrid = viewChild.required(TermGrid);
   domainGrid = viewChild.required(DataDomainGrid);

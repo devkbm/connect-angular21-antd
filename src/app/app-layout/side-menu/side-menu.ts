@@ -1,20 +1,37 @@
 import { Component, inject, input, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router, NavigationEnd } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+
+import { SessionManager } from '@src/app/core/session-manager';
+import { ResponseList } from '@src/app/core/model/response-list';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
 
 import { NzMenuModeType, NzMenuModule, NzMenuThemeType } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule } from 'ng-zorro-antd/image';
 
-import { MenuHierarchy } from '../app-layout.model';
+export interface MenuHierarchy {
+  createdDt: Date;
+  createdBy: string;
+  modifiedDt: Date;
+  modifiedBy: string;
+  key: string;
+  title: string;
+  menuGroupId: string;
+  menuId: string;
+  menuName: string;
+  parentMenuId: string;
+  menuType: string;
+  sequence: number;
+  level: number;
+  url: string;
+  selected: boolean;
+  expanded: boolean;
+  children: MenuHierarchy[]
+}
 
-import { SessionManager } from '@src/app/core/session-manager';
-import { ResponseList } from '@src/app/core/model/response-list';
-
-import { GlobalProperty } from '@src/app/core/global-property';
-import { getHttpOptions } from '@src/app/core/http/http-utils';
-import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-side-menu',

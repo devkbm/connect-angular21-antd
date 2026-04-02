@@ -128,7 +128,7 @@ export interface Team {
 
   `
 })
-export class TeamApp implements OnInit {
+export default class AppTeam implements OnInit {
 
   private notifyService = inject(NotifyService);
   private service = inject(TeamService);

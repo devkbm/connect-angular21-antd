@@ -121,7 +121,7 @@ export interface Role {
 }
   `
 })
-export class RoleApp implements AfterViewInit {
+export default class AppRole implements AfterViewInit {
 
   private http = inject(HttpClient);
 

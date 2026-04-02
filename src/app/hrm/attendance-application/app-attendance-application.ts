@@ -119,7 +119,7 @@ import { AttendanceApplicationGridComponent, AttendanceApplicationGrid } from '.
 
   `
 })
-export class AttendanceApplicationApp implements OnInit, AfterViewInit {
+export default class AppAttendanceApplication implements OnInit, AfterViewInit {
 
   private http = inject(HttpClient);
 

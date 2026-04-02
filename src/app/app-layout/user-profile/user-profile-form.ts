@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { catchError, of, switchMap } from 'rxjs';
-
 import { ResponseObject } from '@src/app/core/model/response-object';
 
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -15,7 +13,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 
 import { GlobalProperty } from '@src/app/core/global-property';
 import { getHttpOptions } from '@src/app/core/http/http-utils';
-import { ResponseList } from '@src/app/core/model/response-list';
 import { SessionManager } from '@src/app/core/session-manager';
 
 @Component({

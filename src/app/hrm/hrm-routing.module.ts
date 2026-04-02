@@ -14,14 +14,14 @@ export const routes: Routes = [
     path: '', component: AppLayout/*, canActivateChild: [AuthGuardService]*/,
     children: [
       {path: 'hrmtype',           loadComponent: () => import('./hrm-code/app-hrm-code')/*.then(m => m.HrmCodeApp)*/, providers: [provideFormlyConfig({})]},
-      {path: 'dutyapplication',   loadComponent: () => import('./attendance-application/app-attendance-application').then(m => m.AttendanceApplicationApp)},
-      {path: 'staff',             loadComponent: () => import('./staff/app-staff-management').then(m => m.StaffManagementApp)},
-      {path: 'partnerstaff',      loadComponent: () => import('./partner-staff/app-partner-staff').then(m => m.AppPartnerStaff)},
+      {path: 'dutyapplication',   loadComponent: () => import('./attendance-application/app-attendance-application')},
+      {path: 'staff',             loadComponent: () => import('./staff/app-staff-management')},
+      {path: 'partnerstaff',      loadComponent: () => import('./partner-staff/app-partner-staff')},
       {path: 'appointmentlist',   loadComponent: () => import('./appointment-list/appointment-list-grid').then(m => m.AppointmentListGrid)},
-      {path: 'payitem',           loadComponent: () => import('./pay-item/app-pay-item').then(m => m.AppPayItem)},
-      {path: 'paytable',          loadComponent: () => import('./pay-table/app-pay-table').then(m => m.AppPayTable)},
-      {path: 'payitemstaff',      loadComponent: () => import('./pay-item-staff/app-pay-item-staff').then(m => m.AppPayItemStaff)},
-      {path: 'payexpression',     loadComponent: () => import('./pay-expression/app-pay-expression').then(m => m.AppPayExpression)}
+      {path: 'payitem',           loadComponent: () => import('./pay-item/app-pay-item')},
+      {path: 'paytable',          loadComponent: () => import('./pay-table/app-pay-table')},
+      {path: 'payitemstaff',      loadComponent: () => import('./pay-item-staff/app-pay-item-staff')},
+      {path: 'payexpression',     loadComponent: () => import('./pay-expression/app-pay-expression')}
     ]
   }
 ];

@@ -165,7 +165,7 @@ import { DeptSearch } from "./dept-search";
 
   `
 })
-export class DeptApp implements OnInit, AfterViewInit {
+export default class AppDept implements OnInit, AfterViewInit {
 
   tree = viewChild.required(DeptTree);
   form = viewChild.required(DeptForm);

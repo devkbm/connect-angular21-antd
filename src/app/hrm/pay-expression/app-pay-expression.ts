@@ -105,7 +105,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
   `
 })
-export class AppPayExpression implements OnInit, AfterViewInit {
+export default class AppPayExpression implements OnInit, AfterViewInit {
 
   private http = inject(HttpClient);
 

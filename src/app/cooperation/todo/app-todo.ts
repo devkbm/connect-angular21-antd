@@ -107,7 +107,7 @@ app-todo, app-add-todo {
 }
   `
 })
-export class TodoApp {
+export default class AppTodo {
 
   todos = signal<TodoModel[]>([]);
   today: Date = new Date();

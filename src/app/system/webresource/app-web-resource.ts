@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, inject, viewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,7 +29,7 @@ export interface WebResource {
 }
 
 @Component({
-  selector: 'web-resource-app',
+  selector: 'app-web-resource',
   imports: [
     CommonModule,
     FormsModule,
@@ -86,7 +86,7 @@ export interface WebResource {
 
 
 <web-resource-form-drawer
-  [drawer]="drawer.resource"
+  [drawer]="drawer().resource"
   (drawerClosed)="getList('1')">
 </web-resource-form-drawer>
   `,
@@ -112,38 +112,35 @@ export interface WebResource {
 }
 `
 })
-export class WebResourceApp implements OnInit {
+export default class AppWebResource {
 
   private http = inject(HttpClient);
 
   grid = viewChild.required(WebResourceGrid);
   list = viewChild.required(WebResourceList);
 
-  view: 'grid' | 'list' = 'list';
+  view: 'grid' | 'list' = 'grid';
 
-  drawer: {
-    resource: { visible: boolean, formDataId: any }
-  } = {
-    resource: { visible: false, formDataId: null }
-  }
+  drawer = signal({
+    resource: { visible: false, formDataId: '' }
+  })
 
-  ngOnInit(): void {
-  }
+  constructor() {}
 
   getList(params: any): void {
     console.log(params);
-    this.drawer.resource.visible = false;
+    this.drawer().resource.visible = false;
     this.grid().gridQuery.set(params);
   }
 
   newForm(): void {
-    this.drawer.resource.formDataId = null;
-    this.drawer.resource.visible = true;
+    this.drawer().resource.formDataId = '';
+    this.drawer().resource.visible = true;
   }
 
   editForm(item: any): void {
-    this.drawer.resource.formDataId = item.resourceId;
-    this.drawer.resource.visible = true;
+    this.drawer().resource.formDataId = item.resourceId;
+    this.drawer().resource.visible = true;
   }
 
   delete(): void {
@@ -163,7 +160,7 @@ export class WebResourceApp implements OnInit {
   }
 
   resourceGridRowClicked(item: any): void {
-    this.drawer.resource.formDataId = item.resourceId;
+    this.drawer().resource.formDataId = item.resourceId;
   }
 
 }

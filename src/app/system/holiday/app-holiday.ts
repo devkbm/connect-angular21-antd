@@ -144,7 +144,7 @@ export interface Holiday {
 
   `
 })
-export class HolidayApp implements AfterViewInit {
+export default class AppHoliday implements AfterViewInit {
 
   private notifyService = inject(NotifyService);
   private http = inject(HttpClient);

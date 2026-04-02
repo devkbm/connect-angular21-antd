@@ -149,7 +149,7 @@ import { MenuSearch } from "./menu-search";
 }
   `
 })
-export class MenuApp {
+export default class AppMenu {
 
   gridMenuGroup = viewChild.required(MenuGroupGrid);
   gridMenu = viewChild.required(MenuGrid);

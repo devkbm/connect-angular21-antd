@@ -96,7 +96,7 @@ import { NzButtonExcelUpload } from "../../third-party/ng-zorro/nz-button-excel-
   `]
 
 })
-export class BoardManagementApp implements AfterViewInit {
+export default class AppBoardManagement implements AfterViewInit {
 
   boardTree = viewChild.required(BoardTree);
 

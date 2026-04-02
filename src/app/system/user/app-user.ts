@@ -37,7 +37,7 @@ export interface User {
 }
 
 @Component({
-  selector: 'user-app',
+  selector: 'app-user',
   imports: [
     CommonModule,
     FormsModule,
@@ -125,7 +125,7 @@ export interface User {
 }
   `
 })
-export class UserApp implements OnInit {
+export default class AppUser implements OnInit {
 
   private http = inject(HttpClient);
 
