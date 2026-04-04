@@ -1,4 +1,4 @@
-import { Component, viewChild } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -75,12 +75,12 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 </ng-page>
 
 <biz-code-type-form-drawer
-  [drawer]="drawer.codeType"
+  [drawer]="drawer().codeType"
   (drawerClosed)="selectBizCodeTypeList()">
 </biz-code-type-form-drawer>
 
 <biz-code-form-drawer
-  [drawer]="drawer.code"
+  [drawer]="drawer().code"
   (drawerClosed)="selectBizCodeList()">
 </biz-code-form-drawer>
 
@@ -139,6 +139,7 @@ export default class AppBizCode {
   gridCodeType = viewChild.required(BizCodeTypeGrid);
   gridCode = viewChild.required(BizCodeGrid);
 
+  /*
   drawer: {
     codeType: { visible: boolean, formDataId: any },
     code: { visible: boolean, formDataId: any }
@@ -146,46 +147,77 @@ export default class AppBizCode {
     codeType: { visible: false, formDataId: null },
     code: { visible: false, formDataId: null }
   }
+*/
+
+  drawer = signal<{
+    codeType: { visible: boolean, formDataId: any },
+    code: { visible: boolean, formDataId: any }
+  }>({
+    codeType: { visible: false, formDataId: null },
+    code: { visible: false, formDataId: null }
+  });
+
 
   selectBizCodeTypeList() {
-    this.drawer.codeType.visible = false;
+    //this.drawer.codeType.visible = false;
+
+    this.drawer.update(current => ({...current, codeType: {visible: false, formDataId: current.codeType.formDataId}}));
 
     this.gridCodeType().getList();
   }
 
   newCodeType() {
-    this.drawer.codeType.formDataId = null;
-    this.drawer.codeType.visible = true;
+    //this.drawer.codeType.formDataId = null;
+    //this.drawer.codeType.visible = true;
+
+    this.drawer.update(current => ({...current, codeType: {visible: true, formDataId: null}}));
   }
 
   editCodeType(params: any) {
-    this.drawer.codeType.formDataId = params.typeId;
-    this.drawer.codeType.visible = true;
+    //this.drawer.codeType.formDataId = params.typeId;
+    //this.drawer.codeType.visible = true;
+
+    this.drawer.update(current => ({...current, codeType: {visible: true, formDataId: params.typeId}}));
   }
 
   codeTypeGridRowClicked(params: any) {
-    this.drawer.codeType.formDataId = params.typeId;
-    this.drawer.code.formDataId = {typeId: params.typeId};
+    //this.drawer.codeType.formDataId = params.typeId;
+    //this.drawer.code.formDataId = {typeId: params.typeId};
 
-    this.gridCode().getList(this.drawer.code.formDataId.typeId);
+    this.drawer.update(current => ({
+      codeType: {visible: current.codeType.visible, formDataId: params.typeId},
+      code: {visible: current.code.visible, formDataId: {typeId: params.typeId}}
+      })
+    );
+
+    this.gridCode().getList(this.drawer().code.formDataId.typeId);
   }
 
   selectBizCodeList() {
-    this.drawer.code.visible = false;
-    this.gridCode().getList(this.drawer.code.formDataId.typeId);
+    //this.drawer.code.visible = false;
+
+    this.drawer.update(current => ({...current, code: {visible: false, formDataId: current.code.formDataId}}));
+
+    this.gridCode().getList(this.drawer().code.formDataId.typeId);
   }
 
   newCode() {
-    this.drawer.code.visible = true;
+    //this.drawer.code.visible = true;
+
+    this.drawer.update(current => ({...current, code: {visible: true, formDataId: null}}));
   }
 
   editCode(params: any) {
-    this.drawer.code.formDataId = {typeId: params.typeId, code: params.code};
-    this.drawer.code.visible = true;
+    //this.drawer.code.formDataId = {typeId: params.typeId, code: params.code};
+    //this.drawer.code.visible = true;
+
+    this.drawer.update(current => ({...current, code: {visible: true, formDataId: {typeId: params.typeId, code: params.code}}}));
   }
 
   codeGridRowClicked(params: any) {
-    this.drawer.code.formDataId = {typeId: params.typeId, code: params.code};
+    //this.drawer.code.formDataId = {typeId: params.typeId, code: params.code};
+
+    this.drawer.update(current => ({...current, code: {visible: false, formDataId: {typeId: params.typeId, code: params.code}}}));
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, inject, input, effect, Renderer2, output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, input, effect, Renderer2, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -90,7 +90,7 @@ export interface WorkCalendar {
             <nz-form-label nzFor="memberList" nzRequired>팀원</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="memberList" formControlName="memberList" nzMode="tags">
-                @for (option of memberList; track option) {
+                @for (option of memberList(); track option) {
                   <nz-option
                     [nzLabel]="option.name"
                     [nzValue]="option.userId">
@@ -109,17 +109,17 @@ export interface WorkCalendar {
 })
 export class WorkCalendarForm implements OnInit {
 
-  workGroupList: any;
-  memberList: any;
+  private renderer = inject(Renderer2);
+  private http = inject(HttpClient);
+
+  //workGroupList = signal<any[]>([]);
+  memberList = signal<any[]>([]);
   color: any;
 
   preset_colors = [
     '#335c67', '#6d597a', '#e09f3e', '#9e2a2b', '#540b0e',
     '#031d44', '#04395e', '#70a288', '#dab785', '#d5896f'
   ];
-
-  private renderer = inject(Renderer2);
-  private http = inject(HttpClient);
 
   formSaved = output<any>();
   formDeleted = output<any>();
@@ -132,15 +132,18 @@ export class WorkCalendarForm implements OnInit {
     memberList        : new FormControl<any | null>(null)
   });
 
-  formDataId = input<number>(-1);
+  formDataId = input<string>('');
 
   constructor() {
     this.getAllMember();
 
     effect(() => {
-      if ( this.formDataId() > 0 ) {
+      if ( this.formDataId() === '' ) {
+        this.newForm();
+      } else {
         this.get(this.formDataId());
       }
+
     })
   }
 
@@ -153,6 +156,7 @@ export class WorkCalendarForm implements OnInit {
   }
 
   newForm(): void {
+    this.fg.reset();
     this.fg.controls.memberList.setValue([SessionManager.getUserId()]);
     this.fg.controls.color.setValue(this.preset_colors[Math.floor(Math.random() * this.preset_colors.length)]);   // Calendar color random select
   }
@@ -165,7 +169,7 @@ export class WorkCalendarForm implements OnInit {
     this.formClosed.emit(this.fg.getRawValue());
   }
 
-  get(id: number): void {
+  get(id: string): void {
     const url =  GlobalProperty.serverUrl() + `/api/grw/workcalendar/${id}`;
     const options = getHttpOptions();
 
@@ -224,9 +228,9 @@ export class WorkCalendarForm implements OnInit {
         .subscribe(
           (model: ResponseList<WorkCalendarMember>) => {
             if (model.data) {
-                this.memberList = model.data;
+                this.memberList.set(model.data);
             } else {
-                this.memberList = [];
+                this.memberList.set([]);
             }
         }
       )

@@ -1,4 +1,4 @@
-import { Component, viewChild, AfterViewInit } from '@angular/core';
+import { Component, viewChild, AfterViewInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { WorkCalendarEventFormDrawer } from './event/work-calendar-event-form-drawer';
@@ -50,7 +50,7 @@ import { MyWorkCalendarList } from "./calendar/my-work-calendar-list";
 
       @defer {
       <work-calendar-view class="calendar"
-        [workCalendarId]="drawer.workGroup.formDataId"
+        [workCalendarId]="drawer().workGroup.formDataId"
         (itemSelected)="editSchedule($event)"
         (newDateSelected)="newScheduleByDateSelect($event)"
         (eventDataChanged)="eventDateChanged($event)"
@@ -61,13 +61,13 @@ import { MyWorkCalendarList } from "./calendar/my-work-calendar-list";
     </div>
 
     <work-calendar-event-form-drawer
-      [drawer]="drawer.schedule"
+      [drawer]="drawer().schedule"
       [newFormValue]="this.newScheduleArgs"
       (drawerClosed)="getScheduleList()">
     </work-calendar-event-form-drawer>
 
     <work-calendar-form-drawer
-      [drawer]="drawer.workGroup"
+      [drawer]="drawer().workGroup"
       (drawerClosed)="getMyWorkGroupList()">
     </work-calendar-form-drawer>
   `,
@@ -110,6 +110,7 @@ export default class AppWorkCalendar implements AfterViewInit {
   newScheduleArgs?: NewFormValue;
   eventData: any[] = [];
 
+  /*
   drawer: {
     workGroup: { visible: boolean, formDataId: string },
     schedule: { visible: boolean, formDataId: string }
@@ -117,51 +118,68 @@ export default class AppWorkCalendar implements AfterViewInit {
     workGroup: { visible: false, formDataId: '-1' },
     schedule: { visible: false, formDataId: '-1' }
   }
+    */
+
+  drawer = signal<{
+    workGroup: { visible: boolean, formDataId: string },
+    schedule: { visible: boolean, formDataId: string }
+  }>({
+    workGroup: { visible: false, formDataId: '' },
+    schedule: { visible: false, formDataId: '' }
+  })
+
 
   ngAfterViewInit(): void {
     this.getMyWorkGroupList();
   }
 
   getMyWorkGroupList(): void {
-    this.closeWorkGroupDrawer();
+    //this.closeWorkGroupDrawer();
     this.myWorkGroupList().getMyWorkGroupList();
   }
 
   getScheduleList(): void {
-    this.closeWorkGroupDrawer();
+    //this.closeWorkGroupDrawer();
     this.closeScheduleDrawer();
 
-    this.workCalendar().workCalendarId = this.drawer.workGroup.formDataId;
+    this.workCalendar().workCalendarId = this.drawer().workGroup.formDataId;
     this.workCalendar().getWorkScheduleList();
   }
 
   openScheduleDrawer() {
-    this.drawer.schedule.visible = true;
+    //this.drawer.schedule.visible = true;
+    this.drawer.update(current => ({...current, schedule: {...current.schedule, visible: true}}));
   }
 
   closeScheduleDrawer() {
-    this.drawer.schedule.visible = false;
+    //this.drawer.schedule.visible = false;
+    this.drawer.update(current => ({...current, schedule: {...current.schedule, visible: false}}));
 
-    this.workCalendar().workCalendarId = this.drawer.workGroup.formDataId;
+    this.workCalendar().workCalendarId = this.drawer().workGroup.formDataId;
     this.workCalendar().getWorkScheduleList();
   }
 
+  /*
   openWorkGroupDrawer() {
-    this.drawer.workGroup.visible = true;
+    //this.drawer.workGroup.visible = true;
+    this.drawer.update(current => ({...current, workGroup: {...current.workGroup, visible: true}}));
   }
 
   closeWorkGroupDrawer() {
-    this.drawer.workGroup.visible = false;
+    //this.drawer.workGroup.visible = false;
+    this.drawer.update(current => ({...current, workGroup: {...current.workGroup, visible: false}}));
   }
+  */
 
   newWorkGroup(): void {
-    this.drawer.workGroup.formDataId = '';
-    this.openWorkGroupDrawer();
+    //this.drawer.workGroup.formDataId = '';
+    this.drawer.update(current => ({...current, workGroup: {visible: true, formDataId: ''}}));
+
   }
 
   modifyWorkGroup(workGroup: any): void {
-    this.drawer.workGroup.formDataId = workGroup;
-    this.openWorkGroupDrawer();
+    //this.drawer.workGroup.formDataId = workGroup;
+    this.drawer.update(current => ({...current, workGroup: {visible: true, formDataId: workGroup}}));
   }
 
   newSchedule(): void {
@@ -170,9 +188,10 @@ export default class AppWorkCalendar implements AfterViewInit {
     const today: Date = new Date();
     const from: Date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours(), 0);
     const to: Date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours() + 1, 0);
-    this.newScheduleArgs = {workCalendarId: this.drawer.workGroup.formDataId, start: from, end: to, allDay: true};
+    this.newScheduleArgs = {workCalendarId: this.drawer().workGroup.formDataId, start: from, end: to, allDay: true};
 
-    this.drawer.schedule.formDataId = '';
+    //this.drawer.schedule.formDataId = '';
+    this.drawer.update(current => ({...current, schedule: {...current.schedule, formDataId: ''}}));
   }
 
   newScheduleByDateSelect(param: NewDateSelectedArgs) {
@@ -187,22 +206,27 @@ export default class AppWorkCalendar implements AfterViewInit {
     //const to: Date = param.end;
     //to.setDate(to.getDate() -1);
 
-    this.newScheduleArgs = {workCalendarId: this.drawer.workGroup.formDataId, start: param.start, end: param.end, allDay: param.allDay};
-    this.drawer.schedule.formDataId = '';
+    this.newScheduleArgs = {workCalendarId: this.drawer().workGroup.formDataId, start: param.start, end: param.end, allDay: param.allDay};
+    //this.drawer.schedule.formDataId = '';
+    this.drawer.update(current => ({...current, schedule: {...current.schedule, formDataId: ''}}));
 
-    console.log(this.drawer.workGroup.formDataId);
+    console.log(this.drawer().workGroup.formDataId);
     this.openScheduleDrawer();
   }
 
   editSchedule(id: any) {
-    this.drawer.schedule.formDataId = id;
+    //this.drawer.schedule.formDataId = id;
+    this.drawer.update(current => ({...current, schedule: {...current.schedule, formDataId: id}}));
     this.newScheduleArgs = undefined;
 
     this.openScheduleDrawer();
   }
 
   workGroupSelect(ids: any): void {
-    this.drawer.workGroup.formDataId = ids;
+    //this.drawer.workGroup.formDataId = ids;
+
+    this.drawer.update(current => ({...current, workGroup: {...current.workGroup, formDataId: ids}}));
+
     this.getScheduleList();
   }
 

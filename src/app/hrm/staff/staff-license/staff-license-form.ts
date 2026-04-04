@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnChanges, SimpleChanges, inject, input, effect, output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnChanges, SimpleChanges, inject, input, effect, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -61,7 +61,7 @@ export interface StaffLicense {
             <nz-form-label nzFor="licenseType" nzRequired>자격면허</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="licenseType" formControlName="licenseType">
-                @for (option of licenseTypeList; track option) {
+                @for (option of licenseTypeList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -139,7 +139,8 @@ export class StaffLicenseForm implements OnInit, AfterViewInit, OnChanges {
   /**
    * 자격면허 - HR0011
    */
-  licenseTypeList: HrmCode[] = [];
+  //licenseTypeList: HrmCode[] = [];
+  licenseTypeList = signal<HrmCode[]>([]);
 
   hrmCodeService = inject(HrmCodeService);
   notifyService = inject(NotifyService);
@@ -265,7 +266,7 @@ export class StaffLicenseForm implements OnInit, AfterViewInit, OnChanges {
         .getList(params)
         .subscribe(
           (model: ResponseList<HrmCode>) => {
-            this.licenseTypeList = model.data;
+            this.licenseTypeList.set(model.data);
           }
       );
   }

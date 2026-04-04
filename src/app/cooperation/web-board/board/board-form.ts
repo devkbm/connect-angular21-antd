@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Renderer2, effect, inject, input, output } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Renderer2, effect, inject, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -117,7 +117,7 @@ export interface BoardHierarchy {
             <nz-form-label nzFor="boardType" nzRequired>게시판타입</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="boardType" formControlName="boardType">
-                @for (option of boardTypeList; track option) {
+                @for (option of boardTypeList(); track option) {
                   <nz-option
                     [nzLabel]="option.label"
                     [nzValue]="option.value">
@@ -135,7 +135,7 @@ export interface BoardHierarchy {
               <nz-tree-select
                 nzId="boardParentId"
                 formControlName="boardParentId"
-                [nzNodes]="parentBoardItems"
+                [nzNodes]="parentBoardItems()"
                 nzPlaceHolder="상위 게시판 없음"
                 >
               </nz-tree-select>
@@ -215,9 +215,11 @@ export interface BoardHierarchy {
 })
 export class BoardForm implements OnInit, AfterViewInit {
 
-  parentBoardItems: BoardHierarchy[] = [];
+  //parentBoardItems: BoardHierarchy[] = [];
+  parentBoardItems = signal<BoardHierarchy[]>([]);
 
-  boardTypeList: any;
+  //boardTypeList: any;
+  boardTypeList = signal<any[]>([]);
 
   private renderer = inject(Renderer2);
   private http = inject(HttpClient);
@@ -352,7 +354,7 @@ export class BoardForm implements OnInit, AfterViewInit {
         )
         .subscribe(
           (model: ResponseList<BoardHierarchy>) => {
-            model.data ? this.parentBoardItems = model.data : this.parentBoardItems = [];
+            model.data ? this.parentBoardItems.set(model.data) : this.parentBoardItems.set([]);
             //this.notifyService.changeMessage(model.message);
             // title 노드 텍스트
             // key   데이터 키
@@ -373,7 +375,7 @@ export class BoardForm implements OnInit, AfterViewInit {
         )
         .subscribe(
           (model: ResponseObject<any>) => {
-            this.boardTypeList = model.data;
+            this.boardTypeList.set(model.data);
           }
         )
   }

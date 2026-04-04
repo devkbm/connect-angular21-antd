@@ -1,4 +1,4 @@
-import { Component, viewChild, AfterViewInit } from '@angular/core';
+import { Component, viewChild, AfterViewInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -48,10 +48,10 @@ import { NzButtonExcelUpload } from "../../third-party/ng-zorro/nz-button-excel-
       </board-tree>
 
       <board-form #boardForm
-        [formDataId]="this.drawerBoard.formDataId"
+        [formDataId]="this.drawer().board.formDataId"
         (formSaved)="getBoardTree()"
         (formDeleted)="getBoardTree()"
-        (formClosed)="drawerBoard.visible = false">
+        (formClosed)="drawer().board.visible = false">
       </board-form>
     </div>
 
@@ -100,10 +100,18 @@ export default class AppBoardManagement implements AfterViewInit {
 
   boardTree = viewChild.required(BoardTree);
 
+  /*
   drawerBoard: { visible: boolean, formDataId: any } = {
     visible: false,
     formDataId: null
   }
+  */
+
+  drawer = signal<{
+    board: { visible: boolean, formDataId: any }
+  }>({
+    board: { visible: false, formDataId: null }
+  })
 
   /**
    * 게시판 트리 조회 Filter 조건
@@ -119,21 +127,30 @@ export default class AppBoardManagement implements AfterViewInit {
   }
 
   getBoardTree(): void {
-    this.drawerBoard.visible = false;
+    //this.drawerBoard.visible = false;
+
+    this.drawer.update(current => ({...current, board: {...current.board, visible: false}}));
+
     this.boardTree().getboardHierarchy();
   }
 
   newBoard(): void {
-    this.drawerBoard.formDataId = null;
-    this.drawerBoard.visible = true;
+    //this.drawerBoard.formDataId = null;
+    //this.drawerBoard.visible = true;
+
+    this.drawer.update(current => ({...current, board: {visible: false, formDataId: null }}));
   }
 
   modifyBoard(item: any): void {
-    this.drawerBoard.visible = true;
+    //this.drawerBoard.visible = true;
+
+    this.drawer.update(current => ({...current, board: {...current.board, visible: true}}));
   }
 
   boardTreeItemClick(item: NzTreeNodeOptions) {
-    this.drawerBoard.formDataId = item.key;
+    //this.drawerBoard.formDataId = item.key;
+
+    this.drawer.update(current => ({...current, board: {visible: current.board.visible, formDataId: item.key}}));;
   }
 
 }

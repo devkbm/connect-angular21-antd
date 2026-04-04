@@ -16,7 +16,7 @@ import { WebResourceForm } from './web-resource-form';
     <nz-drawer
       [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom':'53px' }"
       [nzMaskClosable]="true"
-      nzWidth="80%"
+      nzWidth="25%"
       [nzVisible]="drawer().visible"
       nzTitle="리소스 등록"
       [nzFooter]="footerTpl"

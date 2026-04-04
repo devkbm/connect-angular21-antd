@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, inject, Renderer2, output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, Renderer2, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -90,7 +90,7 @@ export interface DeptHierarchy {
             <nz-form-control>
                 <nz-tree-select
                     id="parentDeptCode"
-                    [nzNodes]="deptHierarchy"
+                    [nzNodes]="deptHierarchy()"
                     [nzAllowClear]="true"
                     [nzPlaceHolder]="'상위 부서 없음'"
                     formControlName="parentDeptCode">
@@ -276,12 +276,14 @@ export class DeptForm implements OnInit, AfterViewInit {
 
   //deptCode = viewChild.required<NzInputTextComponent>('deptCode');
 
-  deptHierarchy: DeptHierarchy[] = [];
-
   private notifyService = inject(NotifyService);
   private renderer = inject(Renderer2);
   private http = inject(HttpClient);
   private validator = inject(DeptFormValidatorService);
+
+  //deptHierarchy: DeptHierarchy[] = [];
+
+  deptHierarchy = signal<DeptHierarchy[]>([]);
 
   formSaved = output<any>();
   formDeleted = output<any>();
@@ -421,7 +423,7 @@ export class DeptForm implements OnInit, AfterViewInit {
         )
         .subscribe(
           (model: ResponseList<DeptHierarchy>) => {
-            model.data ? this.deptHierarchy = model.data : this.deptHierarchy = [];
+            model.data ? this.deptHierarchy.set(model.data) : this.deptHierarchy.set([]);
           }
         )
 

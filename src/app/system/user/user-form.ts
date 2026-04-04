@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, Renderer2, input, effect, output } from '@angular/core';
+import { Component, OnInit, inject, Renderer2, input, effect, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -202,7 +202,7 @@ export interface DeptHierarchy {
             <nz-form-label nzFor="roleList" nzRequired>롤</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="roleList" formControlName="roleList" nzMode="tags">
-                @for (option of authList; track option) {
+                @for (option of authList(); track option) {
                   <nz-option
                     [nzLabel]="option.description"
                     [nzValue]="option.roleCode">
@@ -219,7 +219,13 @@ export interface DeptHierarchy {
 })
 export class UserForm implements OnInit {
 
-  public authList: any;
+  private notifyService = inject(NotifyService);
+  private renderer = inject(Renderer2);
+  private http = inject(HttpClient);
+  private validator = inject(UserFormValidatorService);
+  deptResource = inject(DeptResourceService);
+
+  public authList = signal<any[]>([]);
 
   passwordConfirm: string = '';
   popup: boolean = false;
@@ -240,12 +246,6 @@ export class UserForm implements OnInit {
   uploadParam: any = {};
 
   imageBase64: any;
-
-  private notifyService = inject(NotifyService);
-  private renderer = inject(Renderer2);
-  private http = inject(HttpClient);
-  private validator = inject(UserFormValidatorService);
-  deptResource = inject(DeptResourceService);
 
   formSaved = output<any>();
   formDeleted = output<any>();
@@ -269,8 +269,6 @@ export class UserForm implements OnInit {
   });
 
   formDataId = input<string>('');
-
-
 
   constructor() {
     this.deptResource.resource.reload();
@@ -417,7 +415,7 @@ export class UserForm implements OnInit {
         )
         .subscribe(
           (model: ResponseList<Role>) => {
-            this.authList = model.data;
+            this.authList.set(model.data);
           }
         )
   }

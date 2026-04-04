@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, inject, Renderer2, input, effect, output } from '@angular/core';
+import { Component, AfterViewInit, inject, Renderer2, input, effect, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -37,100 +37,80 @@ export interface WebResourceFormData {
     NzFormModule,
     NzInputModule,
     NzSelectModule,
-
-
   ],
   template: `
     {{fg.getRawValue()| json}} - {{fg.valid}}
 
+    <!-- 폼 오류 메시지 템플릿 -->
+    <ng-template #errorTpl let-control>
+      @if (control.hasError('required')) {
+        필수 입력 값입니다.
+      }
+      @if (control.hasError('exists')) {
+        기존 코드가 존재합니다.
+      }
+    </ng-template>
+
     <form nz-form [formGroup]="fg" nzLayout="vertical">
-      <!-- 폼 오류 메시지 템플릿 -->
-      <ng-template #errorTpl let-control>
-        @if (control.hasError('required')) {
-          필수 입력 값입니다.
-        }
-        @if (control.hasError('exists')) {
-          기존 코드가 존재합니다.
-        }
-      </ng-template>
 
-      <!-- 1 row -->
-      <div nz-row nzGutter="8">
-        <div nz-col nzSpan="12">
-          <nz-form-item>
-            <nz-form-label nzFor="resourceId" nzRequired>리소스ID</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="resourceId" formControlName="resourceId" required
-                placeholder="리소스ID를 입력해주세요."/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+      <nz-form-item>
+        <nz-form-label nzFor="resourceId" nzRequired>리소스ID</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <input nz-input id="resourceId" formControlName="resourceId" required
+            placeholder="리소스ID를 입력해주세요."/>
+        </nz-form-control>
+      </nz-form-item>
 
-        <div nz-col nzSpan="12">
-          <nz-form-item>
-            <nz-form-label nzFor="resourceName" nzRequired>리소스명</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="resourceName" formControlName="resourceName" required/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
+      <nz-form-item>
+        <nz-form-label nzFor="resourceName" nzRequired>리소스명</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <input nz-input id="resourceName" formControlName="resourceName" required/>
+        </nz-form-control>
+      </nz-form-item>
 
-      <!-- 2 row -->
-      <div nz-row nzGutter="8">
-        <div nz-col nzSpan="12">
-          <nz-form-item>
-            <nz-form-label nzFor="resourceType" nzRequired>리소스타입</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <nz-select nzId="resourceType" formControlName="resourceType">
-                @for (option of resourceTypeList; track option) {
-                  <nz-option
-                    [nzLabel]="option.label"
-                    [nzValue]="option.value">
-                  </nz-option>
-                }
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+      <nz-form-item>
+        <nz-form-label nzFor="resourceType" nzRequired>리소스타입</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <nz-select nzId="resourceType" formControlName="resourceType">
+            @for (option of resourceTypeList(); track option) {
+              <nz-option
+                [nzLabel]="option.label"
+                [nzValue]="option.value">
+              </nz-option>
+            }
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
 
-        <div nz-col nzSpan="12">
-          <nz-form-item>
-            <nz-form-label nzFor="url" nzRequired>URL 정보</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="url" formControlName="url" required
-                placeholder="URL 정보를 입력해주세요."/>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
+      <nz-form-item>
+        <nz-form-label nzFor="url" nzRequired>URL 정보</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <input nz-input id="url" formControlName="url" required
+            placeholder="URL 정보를 입력해주세요."/>
+        </nz-form-control>
+      </nz-form-item>
 
-      <!-- 3 row -->
-      <div nz-row nzGutter="8">
-        <div nz-col nzSpan="24">
-          <nz-form-item>
-            <nz-form-label nzFor="description">설명</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <textarea nz-input id="description" formControlName="description"
-                placeholder="설명를 입력해주세요." [rows]="10">
-              </textarea>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
+      <nz-form-item>
+        <nz-form-label nzFor="description">설명</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <textarea nz-input id="description" formControlName="description"
+            placeholder="설명를 입력해주세요." [rows]="10">
+          </textarea>
+        </nz-form-control>
+      </nz-form-item>
 
     </form>
   `,
   styles: []
 })
-export class WebResourceForm implements OnInit, AfterViewInit {
-
-  resourceTypeList: ResouceTypeEnum[] = [];
+export class WebResourceForm implements AfterViewInit {
 
   private http = inject(HttpClient);
   private validator = inject(WebResourceFormValidatorService);
   private notifyService = inject(NotifyService);
   private renderer = inject(Renderer2);
+
+  resourceTypeList = signal<ResouceTypeEnum[]>([]);
 
   formSaved = output<any>();
   formDeleted = output<any>();
@@ -151,16 +131,13 @@ export class WebResourceForm implements OnInit, AfterViewInit {
   formDataId = input<string>('');
 
   constructor() {
+    this.getCommonCodeList();
 
     effect(() => {
       if (this.formDataId()) {
         this.get(this.formDataId());
       }
     })
-  }
-
-  ngOnInit(): void {
-    this.getCommonCodeList();
   }
 
   ngAfterViewInit(): void {
@@ -246,7 +223,7 @@ export class WebResourceForm implements OnInit, AfterViewInit {
     this.http.get<ResponseList<ResouceTypeEnum>>(url, options).pipe(
     ).subscribe(
       (model: ResponseList<ResouceTypeEnum>) => {
-        this.resourceTypeList = model.data;
+        this.resourceTypeList.set(model.data);
       }
     );
 

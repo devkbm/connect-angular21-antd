@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -97,7 +97,7 @@ export interface User {
 </ng-page>
 
 <user-form-drawer
-  [drawer]="drawer.user"
+  [drawer]="drawer().user"
   (drawerClosed)="getUserList('')">
 </user-form-drawer>
   `,
@@ -125,7 +125,7 @@ export interface User {
 }
   `
 })
-export default class AppUser implements OnInit {
+export default class AppUser {
 
   private http = inject(HttpClient);
 
@@ -146,25 +146,32 @@ export default class AppUser implements OnInit {
       ]
     }
   }
-
+/*
   drawer: {
     user: { visible: boolean, formDataId: any }
   } = {
     user: { visible: false, formDataId: null }
   }
+*/
 
-  ngOnInit() {
-  }
+  drawer = signal<{
+    user: { visible: boolean, formDataId: any }
+  }>({
+    user: { visible: false, formDataId: null }
+  });
 
   newForm() {
-    this.drawer.user.formDataId = null;
-    this.drawer.user.visible = true;
+    //this.drawer.user.formDataId = null;
+    //this.drawer.user.visible = true;
 
+    this.drawer.update(current => ({...current, user: {visible: true, formDataId: null}}));
   }
 
   editForm(item: any) {
-    this.drawer.user.formDataId = item.userId;
-    this.drawer.user.visible = true;
+    //this.drawer.user.formDataId = item.userId;
+    //this.drawer.user.visible = true;
+
+    this.drawer.update(current => ({...current, user: {visible: true, formDataId: item.userId}}));
   }
 
   getUserList(params: any) {
@@ -174,13 +181,18 @@ export default class AppUser implements OnInit {
       params[this.query.user.key] = this.query.user.value;
     }
 */
-    this.drawer.user.visible = false;
+    //this.drawer.user.visible = false;
+
+    this.drawer.update(current => ({...current, user: {visible: false, formDataId: current.user.formDataId}}));
 
     this.grid().gridQuery.set(params);
   }
 
   deleteUser() {
-    const userId: string = this.drawer.user.formDataId;
+    //const userId: string = this.drawer.user.formDataId;
+
+    const userId: string = this.drawer().user.formDataId;
+
     const url = GlobalProperty.serverUrl() + `/api/system/user/${userId}`;
     const options = getHttpOptions();
 
@@ -195,7 +207,9 @@ export default class AppUser implements OnInit {
   }
 
   userGridSelected(params: User) {
-    this.drawer.user.formDataId = params.userId;
+    //this.drawer.user.formDataId = params.userId;
+
+    this.drawer.update(current => ({...current, user: {visible: false, formDataId: params.userId}}));
   }
 
 }

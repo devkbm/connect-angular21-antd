@@ -87,7 +87,7 @@ export interface Post {
       </nz-form-item>
 
       <post-file-upload
-        [attachedFileList]="attachedFileList"
+        [attachedFileList]="attachedFileList()"
         [(uploadedFileList)]="uploadedfileList"
         (uploadCompleted)="closeForm()">
       </post-file-upload>
@@ -138,8 +138,12 @@ export class PostForm implements AfterViewInit {
   private renderer = inject(Renderer2);
   private http = inject(HttpClient);
 
+  /*
   attachedFileList: any = [];
   uploadedfileList: any = [];
+  */
+  attachedFileList = signal<any[]>([]);
+  uploadedfileList = signal<any[]>([]);
 
   textData: any;
   article!: Post;
@@ -193,7 +197,7 @@ export class PostForm implements AfterViewInit {
 
     this.fg.controls.userId.setValue(SessionManager.getUserId());
     this.fg.controls.isFiexedTop.setValue(false);
-    this.uploadedfileList = [];
+    this.uploadedfileList.set([]);
     this.textData = null;
 
     this.focusInput();
@@ -239,7 +243,7 @@ export class PostForm implements AfterViewInit {
 
               this.uploader().postId.set(model.data.postId);
               this.modifyForm(model.data);
-              this.attachedFileList = model.data.fileList;
+              this.attachedFileList.set(model.data.fileList);
               //this.ckEditor.writeValue(model.data.contents);
             } else {
               this.newForm(null);
@@ -293,7 +297,7 @@ export class PostForm implements AfterViewInit {
     console.log(param);
     if (param.type === 'success') {
       // this.fileList = param.file.response;
-      this.uploadedfileList.push(param.file.response[0]);
+      this.uploadedfileList().push(param.file.response[0]);
     }
   }
 

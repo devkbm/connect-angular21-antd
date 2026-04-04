@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, inject, output } from '@angular/core';
+import { Component, OnInit, Renderer2, inject, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -90,7 +90,7 @@ export interface CommonCodeHierarchy {
               <nz-tree-select
                 nzId="parentId"
                 formControlName="parentId"
-                [nzNodes]="nodeItems"
+                [nzNodes]="nodeItems()"
                 nzPlaceHolder="부서 없음"
                 >
               </nz-tree-select>
@@ -258,11 +258,13 @@ export interface CommonCodeHierarchy {
 })
 export class HierarchyCodeForm implements OnInit {
 
-  nodeItems: CommonCodeHierarchy[] = [];
-
   private http = inject(HttpClient);
   private notifyService = inject(NotifyService);
   private renderer = inject(Renderer2);
+
+  //nodeItems: CommonCodeHierarchy[] = [];
+
+  nodeItems = signal<CommonCodeHierarchy[]>([]);
 
   formSaved = output<any>();
   formDeleted = output<any>();
@@ -383,7 +385,7 @@ export class HierarchyCodeForm implements OnInit {
         )
         .subscribe(
           (model: ResponseList<CommonCodeHierarchy>) => {
-            model.data ? this.nodeItems = model.data : this.nodeItems = [];
+            model.data ? this.nodeItems.set(model.data) : this.nodeItems.set([]);
           }
         );
   }

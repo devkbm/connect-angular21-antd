@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, inject, input, effect, output } from '@angular/core';
+import { Component, OnInit, Input, inject, input, effect, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -109,7 +109,7 @@ export interface StaffAppointmentRecord {
             <nz-form-label nzFor="appointmentTypeCode" nzRequired>발령분류</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="appointmentTypeCode" formControlName="appointmentTypeCode" nzPlaceHolder="Please select">
-                @for (option of appointmentTypeList; track option) {
+                @for (option of appointmentTypeList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -217,7 +217,7 @@ export interface StaffAppointmentRecord {
             <nz-form-label nzFor="dutyResponsibilityCode">직책</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="dutyResponsibilityCode" formControlName="dutyResponsibilityCode" nzMode="multiple" nzPlaceHolder="Please select">
-                @for (option of dutyResponsibilityCodeList; track option) {
+                @for (option of dutyResponsibilityCodeList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -237,7 +237,7 @@ export interface StaffAppointmentRecord {
             <nz-form-label nzFor="jobGroupCode" nzRequired>직군</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="jobGroupCode" formControlName="jobGroupCode" nzPlaceHolder="Please select">
-                @for (option of groupJobCodeList; track option) {
+                @for (option of groupJobCodeList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -253,7 +253,7 @@ export interface StaffAppointmentRecord {
             <nz-form-label nzFor="jobPositionCode" nzRequired>직위</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="jobPositionCode" formControlName="jobPositionCode" nzPlaceHolder="Please select">
-                @for (option of jobPositionCodeList; track option) {
+                @for (option of jobPositionCodeList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -269,7 +269,7 @@ export interface StaffAppointmentRecord {
             <nz-form-label nzFor="jobCode" nzRequired>직무</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="jobCode" formControlName="jobCode" nzPlaceHolder="Please select">
-                @for (option of jobCodeList; track option) {
+                @for (option of jobCodeList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -289,7 +289,7 @@ export interface StaffAppointmentRecord {
             <nz-form-label nzFor="occupationCode" nzRequired>직종</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="occupationCode" formControlName="occupationCode" nzPlaceHolder="Please select">
-                @for (option of occupationCodeList; track option) {
+                @for (option of occupationCodeList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -305,7 +305,7 @@ export interface StaffAppointmentRecord {
             <nz-form-label nzFor="jobGradeCode" nzRequired>직급</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="jobGradeCode" formControlName="jobGradeCode" nzPlaceHolder="Please select">
-                @for (option of jobGradeCodeList; track option) {
+                @for (option of jobGradeCodeList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -321,7 +321,7 @@ export interface StaffAppointmentRecord {
             <nz-form-label nzFor="payStepCode" nzRequired>호봉</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="payStepCode" formControlName="payStepCode" nzPlaceHolder="Please select">
-                @for (option of payStepCodeList; track option) {
+                @for (option of payStepCodeList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -352,35 +352,43 @@ export class StaffAppointmentRecordForm implements OnInit {
   /**
    * 발령분류코드 - HR0000
    */
-  appointmentTypeList: HrmCode[] = [];
+  //appointmentTypeList: HrmCode[] = [];
+  appointmentTypeList = signal<HrmCode[]>([]);
   /**
    * 직군코드 - HR0001
    */
-  groupJobCodeList: HrmCode[] = [];
+  //groupJobCodeList: HrmCode[] = [];
+  groupJobCodeList = signal<HrmCode[]>([]);
   /**
    * 직위코드 - HR0002
    */
-  jobPositionCodeList: HrmCode[] = [];
+  //jobPositionCodeList: HrmCode[] = [];
+  jobPositionCodeList = signal<HrmCode[]>([]);
   /**
    * 직종코드 - HR0003
    */
-  occupationCodeList: HrmCode[] = [];
+  //occupationCodeList: HrmCode[] = [];
+  occupationCodeList = signal<HrmCode[]>([]);
   /**
    * 직급코드 - HR0004
    */
-  jobGradeCodeList: HrmCode[] = [];
+  //jobGradeCodeList: HrmCode[] = [];
+  jobGradeCodeList = signal<HrmCode[]>([]);
   /**
    * 호봉코드 - HR0005
    */
-  payStepCodeList: HrmCode[] = [];
+  //payStepCodeList: HrmCode[] = [];
+  payStepCodeList = signal<HrmCode[]>([]);
   /**
    * 직무코드 - HR0006
    */
-  jobCodeList: HrmCode[] = [];
+  //jobCodeList: HrmCode[] = [];
+  jobCodeList = signal<HrmCode[]>([]);
   /**
    * 직책코드 - HR0007
    */
-  dutyResponsibilityCodeList: HrmCode[] = [];
+  //dutyResponsibilityCodeList: HrmCode[] = [];
+  dutyResponsibilityCodeList = signal<HrmCode[]>([]);
 
   private http = inject(HttpClient);
   private hrmCodeService = inject(HrmCodeService);
@@ -443,6 +451,7 @@ export class StaffAppointmentRecordForm implements OnInit {
   }
 
   newForm(): void {
+    this.fg.reset();
     this.fg.controls.staffNo.disable();
     this.fg.controls.staffName.disable();
 
@@ -527,7 +536,7 @@ export class StaffAppointmentRecordForm implements OnInit {
               let data: any = model.data;
 
               for (const obj of objs) {
-                this[obj.propertyName] = data[obj.typeId];
+                this[obj.propertyName].set(data[obj.typeId]);
               }
             } else {
               //list = [];

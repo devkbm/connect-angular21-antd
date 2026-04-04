@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, inject, Renderer2, input, effect, output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, Renderer2, input, effect, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormControl, Validators } from '@angular/forms';
 
@@ -77,7 +77,7 @@ export interface MenuGroup {
           <nz-form-label nzFor="menuGroupCode" nzRequired>메뉴그룹</nz-form-label>
           <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
             <nz-select nzId="menuGroupCode" formControlName="menuGroupCode">
-                @for (option of menuGroupList; track option) {
+                @for (option of menuGroupList(); track option) {
                   <nz-option
                     [nzLabel]="option.menuGroupName"
                     [nzValue]="option.menuGroupCode">
@@ -206,7 +206,7 @@ export class RoleForm implements OnInit, AfterViewInit {
   private renderer = inject(Renderer2);
   private validator = inject(RoleFormValidatorService);
 
-  menuGroupList: any;
+  menuGroupList = signal<any[]>([]);
 
   formSaved = output<any>();
   formDeleted = output<any>();
@@ -334,7 +334,7 @@ export class RoleForm implements OnInit, AfterViewInit {
         )
         .subscribe(
           (model: ResponseList<MenuGroup>) => {
-            this.menuGroupList = model.data;
+            this.menuGroupList.set(model.data);
           }
         );
 

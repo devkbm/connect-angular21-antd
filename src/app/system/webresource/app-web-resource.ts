@@ -121,26 +121,35 @@ export default class AppWebResource {
 
   view: 'grid' | 'list' = 'grid';
 
-  drawer = signal({
+  drawer = signal<{
+    resource: { visible: boolean, formDataId: string }
+  }>({
     resource: { visible: false, formDataId: '' }
   })
 
   constructor() {}
 
   getList(params: any): void {
-    console.log(params);
-    this.drawer().resource.visible = false;
+    //console.log(params);
+    //this.drawer().resource.visible = false;
+
+    this.drawer.update(current => ({...current, resource: {...current.resource, visible: false}}));
+
     this.grid().gridQuery.set(params);
   }
 
   newForm(): void {
-    this.drawer().resource.formDataId = '';
-    this.drawer().resource.visible = true;
+    //this.drawer().resource.formDataId = '';
+    //this.drawer().resource.visible = true;
+
+    this.drawer.update(current => ({...current, resource: {visible: true, formDataId: ''}}));
   }
 
   editForm(item: any): void {
-    this.drawer().resource.formDataId = item.resourceId;
-    this.drawer().resource.visible = true;
+    //this.drawer().resource.formDataId = item.resourceId;
+    //this.drawer().resource.visible = true;
+
+    this.drawer.update(current => ({...current, resource: {visible: true, formDataId: item.resourceId}}));
   }
 
   delete(): void {
@@ -160,7 +169,9 @@ export default class AppWebResource {
   }
 
   resourceGridRowClicked(item: any): void {
-    this.drawer().resource.formDataId = item.resourceId;
+    //this.drawer().resource.formDataId = item.resourceId;
+
+    this.drawer.update(current => ({...current, resource: {visible: false, formDataId: item.resourceId}}));
   }
 
 }

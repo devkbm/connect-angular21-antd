@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnChanges, SimpleChanges, inject, effect, input, output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnChanges, SimpleChanges, inject, effect, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -66,7 +66,7 @@ export interface StaffSchoolCareer {
             <nz-form-label nzFor="schoolCareerType" nzRequired>학력</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="schoolCareerType" formControlName="schoolCareerType">
-                @for (option of schoolCareerTypeList; track option) {
+                @for (option of schoolCareerTypeList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -82,7 +82,7 @@ export interface StaffSchoolCareer {
             <nz-form-label nzFor="schoolCode" nzRequired>학교</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="schoolCode" formControlName="schoolCode">
-                @for (option of schoolCodeList; track option) {
+                @for (option of schoolCodeList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -193,11 +193,14 @@ export class StaffSchoolCareerForm implements OnInit, AfterViewInit, OnChanges {
   /**
    * 학력 - HR0009
    */
-  schoolCareerTypeList: HrmCode[] = [];
+  //schoolCareerTypeList: HrmCode[] = [];
+  schoolCareerTypeList = signal<HrmCode[]>([]);
+
   /**
    * 학교 - HR0010
    */
-  schoolCodeList: HrmCode[] = [];
+  //schoolCodeList: HrmCode[] = [];
+  schoolCodeList = signal<HrmCode[]>([]);
 
   private hrmCodeService = inject(HrmCodeService);
   private notifyService = inject(NotifyService);
@@ -328,7 +331,7 @@ export class StaffSchoolCareerForm implements OnInit, AfterViewInit, OnChanges {
         .getList(params)
         .subscribe(
           (model: ResponseList<HrmCode>) => {
-            this.schoolCareerTypeList = model.data;
+            this.schoolCareerTypeList.set(model.data);
           }
       );
   }
@@ -342,7 +345,7 @@ export class StaffSchoolCareerForm implements OnInit, AfterViewInit, OnChanges {
         .getList(params)
         .subscribe(
           (model: ResponseList<HrmCode>) => {
-            this.schoolCodeList = model.data;
+            this.schoolCodeList.set(model.data);
           }
       );
   }

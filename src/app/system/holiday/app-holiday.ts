@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, viewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, signal, viewChild } from '@angular/core';
 import { CommonModule, formatDate } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -112,7 +112,7 @@ export interface Holiday {
 </ng-page>
 
 <holiday-form-drawer
-  [drawer]="drawer.holiday"
+  [drawer]="drawer().holiday"
   (drawerClosed)="getHolidayList()">
 </holiday-form-drawer>
 
@@ -153,11 +153,19 @@ export default class AppHoliday implements AfterViewInit {
   calendar = viewChild.required(CalendarFullcalendar);
   search = viewChild.required(HolidaySearch);
 
+  /*
   drawer: {
     holiday: { visible: boolean, formDataId: any }
   } = {
     holiday: { visible: false, formDataId: null }
   }
+  */
+
+  drawer = signal<{
+    holiday: { visible: boolean, formDataId: any }
+  }>({
+    holiday: { visible: false, formDataId: null }
+  });
 
   tab: {
     index: number
@@ -169,17 +177,9 @@ export default class AppHoliday implements AfterViewInit {
     this.getHolidayList();
   }
 
-  openDrawer(): void {
-    this.drawer.holiday.visible = true;
-  }
-
-  closeDrawer(): void {
-    this.drawer.holiday.visible = false;
-  }
-
   getHolidayList(): void {
 
-    this.closeDrawer();
+    this.drawer.update(current => ({...current, holiday: {visible: false, formDataId: current.holiday.formDataId}}));
 
     const date: Date = this.search().query.holiday.year;
 
@@ -195,13 +195,13 @@ export default class AppHoliday implements AfterViewInit {
   //newHoliday2(selectInfo: DateSelectArg) {
     console.log(selectInfo);
 
-    this.drawer.holiday.formDataId = selectInfo.startStr;
-    this.openDrawer();
+    //this.drawer.holiday.formDataId = selectInfo.startStr;
+    this.drawer.update(current => ({...current, holiday: {visible: true, formDataId: selectInfo.startStr}}));
   }
 
   newHoliday(): void {
-    this.drawer.holiday.formDataId = null;
-    this.openDrawer();
+    //this.drawer.holiday.formDataId = null;
+    this.drawer.update(current => ({...current, holiday: {visible: true, formDataId: null}}));
   }
 
   deleteHoliday(): void {
@@ -229,18 +229,22 @@ export default class AppHoliday implements AfterViewInit {
   }
 
   holidayGridRowClicked(item: any): void {
-    this.drawer.holiday.formDataId = item.date;
+    //this.drawer.holiday.formDataId = item.date;
+
+    this.drawer.update(current => ({...current, holiday: {visible: false, formDataId: item.date}}));
+
   }
 
   edit(item: any): void {
-    this.drawer.holiday.formDataId = item.date;
-    this.openDrawer();
+    //this.drawer.holiday.formDataId = item.date;
+    this.drawer.update(current => ({...current, holiday: {visible: true, formDataId: item.date}}));
   }
 
   navigatorSelectChanged(params: any) {
     //console.log(params);
     //console.log(params.start.value as Date);
-    this.drawer.holiday.formDataId = params.start.value as Date;
-    this.openDrawer();
+    //this.drawer.holiday.formDataId = params.start.value as Date;
+
+    this.drawer.update(current => ({...current, holiday: {visible: true, formDataId: params.start.value as Date}}));
   }
 }

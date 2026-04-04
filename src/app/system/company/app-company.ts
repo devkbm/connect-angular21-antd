@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -47,7 +47,7 @@ import { CompanyTable } from './company-table';
 <ng-page [header]="{template: header, height: 'var(--page-header-height)'}" [search]="{template: search, height: 'var(--page-search-height)'}">
   <div class="container">
     <div>
-      <h3 class="grid-title">회사 목록 {{drawer| json}} </h3>
+      <h3 class="grid-title">회사 목록 {{drawer()| json}} </h3>
     </div>
     <div style="flex: 1">
     @defer {
@@ -71,7 +71,7 @@ import { CompanyTable } from './company-table';
 </ng-page>
 
 <company-form-drawer
-  [drawer]="drawer.company"
+  [drawer]="drawer().company"
   (drawerClosed)="getList('')">
 </company-form-drawer>
 
@@ -122,29 +122,44 @@ export default class AppCompany implements OnInit {
     }
   }
 
+  /*
   drawer: {
     company: { visible: boolean, formDataId: any }
   } = {
     company: { visible: false, formDataId: null }
   }
+    */
+
+  drawer = signal<{
+    company: { visible: boolean, formDataId: any }
+  }>({
+    company: { visible: false, formDataId: null }
+  });
+
 
   ngOnInit(): void {
   }
 
   getList(params: any): void {
-    this.drawer.company.visible = false;
+    //this.drawer.company.visible = false;
+
+    this.drawer.update(current => ({...current, company: {visible: false, formDataId: current.company.formDataId}}));
 
     this.grid().gridQuery.set(params);
   }
 
   newForm(): void {
-    this.drawer.company.formDataId = null;
-    this.drawer.company.visible = true;
+    //this.drawer.company.formDataId = null;
+    //this.drawer.company.visible = true;
+
+    this.drawer.update(current => ({...current, company: {visible: true, formDataId: null}}));
   }
 
   editForm(item: any): void {
-    this.drawer.company.formDataId = item.companyCode;
-    this.drawer.company.visible = true;
+    //this.drawer.company.formDataId = item.companyCode;
+    //this.drawer.company.visible = true;
+
+    this.drawer.update(current => ({...current, company: {visible: true, formDataId: item.companyCode}}));
   }
 
   delete(): void {
@@ -165,7 +180,9 @@ export default class AppCompany implements OnInit {
   }
 
   resourceGridRowClicked(item: any): void {
-    this.drawer.company.formDataId = item.companyCode;
+    //this.drawer.company.formDataId = item.companyCode;
+
+    this.drawer.update(current => ({...current, company: {visible: current.company.visible, formDataId: item.companyCode}}));
   }
 
 }

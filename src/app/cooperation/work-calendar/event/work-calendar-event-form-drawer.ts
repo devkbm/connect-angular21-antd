@@ -49,12 +49,11 @@ import { NewFormValue, WorkCalendarEventForm } from './work-calendar-event-form'
 })
 export class WorkCalendarEventFormDrawer {
 
+  form = viewChild.required<WorkCalendarEventForm>(WorkCalendarEventForm);
   newFormValue = input<NewFormValue>();
 
   drawer = input.required<{visible: boolean, formDataId: any}>();
   drawerClosed = output<any>();
-
-  form = viewChild.required<WorkCalendarEventForm>(WorkCalendarEventForm);
 
   save() {
     this.form().save();

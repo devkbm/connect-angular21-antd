@@ -1,4 +1,4 @@
-import { Component, OnInit, viewChild } from '@angular/core';
+import { Component, OnInit, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -185,7 +185,7 @@ export interface StaffSchoolCareer {
               [staff]="selectedStaff"
               (formSaved)="selectGridAppointment()"
               (formDeleted)="selectGridAppointment()"
-              (formClosed)="drawer.contact.visible = false">
+              (formClosed)="drawer().contact.visible = false">
             </staff-contact-form>
           </div>
         </nz-tab>
@@ -266,42 +266,42 @@ export interface StaffSchoolCareer {
 </ng-page>
 
 <new-staff-form-drawer
-  [drawer]="drawer.newStaff"
+  [drawer]="drawer().newStaff"
   (drawerClosed)="selectGridStaff()">
 </new-staff-form-drawer>
 
 <staff-appointment-record-form-drawer
-  [drawer]="drawer.appointment"
+  [drawer]="drawer().appointment"
   [selectedStaff]="selectedStaff"
   (drawerClosed)="selectGridAppointment()">
 </staff-appointment-record-form-drawer>
 
 <!-- (drawerClosed)="selectGridAppointment()" -->
 <staff-duty-responsibility-form-drawer
-  [drawer]="drawer.dutyResponsibility"
+  [drawer]="drawer().dutyResponsibility"
   [selectedStaff]="selectedStaff">
 </staff-duty-responsibility-form-drawer>
 
 <staff-duty-responsibility-form-drawer
-  [drawer]="drawer.contact"
+  [drawer]="drawer().contact"
   [selectedStaff]="selectedStaff"
   (drawerClosed)="selectGridAppointment()">
 </staff-duty-responsibility-form-drawer>
 
 <staff-family-form-drawer
-  [drawer]="drawer.family"
+  [drawer]="drawer().family"
   [selectedStaff]="selectedStaff"
   (drawerClosed)="selectGridFaimly()">
 </staff-family-form-drawer>
 
 <staff-school-career-form-drawer
-  [drawer]="drawer.schoolCareer"
+  [drawer]="drawer().schoolCareer"
   [selectedStaff]="selectedStaff"
   (drawerClosed)="selectGridSchoolCareer()">
 </staff-school-career-form-drawer>
 
 <staff-license-form-drawer
-  [drawer]="drawer.license"
+  [drawer]="drawer().license"
   [selectedStaff]="selectedStaff"
   (drawerClosed)="selectGridLicense()">
 
@@ -353,6 +353,7 @@ export default class AppStaffManagement implements OnInit {
 
   selectedStaff?: {companyCode: string, staffNo: string, staffName: string};
 
+  /*
   drawer: {
     newStaff: { visible: boolean, formDataId: any },
     appointment: { visible: boolean, formDataId: any },
@@ -370,6 +371,25 @@ export default class AppStaffManagement implements OnInit {
     schoolCareer: { visible: false, formDataId: null },
     license: { visible: false, formDataId: null }
   }
+  */
+
+  drawer = signal<{
+    newStaff: { visible: boolean, formDataId: any },
+    appointment: { visible: boolean, formDataId: any },
+    dutyResponsibility: { visible: boolean, formDataId: any },
+    contact: { visible: boolean, formDataId: any },
+    family: { visible: boolean, formDataId: any },
+    schoolCareer: { visible: boolean, formDataId: any },
+    license: { visible: boolean, formDataId: any }
+  }>({
+    newStaff: { visible: false, formDataId: null },
+    appointment: { visible: false, formDataId: null },
+    dutyResponsibility: { visible: false, formDataId: null },
+    contact: { visible: false, formDataId: null },
+    family: { visible: false, formDataId: null },
+    schoolCareer: { visible: false, formDataId: null },
+    license: { visible: false, formDataId: null }
+  });
 
   constructor() {
   }
@@ -383,80 +403,113 @@ export default class AppStaffManagement implements OnInit {
   }
 
   selectGridStaff() {
-    this.drawer.newStaff.visible = false;
+    //this.drawer.newStaff.visible = false;
+
+    this.drawer.update(current => ({...current, newStaff: {visible: false, formDataId: current.newStaff.formDataId}}));
 
     this.gridStaff().gridResource.reload();
   }
 
   newStaff() {
-    this.drawer.newStaff.visible = true;
+    //this.drawer.newStaff.visible = true;
+    this.drawer.update(current => ({...current, newStaff: {visible: true, formDataId: null}}));
   }
 
   newAppoint() {
-    this.drawer.appointment.formDataId = null;
-    this.drawer.appointment.visible = true;
+    //this.drawer.appointment.formDataId = null;
+    //this.drawer.appointment.visible = true;
+
+    this.drawer.update(current => ({...current, appointment: {visible: true, formDataId: null}}));
   }
 
   newDutyResponsibility() {
-    this.drawer.dutyResponsibility.visible = true;
+    //this.drawer.dutyResponsibility.visible = true;
+
+    this.drawer.update(current => ({...current, dutyResponsibility: {visible: true, formDataId: null}}));
   }
 
   newContact() {
-    this.drawer.contact.visible = true;
+    //this.drawer.contact.visible = true;
+
+    this.drawer.update(current => ({...current, contact: {visible: true, formDataId: null}}));
   }
 
   selectGridAppointment() {
-    this.drawer.appointment.visible = false;
+    //this.drawer.appointment.visible = false;
+
+    this.drawer.update(current => ({...current, appointment: {visible: false, formDataId: current.appointment.formDataId}}));
+
     //this.gridAppointment().getList(this.selectedStaff?.staffNo!);
     this.gridAppointment().gridResource.reload();
     this.staffDesc().get(this.selectedStaff?.staffNo!);
   }
 
   editAppointment(row: StaffAppointmentRecord) {
-    this.drawer.appointment.formDataId = {staffId: row.staffNo, seq: row.seq};
-    this.drawer.appointment.visible = true;
+    //this.drawer.appointment.formDataId = {staffId: row.staffNo, seq: row.seq};
+    //this.drawer.appointment.visible = true;
+
+    this.drawer.update(current => ({...current, appointment: {visible: true, formDataId: {staffId: row.staffNo, seq: row.seq}}}));
   }
 
   selectGridFaimly() {
-    this.drawer.family.visible = false;
+    //this.drawer.family.visible = false;
+
+    this.drawer.update(current => ({...current, family: {visible: false, formDataId: current.family.formDataId}}));
+
     this.gridFamily().gridResource.reload();
   }
 
   newFamily() {
-    this.drawer.family.visible = true;
+    //this.drawer.family.visible = true;
+
+    this.drawer.update(current => ({...current, family: {visible: true, formDataId: null}}));
   }
 
   editFamily(row: StaffFamily) {
-    this.drawer.family.formDataId = {staffId: row.staffNo, seq: row.seq};
-    this.drawer.family.visible = true;
+    //this.drawer.family.formDataId = {staffId: row.staffNo, seq: row.seq};
+    //this.drawer.family.visible = true;
+
+    this.drawer.update(current => ({...current, family: {visible: true, formDataId: {staffId: row.staffNo, seq: row.seq}}}));
   }
 
   selectGridSchoolCareer() {
-    this.drawer.schoolCareer.visible = false;
+    //this.drawer.schoolCareer.visible = false;
+
+    this.drawer.update(current => ({...current, schoolCareer: {visible: false, formDataId: current.schoolCareer.formDataId}}));
     this.gridSchoolcareer().gridResource.reload();
   }
 
   newSchoolCareer() {
-    this.drawer.schoolCareer.visible = true;
+    //this.drawer.schoolCareer.visible = true;
+
+     this.drawer.update(current => ({...current, schoolCareer: {visible: true, formDataId: null}}));
   }
 
   editSchoolCareer(row: StaffSchoolCareer) {
-    this.drawer.schoolCareer.formDataId = {staffId: row.staffNo, seq: row.seq};
-    this.drawer.schoolCareer.visible = true;
+    //this.drawer.schoolCareer.formDataId = {staffId: row.staffNo, seq: row.seq};
+    //this.drawer.schoolCareer.visible = true;
+
+    this.drawer.update(current => ({...current, schoolCareer: {visible: true, formDataId: {staffId: row.staffNo, seq: row.seq}}}));
   }
 
   selectGridLicense() {
-    this.drawer.license.visible = false;
+    //this.drawer.license.visible = false;
+
+    this.drawer.update(current => ({...current, license: {visible: false, formDataId: current.license.formDataId}}));
+
     this.gridLicense().gridResource.reload();
   }
 
   newLicense() {
-    this.drawer.license.visible = true;
+    //this.drawer.license.visible = true;
+    this.drawer.update(current => ({...current, license: {visible: true, formDataId: current.license.formDataId}}));
   }
 
   editLicense(row: StaffLicense) {
-    this.drawer.license.formDataId = {staffId: row.staffNo, seq: row.seq};
-    this.drawer.license.visible = true;
+    //this.drawer.license.formDataId = {staffId: row.staffNo, seq: row.seq};
+    //this.drawer.license.visible = true;
+
+    this.drawer.update(current => ({...current, license: {visible: true, formDataId: {staffId: row.staffNo, seq: row.seq}}}));
   }
 
 }

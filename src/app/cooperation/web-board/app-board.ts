@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewContainerRef, inject, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewContainerRef, inject, signal, viewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -81,7 +81,7 @@ export interface TabInfo {
 <nz-tabs [(nzSelectedIndex)]="tabIndex" nzType="editable-card" nzHideAdd (nzClose)="closeTab($event)">
   <nz-tab [nzTitle]="tabTitle">
     <post-list
-      [boardId]="drawer.board.formDataId"
+      [boardId]="drawer().board.formDataId"
       (editClicked)="editPost($event)"
       (viewClicked)="viewPost($event)">
     </post-list>
@@ -98,15 +98,15 @@ export interface TabInfo {
     [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom':'53px' }"
     [nzMaskClosable]="true"
     [nzWidth]="'80%'"
-    [nzVisible]="drawer.postForm.visible"
+    [nzVisible]="drawer().postForm.visible"
     nzTitle="게시글 등록"
-    (nzOnClose)="drawer.postForm.visible = false">
+    (nzOnClose)="drawer().postForm.visible = false">
     <post-form #articleForm *nzDrawerContent
-      [boardId]="drawer.postForm.boardId"
-      [formDataId]="this.drawer.postForm.formDataId"
+      [boardId]="drawer().postForm.boardId"
+      [formDataId]="this.drawer().postForm.formDataId"
       (formSaved)="getArticleGridData()"
       (formDeleted)="getArticleGridData()"
-      (formClosed)="drawer.postForm.visible = false">
+      (formClosed)="drawer().postForm.visible = false">
     </post-form>
 </nz-drawer>
 
@@ -114,10 +114,10 @@ export interface TabInfo {
     [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom':'53px' }"
     [nzMaskClosable]="true"
     [nzWidth]="800"
-    [nzVisible]="drawer.postView.visible"
+    [nzVisible]="drawer().postView.visible"
     nzTitle="게시글 조회"
-    (nzOnClose)="drawer.postView.visible = false">
-    <post-view [id]="drawer.postView.id" *nzDrawerContent>
+    (nzOnClose)="drawer().postView.visible = false">
+    <post-view [id]="drawer().postView.id" *nzDrawerContent>
     </post-view>
 </nz-drawer>
 
@@ -164,10 +164,19 @@ export interface TabInfo {
 })
 export default class AppBoard implements AfterViewInit {
 
+  private message = inject(NzMessageService);
+  public viewContainerRef = inject(ViewContainerRef);
+  private winRef = inject(WindowRef);
+  private router = inject(Router);
+
   boardTree = viewChild.required(BoardTree);
   postGrid = viewChild.required(PostGrid);
   postList =  viewChild.required(PostList);
 
+  editMethod: 'tab' | 'popup' = 'popup';
+  viewMethod: 'tab' | 'popup' = 'popup';
+
+  /*
   drawer: {
     board: { visible: boolean, formDataId: any },
     postForm: { visible: boolean, boardId: string, formDataId: any },
@@ -177,9 +186,17 @@ export default class AppBoard implements AfterViewInit {
     postForm: { visible: false, boardId: '', formDataId: null },
     postView: { visible: false, id: null, title: '' }
   }
+*/
 
-  editMethod: 'tab' | 'popup' = 'popup';
-  viewMethod: 'tab' | 'popup' = 'popup';
+  drawer = signal<{
+    board: { visible: boolean, formDataId: any },
+    postForm: { visible: boolean, boardId: string, formDataId: any },
+    postView: { visible: boolean, id: any, title: string }
+  }>({
+    board: { visible: false, formDataId: null },
+    postForm: { visible: false, boardId: '', formDataId: null },
+    postView: { visible: false, id: null, title: '' }
+  })
 
   tabIndex: number = 0;
   tabs: TabInfo[] = [];
@@ -189,11 +206,6 @@ export default class AppBoard implements AfterViewInit {
    * 게시판 트리 조회 Filter 조건
    */
   queryValue: any;
-
-  private message = inject(NzMessageService);
-  public viewContainerRef = inject(ViewContainerRef);
-  private winRef = inject(WindowRef);
-  private router = inject(Router);
 
   constructor() {
 
@@ -205,7 +217,7 @@ export default class AppBoard implements AfterViewInit {
       if (event.origin !== origin) return;
 
       // BoardId가 저장한 게시글의 boardId가 일치하면 재조회
-      if (btoa(this.drawer.board.formDataId) === event.data) {
+      if (btoa(this.drawer().board.formDataId) === event.data) {
         this.getArticleGridData();
       }
 
@@ -218,26 +230,36 @@ export default class AppBoard implements AfterViewInit {
 
   setBoardSelect(item: any): void {
     this.tabTitle = item.title;
-    this.drawer.board.formDataId = item.key;
+    //this.drawer.board.formDataId = item.key;
+
+    this.drawer.update(current => ({...current, board: {...current.board, formDataId: item.key}}));
 
     this.getArticleGridData();
   }
 
   getArticleGridData(): void {
-    this.drawer.postForm.visible = false;
-    this.drawer.postView.visible = false;
+    //this.drawer.postForm.visible = false;
+    //this.drawer.postView.visible = false;
 
-    //this.articleGrid().getArticleList(this.drawer.board.initLoadId);
-    this.postList().getList(this.drawer.board.formDataId);
+    this.drawer.update(current => ({
+      ...current,
+      postForm: {...current.postForm, visible: false},
+      postView: {...current.postView, visible: false}
+    }));
+
+    this.postList().getList(this.drawer().board.formDataId);
   }
 
   getBoardTree(): void {
-    this.drawer.board.visible = false;
+    //this.drawer.board.visible = false;
+
+    this.drawer.update(current => ({...current, board: {...current.board, visible: false}}));
+
     this.boardTree().getboardHierarchy();
   }
 
   newPost(): void {
-    if (this.drawer.board.formDataId === null || this.drawer.board.formDataId === undefined)  {
+    if (this.drawer().board.formDataId === null || this.drawer().board.formDataId === undefined)  {
       this.message.create('error', '게시판을 선택해주세요.');
       return;
     }
@@ -253,7 +275,7 @@ export default class AppBoard implements AfterViewInit {
 
   // 게시글 등록 폼 팝업으로 오픈
   newPostPopup() {
-    const boardId = btoa(this.drawer.board.formDataId);
+    const boardId = btoa(this.drawer().board.formDataId);
 
     const url = this.router.serializeUrl(
       this.router.createUrlTree([`/post-write`, boardId])  // /grw/boarda
@@ -264,9 +286,14 @@ export default class AppBoard implements AfterViewInit {
   }
 
   newPostTab() {
-    this.drawer.postForm.boardId = btoa(this.drawer.board.formDataId);
-    this.drawer.postForm.formDataId = null;
-    this.drawer.postForm.visible = true;
+    //this.drawer.postForm.boardId = btoa(this.drawer.board.formDataId);
+    //this.drawer.postForm.formDataId = null;
+    //this.drawer.postForm.visible = true;
+
+    this.drawer.update(current => ({
+      ...current,
+      postForm: {boardId: btoa(this.drawer().board.formDataId), formDataId: null, visible: true }
+    }));
   }
 
   editPost(item: any) {
@@ -280,7 +307,7 @@ export default class AppBoard implements AfterViewInit {
   }
 
   editPostPopup(post: PostListData) {
-    const boardId = btoa(this.drawer.board.formDataId);
+    const boardId = btoa(this.drawer().board.formDataId);
     const postId = btoa(post.postId);
 
     const url = this.router.serializeUrl(
@@ -292,20 +319,29 @@ export default class AppBoard implements AfterViewInit {
   }
 
   editPostTab(boardId: string, postId: string) {
-    this.drawer.postForm.boardId = btoa(boardId);
-    this.drawer.postForm.formDataId = btoa(postId);
-
-    if (this.drawer.postForm.formDataId === null || this.drawer.postForm.formDataId === undefined) {
+    if (this.drawer().postForm.formDataId === null || this.drawer().postForm.formDataId === undefined) {
       this.message.create('error', '게시글을 선택해주세요.');
       return;
     }
 
-    this.drawer.postForm.visible = true;
+    //this.drawer.postForm.boardId = btoa(boardId);
+    //this.drawer.postForm.formDataId = btoa(postId);
+    //this.drawer.postForm.visible = true;
+
+    this.drawer.update(current => ({
+      ...current,
+      postForm: {boardId: btoa(this.drawer().board.formDataId), formDataId: btoa(postId), visible: true }
+    }));
   }
 
   viewPost(article: PostListData) {
-    this.drawer.postView.id = article.postId;
-    this.drawer.postView.title = article.title;
+    //this.drawer.postView.id = article.postId;
+    //this.drawer.postView.title = article.title;
+
+    this.drawer.update(current => ({
+      ...current,
+      postView: {id: article.postId, title: article.title, visible: current.postView.visible }
+    }));
 
     if (this.viewMethod == 'tab') {
       this.viewPostTab();
@@ -328,14 +364,14 @@ export default class AppBoard implements AfterViewInit {
 
   viewPostTab(): void {
     let title: string | null = '';
-    const title_lentgh = this.drawer.postView.title.length as number;
+    const title_lentgh = this.drawer().postView.title.length as number;
     if (title_lentgh > 8) {
-      title = this.drawer.postView.title.substring(0, 8) + '...';
+      title = this.drawer().postView.title.substring(0, 8) + '...';
     } else {
-      title = this.drawer.postView.title as string;
+      title = this.drawer().postView.title as string;
     }
 
-    const postId = btoa(this.drawer.postView.id);
+    const postId = btoa(this.drawer().postView.id);
     const newTab: TabInfo = {
       tabName: title,
       postId: postId
@@ -343,7 +379,7 @@ export default class AppBoard implements AfterViewInit {
 
     let tabIndex = null;
     for (const index in this.tabs) {
-      if (this.tabs[index].postId === this.drawer.postView.id) {
+      if (this.tabs[index].postId === this.drawer().postView.id) {
         tabIndex = index;
       }
     }

@@ -208,7 +208,11 @@ export default class AppTerm implements OnInit {
   }
   */
 
-  drawer = signal({
+  drawer = signal<{
+    term: { visible: boolean, formDataId: any },
+    word: { visible: boolean, formDataId: any },
+    domain: { visible: boolean, formDataId: any }
+  }>({
     term: { visible: false, formDataId: '' },
     word: { visible: false, formDataId: '' },
     domain: { visible: false, formDataId: '' },

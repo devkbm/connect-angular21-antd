@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, inject, Renderer2, input, effect, output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, Renderer2, input, effect, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -90,7 +90,7 @@ export interface MenuFormData {
         <nz-form-label nzFor="menuGroupCode" nzRequired>메뉴그룹코드</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
           <nz-select nzId="menuGroupCode" formControlName="menuGroupCode" (ngModelChange)="selectMenuGroup($event)">
-            @for (option of menuGroupList; track option) {
+            @for (option of menuGroupList(); track option) {
               <nz-option
                 [nzLabel]="option.menuGroupName"
                 [nzValue]="option.menuGroupCode">
@@ -106,7 +106,7 @@ export interface MenuFormData {
           <nz-tree-select
             nzId="parentMenuCode"
             formControlName="parentMenuCode"
-            [nzNodes]="menuHiererachy"
+            [nzNodes]="menuHiererachy()"
             nzPlaceHolder="상위 메뉴 없음"
             >
           </nz-tree-select>
@@ -134,7 +134,7 @@ export interface MenuFormData {
         <nz-form-label nzFor="menuType" nzRequired>메뉴타입</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
           <nz-select nzId="menuType" formControlName="menuType">
-            @for (option of menuTypeList; track option) {
+            @for (option of menuTypeList(); track option) {
               <nz-option
                 [nzLabel]="option.label"
                 [nzValue]="option.value">
@@ -182,7 +182,7 @@ export interface MenuFormData {
         <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
         @if (this.fg.controls.appIconType.value === 'RESOURCE') {
           <nz-select nzId="appIcon" formControlName="appIcon">
-            @for (option of resourceList; track option) {
+            @for (option of resourceList(); track option) {
               <nz-option
                 [nzLabel]="option.resourceName"
                 [nzValue]="option.resourceId">
@@ -202,24 +202,23 @@ export interface MenuFormData {
 })
 export class MenuForm implements OnInit, AfterViewInit {
 
+  private notifyService = inject(NotifyService);
+  private renderer = inject(Renderer2);
+  private http = inject(HttpClient);
+  private validator = inject(MenuFormValidatorService);
+
   appIconTypeList :{value: string, label: string}[] = [
     {value: 'NZ_ICON', label: 'NZ ICON'},
     {value: 'RESOURCE', label: 'RESOURCE'}
   ];
 
-  resourceList: any;
-
+  resourceList = signal<any[]>([]);
   /**
    * 상위 메뉴 트리
    */
-  menuHiererachy: MenuHierarchy[] = [];
-  menuGroupList: any;
-  menuTypeList: any;
-
-  private notifyService = inject(NotifyService);
-  private renderer = inject(Renderer2);
-  private http = inject(HttpClient);
-  private validator = inject(MenuFormValidatorService);
+  menuHiererachy = signal<MenuHierarchy[]>([]);
+  menuGroupList = signal<any[]>([]);
+  menuTypeList = signal<any[]>([]);
 
   formSaved = output<any>();
   formDeleted = output<any>();
@@ -372,7 +371,7 @@ export class MenuForm implements OnInit, AfterViewInit {
         )
         .subscribe(
           (model: ResponseList<MenuHierarchy>) => {
-            this.menuHiererachy = model.data;
+            this.menuHiererachy.set(model.data);
           }
         )
   }
@@ -387,7 +386,7 @@ export class MenuForm implements OnInit, AfterViewInit {
         )
         .subscribe(
           (model: ResponseList<MenuGroup>) => {
-            this.menuGroupList = model.data;
+            this.menuGroupList.set(model.data);
           }
         )
 
@@ -403,7 +402,7 @@ export class MenuForm implements OnInit, AfterViewInit {
         )
         .subscribe(
           (model: ResponseList<MenuGroup>) => {
-            this.menuTypeList = model.data;
+            this.menuTypeList.set(model.data);
           }
         )
 
@@ -417,7 +416,7 @@ export class MenuForm implements OnInit, AfterViewInit {
       //catchError((err) => Observable.throw(err))
     ).subscribe(
       (model: ResponseObject<any>) => {
-        this.resourceList = model.data;
+        this.resourceList.set(model.data);
       }
     );
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, inject, input, signal, Renderer2, output } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, inject, input, signal, Renderer2, output, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
@@ -162,12 +162,12 @@ export interface NewFormValue {
 })
 export class WorkCalendarEventForm implements OnInit, OnChanges {
 
+  private renderer = inject(Renderer2);
+  private http = inject(HttpClient);
+
   newFormValue = input<NewFormValue>();
 
   workGroupList = signal<WorkCalendar[]>([]);
-
-  private renderer = inject(Renderer2);
-  private http = inject(HttpClient);
 
   formSaved = output<any>();
   formDeleted = output<any>();
@@ -223,15 +223,13 @@ export class WorkCalendarEventForm implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.getMyWorkGroupList();
-
-    if (this.formDataId()) {
-      this.get(this.formDataId());
-    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.newFormValue()) {
       this.newForm(this.newFormValue()!);
+    } else {
+      this.get(this.formDataId());
     }
   }
 

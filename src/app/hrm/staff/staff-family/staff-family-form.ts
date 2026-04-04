@@ -1,4 +1,4 @@
-import { Component, inject, input, effect, output } from '@angular/core';
+import { Component, inject, input, effect, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -59,7 +59,7 @@ export interface StaffFamily {
             <nz-form-label nzFor="familyRelation" nzRequired>가족관계</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="familyRelation" formControlName="familyRelation" nzPlaceHolder="가족관계를 선택해주세요.">
-                @for (option of familyRelationList; track option) {
+                @for (option of familyRelationList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -143,7 +143,8 @@ export class StaffFamilyForm {
   /**
    * 가족관계 - HR0008
    */
-  familyRelationList: HrmCode[] = [];
+  //familyRelationList: HrmCode[] = [];
+  familyRelationList = signal<HrmCode[]>([]);
 
   hrmCodeService = inject(HrmCodeService);
   notifyService = inject(NotifyService);
@@ -265,7 +266,7 @@ export class StaffFamilyForm {
         .getList(params)
         .subscribe(
           (model: ResponseList<HrmCode>) => {
-            this.familyRelationList = model.data;
+            this.familyRelationList.set(model.data);
           }
       );
   }

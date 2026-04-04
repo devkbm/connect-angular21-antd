@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, inject, input, effect, output } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, input, effect, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -93,7 +93,7 @@ export interface StaffDutyResponsibility {
             <nz-form-label nzFor="dutyResponsibilityCode" nzRequired>직책</nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
               <nz-select nzId="dutyResponsibilityCode" formControlName="dutyResponsibilityCode">
-                @for (option of dutyResponsibilityCodeList; track option) {
+                @for (option of dutyResponsibilityCodeList(); track option) {
                   <nz-option
                     [nzLabel]="option.codeName"
                     [nzValue]="option.code">
@@ -143,7 +143,8 @@ export class StaffDutyResponsibilityForm implements OnInit, AfterViewInit {
   /**
    * 직책코드 - HR0007
    */
-  dutyResponsibilityCodeList: HrmCode[] = [];
+  //dutyResponsibilityCodeList: HrmCode[] = [];
+  dutyResponsibilityCodeList = signal<HrmCode[]>([]);
 
   hrmCodeService = inject(HrmCodeService);
   notifyService = inject(NotifyService);
@@ -272,7 +273,7 @@ export class StaffDutyResponsibilityForm implements OnInit, AfterViewInit {
         .getList(params)
         .subscribe(
           (model: ResponseList<HrmCode>) => {
-            this.dutyResponsibilityCodeList = model.data;
+            this.dutyResponsibilityCodeList.set(model.data);
           }
       );
 
