@@ -48,7 +48,7 @@ export interface Team {
     </ag-grid-angular>
   `
 })
-export class TeamGridComponent extends AgGridCommon implements OnInit {
+export class TeamGrid extends AgGridCommon implements OnInit {
 
   rowClicked = output<TeamModel | undefined>();
   rowDoubleClicked = output<TeamModel | undefined>();

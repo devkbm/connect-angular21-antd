@@ -47,7 +47,7 @@ export interface Post {
 </nz-page-header>
 첨부파일 - {{postId()}} <br/>
 <!--<app-nz-file-upload [fileList]="fileList"></app-nz-file-upload>-->
-<app-nz-file-download [fileList]="fileList" [height]="'100px'"></app-nz-file-download>
+<app-nz-file-download [fileList]="fileList()" [height]="'100px'"></app-nz-file-download>
 
 <post-file-upload
   [isUploadBtnVisible]="false"
@@ -69,7 +69,7 @@ export class PostView {
   postId = input<string>();
 
   post = signal<Post | null>(null);
-  fileList: any = [];
+  fileList = signal<any[]>([]);
 
   constructor() {
     effect(() => {
@@ -92,7 +92,7 @@ export class PostView {
           (model: ResponseObject<Post>) => {
             if (model.data) {
               this.post.set(model.data);
-              this.fileList = model.data.fileList;
+              this.fileList.set(model.data.fileList);
 
               this.updateHitCount(this.postId(), SessionManager.getUserId());
             }
@@ -106,9 +106,7 @@ export class PostView {
 
     const options = getHttpOptions(params);
 
-    this.http
-        .get<ResponseObject<void>>(url, options)
-        .pipe(
+    this.http.get<ResponseObject<void>>(url, options).pipe(
           //catchError((err) => Observable.throw(err))
         )
         .subscribe(

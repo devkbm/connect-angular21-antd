@@ -302,10 +302,12 @@ export class UserForm implements OnInit {
 
     this.fg.reset();
 
-    this.fg.controls.userId.setAsyncValidators(this.validator.existingUserValidator());
-    this.fg.controls.companyCode.setValue(sessionStorage.getItem('companyCode'));
-    this.fg.controls.staffNo.enable();
-    this.fg.controls.enabled.setValue(true);
+    const c = this.fg.controls;
+
+    c.userId.setAsyncValidators(this.validator.existingUserValidator());
+    c.companyCode.setValue(sessionStorage.getItem('companyCode'));
+    c.staffNo.enable();
+    c.enabled.setValue(true);
 
     /*
     this.fg.controls.staffNo.valueChanges.subscribe(x => {
@@ -362,17 +364,6 @@ export class UserForm implements OnInit {
       });
       return;
     }
-
-    /*
-    this.service
-        .registerUser(this.fg.getRawValue())
-        .subscribe(
-          (model: ResponseObject<User>) => {
-            this.notifyService.changeMessage(model.message);
-            this.formSaved.emit(this.fg.getRawValue());
-          }
-        );
-    */
 
     const url = GlobalProperty.serverUrl() + `/api/system/user`;
     const options = getHttpOptions();

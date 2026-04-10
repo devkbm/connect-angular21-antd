@@ -3,7 +3,7 @@ import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { NotifyService } from '@src/app/core/service/notify.service';
 import { ResponseList } from '@src/app/core/model/response-list';
 
-import { TeamGridComponent } from './team-grid.component';
+import { TeamGrid } from './team-grid';
 import { TeamService } from './team.service';
 
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzPageHeaderCustom } from '@src/app/third-party/ng-zorro/nz-page-header-custom/nz-page-header-custom';
-import { TeamFormComponent } from './team-form.component';
+import { TeamForm } from './team-form';
+import { TeamFormDrawer } from './team-form-drawer';
 
 
 export interface TeamModel {
@@ -40,8 +41,9 @@ export interface Team {
     NzDrawerModule,
     NzDividerModule,
 
-    TeamFormComponent,
-    TeamGridComponent,
+    TeamForm,
+    TeamGrid,
+    TeamFormDrawer,
     NzPageHeaderCustom
   ],
   template: `
@@ -68,6 +70,7 @@ export interface Team {
   }
 </div>
 
+<!--
 <nz-drawer
     [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom':'53px' }"
     [nzMaskClosable]="true"
@@ -82,15 +85,13 @@ export interface Team {
       (formDeleted)="getGridList('d')"
       (formClosed)="drawer.team.visible = false">
     </team-form>
-    <!--
-    <hrm-code-type-form #formHrmType *nzDrawerContent
-      [initLoadId]="drawerCodeType.initLoadId"
-      (formSaved)="getGridHrmCodeType()"
-      (formDeleted)="getGridHrmCodeType()"
-      (formClosed)="drawerCodeType.visible = false">
-    </hrm-code-type-form>
-    -->
 </nz-drawer>
+-->
+
+<team-form-drawer
+  [drawer]="drawer.team"
+  (drawerClosed)="getGridList('d')">
+</team-form-drawer>
 
   `,
   styles: `
@@ -133,7 +134,7 @@ export default class AppTeam implements OnInit {
   private notifyService = inject(NotifyService);
   private service = inject(TeamService);
 
-  grid = viewChild.required(TeamGridComponent);
+  grid = viewChild.required(TeamGrid);
 
   drawer: {
     team: { visible: boolean, formDataId: string },

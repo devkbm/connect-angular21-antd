@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, viewChild, output, input } from '@angular/core';
+import { Component, inject, viewChild, output, input, signal } from '@angular/core';
 
 import { NzFormatEmitEvent, NzTreeComponent, NzTreeModule } from 'ng-zorro-antd/tree';
 
@@ -42,8 +42,8 @@ export interface BoardHierarchy {
     <nz-tree
       #treeCom
       nzShowLine
-      [nzData]="items"
-      [nzSelectedKeys]="selectedKeys"
+      [nzData]="items()"
+      [nzSelectedKeys]="selectedKeys()"
       [nzSearchValue]="searchValue()"
       (nzSearchValueChange)="searchValueChange($event)"
       (nzClick)="nzClick($event)"
@@ -58,8 +58,11 @@ export class BoardTree {
   private http = inject(HttpClient);
   treeCom = viewChild.required(NzTreeComponent);
 
-  protected items: BoardHierarchy[] = [];
-  selectedKeys: string[] = [];
+  //protected items: BoardHierarchy[] = [];
+  //selectedKeys: string[] = [];
+
+  items = signal<BoardHierarchy[]>([]);
+  selectedKeys = signal<string[]>([]);
 
   searchValue = input.required<string>();
 
@@ -77,11 +80,11 @@ export class BoardTree {
         .subscribe(
           (model: ResponseList<BoardHierarchy>) => {
             if ( model.data ) {
-              this.items = model.data;
-              this.selectedKeys = [this.items[0].key];
-              this.itemSelected.emit(this.items[0]);
+              this.items.set(model.data);
+              this.selectedKeys.set([this.items()[0].key]);
+              this.itemSelected.emit(this.items()[0]);
             } else {
-              this.items = [];
+              this.items.set([]);
             }
 
               // title 노드 텍스트
