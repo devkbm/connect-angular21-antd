@@ -4,6 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { ResponseObject } from '@src/app/core/model/response-object';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { SessionManager } from '@src/app/core/session-manager';
 
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -11,9 +14,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 
-import { GlobalProperty } from '@src/app/core/global-property';
-import { getHttpOptions } from '@src/app/core/http/http-utils';
-import { SessionManager } from '@src/app/core/session-manager';
 
 @Component({
   selector: 'app-user-profile-form',

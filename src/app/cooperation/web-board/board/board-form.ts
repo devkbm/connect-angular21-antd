@@ -18,6 +18,7 @@ import { getHttpOptions } from '@src/app/core/http/http-utils';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { sequenceEqual } from 'rxjs';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 export interface BoardManagement {
   boardId: string | null;
@@ -25,6 +26,8 @@ export interface BoardManagement {
   boardName: string | null;
   boardType: string | null;
   boardDescription: string | null;
+  categoryUse: boolean | null;
+  category: string[] | null;
 }
 
 export interface BoardHierarchy {
@@ -63,6 +66,7 @@ export interface BoardHierarchy {
     NzDividerModule,
     NzTreeSelectModule,
     NzSelectModule,
+    NzSwitchModule,
 ],
   template: `
     <div>{{fg.getRawValue() | json}}</div>
@@ -145,34 +149,46 @@ export interface BoardHierarchy {
 
       </div>
 
-      <!-- 2 row -->
-      <div nz-row nzGutter="8">
-        <div nz-col nzSpan="24">
-          <nz-form-item>
-            <nz-form-label nzFor="boardName" nzRequired>게시판 명</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <input nz-input id="boardName" formControlName="boardName" required
-                placeholder="게시판명을 입력해주세요."
-              />
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
+      <nz-form-item>
+        <nz-form-label nzFor="boardName" nzRequired>게시판 명</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <input nz-input id="boardName" formControlName="boardName" required
+            placeholder="게시판명을 입력해주세요."
+          />
+        </nz-form-control>
+      </nz-form-item>
 
-      <!-- 3 row -->
-      <div nz-row nzGutter="8">
-        <div nz-col nzSpan="24">
-          <nz-form-item>
-            <nz-form-label nzFor="boardDescription">게시판 설명</nz-form-label>
-            <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
-              <textarea nz-input id="boardDescription" formControlName="boardDescription"
-                placeholder="게시판 설명을 입력해주세요." [rows]="20"
-              >
-              </textarea>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
+      <nz-form-item>
+        <nz-form-label nzFor="boardDescription">게시판 설명</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
+          <textarea nz-input id="boardDescription" formControlName="boardDescription"
+            placeholder="게시판 설명을 입력해주세요." [rows]="10"
+          >
+          </textarea>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="categoryUse" nzRequired>분류 사용여부</nz-form-label>
+        <nz-form-control>
+          <nz-switch nzId="categoryUse" formControlName="categoryUse">
+          </nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+
+
+      <nz-form-item>
+        <nz-form-label nzFor="categoryUse" nzRequired>분류</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="category" nzMode="tags" nzPlaceHolder="Tag Mode">
+            @for (option of fg.controls.category.value; track option) {
+              <nz-option [nzLabel]="option" [nzValue]="option" />
+            }
+        </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+
 
     </form>
 
@@ -215,14 +231,11 @@ export interface BoardHierarchy {
 })
 export class BoardForm implements OnInit, AfterViewInit {
 
-  //parentBoardItems: BoardHierarchy[] = [];
-  parentBoardItems = signal<BoardHierarchy[]>([]);
-
-  //boardTypeList: any;
-  boardTypeList = signal<any[]>([]);
-
   private renderer = inject(Renderer2);
   private http = inject(HttpClient);
+
+  boardTypeList = signal<any[]>([]);
+  parentBoardItems = signal<BoardHierarchy[]>([]);
 
   formSaved = output<any>();
   formDeleted = output<any>();
@@ -234,7 +247,9 @@ export class BoardForm implements OnInit, AfterViewInit {
     boardName       : new FormControl<string | null>('', { validators: [Validators.required] }),
     boardType       : new FormControl<string | null>('', { validators: [Validators.required] }),
     boardDescription: new FormControl<string | null>(null),
-    sequence        : new FormControl<number | null>(0)
+    sequence        : new FormControl<number | null>(0),
+    categoryUse     : new FormControl<boolean>(false),
+    category        : new FormControl<string[]>([]),
   });
 
   formDataId = input<any>();

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -7,6 +7,9 @@ import { catchError, of, switchMap } from 'rxjs';
 
 import { SystemUserProfile, UserSessionService } from '@src/app/core/service/user-session.service';
 import { ResponseObject } from '@src/app/core/model/response-object';
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { ResponseList } from '@src/app/core/model/response-list';
 
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -15,10 +18,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-
-import { GlobalProperty } from '@src/app/core/global-property';
-import { getHttpOptions } from '@src/app/core/http/http-utils';
-import { ResponseList } from '@src/app/core/model/response-list';
 
 @Component({
   selector: 'app-user-profile',
@@ -46,12 +45,12 @@ import { ResponseList } from '@src/app/core/model/response-list';
       </ng-template>
 
       <ng-template #titleTemplate>
-        {{profile?.staffName + '(' + profile?.userId + ')'}} <br/>
-        {{profile?.session?.lastAccessedTime | date:"yyyy/MM/dd HH:mm:ss"}}
+        {{profile()?.staffName + '(' + profile()?.userId + ')'}} <br/>
+        {{profile()?.session?.lastAccessedTime | date:"yyyy/MM/dd HH:mm:ss"}}
       </ng-template>
 
       <ng-template #descTemplate>
-        {{profile?.deptName}}
+        {{profile()?.deptName}}
       </ng-template>
 
       <ng-template #actionSetting>
@@ -103,13 +102,13 @@ import { ResponseList } from '@src/app/core/model/response-list';
 })
 export class UserProfile {
 
-  profilePictureSrc: any;
-  profile?: SystemUserProfile;
-
   private sessionService = inject(UserSessionService);
   private router = inject(Router);
   private http = inject(HttpClient);
   private modal = inject(NzModalService);
+
+  profilePictureSrc: string | undefined;
+  profile = signal<SystemUserProfile | null>(null);
 
   constructor() {
     this.profilePictureSrc = this.sessionService.getAvartarImageString();
@@ -121,7 +120,9 @@ export class UserProfile {
         .getMyProfile()
         .subscribe(
             (model: ResponseObject<SystemUserProfile>) => {
-              this.profile = model.data;
+              if (model.data) {
+                this.profile.set(model.data);
+              }
             }
         );
   }
@@ -146,7 +147,6 @@ export class UserProfile {
 
     this.http.get<any>(url1, options).pipe(
       switchMap(res => {
-        //console.log(res.authenticated);
         if (res.authenticated) {
           return this.http.get<ResponseList<boolean>>(url2, options);
         } else {

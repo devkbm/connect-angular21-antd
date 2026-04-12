@@ -1,4 +1,4 @@
-import { Component, inject, input, effect, signal } from '@angular/core';
+import { Component, inject, input, signal, OnChanges, SimpleChanges, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -11,6 +11,7 @@ import { getHttpOptions } from '@src/app/core/http/http-utils';
 import { NzMenuModeType, NzMenuModule, NzMenuThemeType } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule } from 'ng-zorro-antd/image';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 export interface MenuHierarchy {
   createdDt: Date;
@@ -46,7 +47,7 @@ export interface MenuHierarchy {
       <div class="logo">LOGO</div>
 
       <ul class="menu" nz-menu [nzTheme]="menuInfo().theme" [nzMode]="menuInfo().mode" [nzInlineIndent]="menuInfo().inline_indent">
-        <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: menuInfo().menuItems }"></ng-container>
+        <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: gridResource.value()?.data }"></ng-container>
         <ng-template #menuTpl let-menus>
           @for (menu of menus; track menu.key) {
             @if (!menu.children) {
@@ -68,7 +69,8 @@ export interface MenuHierarchy {
                     width="20px"
                     height="20px"
                     [nzSrc]="menu.icon"
-                  />&nbsp;
+                  />
+                  &nbsp;
                 }
                 @else if (menu.icon) {
                   <span nz-icon [nzType]="menu.icon"></span>
@@ -120,31 +122,42 @@ export interface MenuHierarchy {
     }
   `]
 })
-export class SideMenu {
+export class SideMenu implements OnChanges {
 
   private router = inject(Router);
   private http = inject(HttpClient);
 
-  menuInfo = signal<{theme: NzMenuThemeType, mode: NzMenuModeType, inline_indent: number, isCollapsed: boolean, menuItems: MenuHierarchy[]}>({
+  menuInfo = signal<{theme: NzMenuThemeType, mode: NzMenuModeType, inline_indent: number}>({
     theme: 'dark',
     mode: 'inline',
-    inline_indent: 12,
-    isCollapsed: false,
-    menuItems: []
+    inline_indent: 12
   });
 
   menuGroupCode = input<string>('');
-
-  previousUrl: string = '';
-  currentUrl: string = '';
+  menuItems = signal<MenuHierarchy[]>([]);
 
   constructor() {
     effect(() => {
-      if (this.menuGroupCode() !== '') {
-        this.getMenuList(this.menuGroupCode());
-      }
+
     })
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    /*
+    const menuGroupCode = changes['menuGroupCode'].currentValue;
+    if ( menuGroupCode !== '') {
+      this.getMenuList(menuGroupCode);
+    }
+      */
+  }
+
+  gridResource = rxResource({
+    params: () => ({id : this.menuGroupCode()}),
+    stream: ({params}) => this.http.get<ResponseList<MenuHierarchy>>(
+      GlobalProperty.serverUrl() + `/api/system/menuhierarchy/${SessionManager.getUserId()}/${params.id}`,
+      getHttpOptions(params)
+    )
+  })
 
   saveSessionUrl(ev: any) {
     sessionStorage.setItem('lastVisitUrl', this.router.currentNavigation()?.initialUrl.toString()!);
@@ -161,9 +174,10 @@ export class SideMenu {
         )
         .subscribe(
           (model: ResponseList<MenuHierarchy>) => {
-            this.menuInfo.update(obj => ({...obj, menuItems: model.data}));
-
-            sessionStorage.setItem('menuList', JSON.stringify(model.data));
+            if (model.data) {
+              this.menuItems.set(model.data);
+              sessionStorage.setItem('menuList', JSON.stringify(model.data));
+            }
           }
         );
   }

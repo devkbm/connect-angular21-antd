@@ -98,7 +98,7 @@ export class CompanyGrid extends AgGridCommon {
     },
     { headerName: '회사코드',       field: 'companyCode',                 width: 80 },
     { headerName: '회사명',         field: 'companyName',                 width: 100 },
-    { headerName: '사업자등록번호',  field: 'businessRegistrationNumber',  width: 120 },
+    { headerName: '사업자등록번호', field: 'businessRegistrationNumber',  width: 120 },
     { headerName: '법인번호',       field: 'coporationNumber',            width: 100 },
     { headerName: '대표자',         field: 'nameOfRepresentative',        width: 100 },
     { headerName: '설립일',         field: 'establishmentDate',           width: 100 }

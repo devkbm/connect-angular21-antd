@@ -34,9 +34,9 @@ export class UserSessionService extends DataService {
     this.IMAGE_URI = GlobalProperty.serverUrl() + '/api/system/user/image';
   }
 
-  getAvartarImageString(): string | null {
+  getAvartarImageString(): string | undefined {
     const imageUrl = sessionStorage.getItem('imageUrl');
-    if (imageUrl === 'null') return null;
+    if (imageUrl === null) return undefined;
 
     //return this.IMAGE_URI + sessionStorage.getItem('imageUrl');
 

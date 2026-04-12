@@ -1,16 +1,15 @@
-import { Component, computed, effect, inject, input, model, output, signal } from '@angular/core';
+import { Component, inject, input, model, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 //import { FileUploadModule, FileUploader } from 'ng2-file-upload';
 import { FileUploadModule } from '@src/app/third-party/ng2-file-upload/file-upload/file-upload.module';
 import { FileUploader } from '@src/app/third-party/ng2-file-upload/file-upload/file-uploader.class';
 
 import { GlobalProperty } from '@src/app/core/global-property';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { HttpClient } from '@angular/common/http';
 import { getHttpOptions } from '@src/app/core/http/http-utils';
 
-
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 export interface UploadedFile {
   uid: string;
@@ -200,7 +199,6 @@ export class PostFileUpload {
   }
 
   upload() {
-    console.log(this.postId());
     this.uploader.setOptions({
       url: GlobalProperty.serverUrl() + `/api/grw/board/post/file`,
       authToken: sessionStorage.getItem('token')!,

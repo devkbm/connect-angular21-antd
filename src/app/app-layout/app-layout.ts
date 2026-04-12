@@ -1,25 +1,25 @@
-import { Component, OnInit, TemplateRef, inject, input } from '@angular/core';
+import { Component, OnInit, TemplateRef, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { catchError, combineLatest, of, switchMap } from 'rxjs';
 
 import { UserSessionService } from '@src/app/core/service/user-session.service';
 import { NotifyService } from '@src/app/core/service/notify.service';
 
+import { GlobalProperty } from '@src/app/core/global-property';
+import { getHttpOptions } from '@src/app/core/http/http-utils';
+import { ResponseList } from '@src/app/core/model/response-list';
+
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzDropdownModule } from 'ng-zorro-antd/dropdown';
 import { UserProfile } from '@src/app/app-layout/user-profile/user-profile';
 import { SideMenu } from '@src/app/app-layout/side-menu/side-menu';
-
-import { GlobalProperty } from '@src/app/core/global-property';
-import { getHttpOptions } from '@src/app/core/http/http-utils';
-import { ResponseList } from '@src/app/core/model/response-list';
-import { catchError, combineLatest, of, switchMap } from 'rxjs';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-layout',
@@ -31,7 +31,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzAvatarModule,
     NzIconModule,
     NzSelectModule,
-    NzDropDownModule,
+    NzDropdownModule,
     NzButtonModule,
     UserProfile,
     SideMenu
@@ -42,12 +42,14 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
   <nz-sider
     class="sidebar"
     nzCollapsible
-    [(nzCollapsed)]="sideMenu.isCollapsed"
+    [(nzCollapsed)]="isCollapsed"
     [nzCollapsedWidth]="0"
     [nzWidth]="200"
     [nzTrigger]="triggerTemplate">
+      <!--[menuGroupCode]="sideMenu.menuGroupCode"-->
       <app-side-menu
-        [menuGroupCode]="sideMenu.menuGroupCode">
+        [menuGroupCode]="menuGroupInfo().selectedId"
+      >
       </app-side-menu>
   </nz-sider>
 
@@ -56,16 +58,16 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
       <span
         nz-icon
         class="collapse-icon"
-        [nzType]="sideMenu.isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="sideMenu.isCollapsed=!sideMenu.isCollapsed">
+        [nzType]="isCollapsed() ? 'menu-unfold' : 'menu-fold'"
+        (click)="siderCollapse()">
       </span>
 
       <nz-select
         class="menu-group"
         nzShowSearch
-        [(ngModel)]="menuGroupInfo.selectedId"
+        [(ngModel)]="menuGroupInfo().selectedId"
         (ngModelChange)="moveToMenuGroupUrl($event)">
-          @for (menuGroup of menuGroupInfo.list; track menuGroup.menuGroupCode) {
+          @for (menuGroup of menuGroupInfo().list; track menuGroup.menuGroupCode) {
             <nz-option
               [nzValue]="menuGroup.menuGroupCode"
               [nzLabel]="menuGroup.menuGroupName">
@@ -165,26 +167,25 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 })
 export class AppLayout implements OnInit  {
 
-  profileAvatarSrc: string | undefined;
-
-  menuGroupInfo: {list: {menuGroupCode: string, menuGroupName: string, menuGroupUrl: string}[], selectedId: string} = {
-    list: [],
-    selectedId: ''
-  }
-
-  // 기본 SIDER 메뉴 트리거 숨기기위해 사용
-  triggerTemplate: TemplateRef<void> | null = null;
-
-  footerMessage: string = '';
-
-  sideMenu : {menuGroupCode: string, isCollapsed: boolean} = {menuGroupCode: '', isCollapsed: false};
-
-  isForwarding = input<boolean>(false);
-
   private notifyService = inject(NotifyService);
   private sessionService = inject(UserSessionService);
   private router = inject(Router);
   private http = inject(HttpClient);
+
+  profileAvatarSrc: string | undefined;
+
+  isCollapsed = signal<boolean>(false);
+  // 기본 SIDER 메뉴 트리거 숨기기위해 사용
+  triggerTemplate: TemplateRef<void> | null = null;
+
+  menuGroupInfo = signal<{list: {menuGroupCode: string, menuGroupName: string, menuGroupUrl: string}[], selectedId: string}>({
+    list: [],
+    selectedId: ''
+  })
+
+  footerMessage: string = '';
+
+  isForwarding = input<boolean>(false);
 
   ngOnInit(): void {
     this.setAvatar();
@@ -204,36 +205,34 @@ export class AppLayout implements OnInit  {
     if (this.isForwarding()) {
       const sessionMenuGroup  = sessionStorage.getItem('selectedMenuGroup');
 
-      if (sessionMenuGroup !== 'null' && sessionMenuGroup) {
-        this.menuGroupInfo.selectedId = sessionMenuGroup;
-        this.sideMenu.menuGroupCode = sessionMenuGroup;
+      if (sessionMenuGroup !== null) {
+        this.menuGroupInfo.update(current => ({...current, selectedId: sessionMenuGroup}));
       } else {
-        this.menuGroupInfo.selectedId = this.menuGroupInfo.list[0].menuGroupCode;
-        this.sideMenu.menuGroupCode = this.menuGroupInfo.list[0].menuGroupCode;
+        this.menuGroupInfo.update(current => ({...current, selectedId: this.menuGroupInfo().list[0].menuGroupCode}));
       }
 
       const lastVisitUrl    = sessionStorage.getItem('lastVisitUrl');
       if (lastVisitUrl !== 'null' && lastVisitUrl) {
         this.router.navigate([lastVisitUrl]);
       } else {
-        this.moveToMenuGroupUrl(this.menuGroupInfo.selectedId);
+        this.moveToMenuGroupUrl(this.menuGroupInfo().selectedId);
       }
 
     } else {
       const menuGroupUrl = this.router.url.split(';')[0].split('/')[1];
       const menuGroupCode = this.getMenuGroupCode(menuGroupUrl);
 
-      this.menuGroupInfo.selectedId = menuGroupCode;
-      this.sideMenu.menuGroupCode = menuGroupCode;
+      this.menuGroupInfo.update(current => ({...current, selectedId: menuGroupCode}));
     }
 
   }
 
+  siderCollapse() {
+    this.isCollapsed.update(current => !current);
+  }
+
   setAvatar(): void {
-    const profilePictureUrl: string | null = this.sessionService.getAvartarImageString();
-    if (profilePictureUrl) {
-      this.profileAvatarSrc = profilePictureUrl as string;
-    }
+    this.profileAvatarSrc = this.sessionService.getAvartarImageString();
   }
 
   /**
@@ -241,11 +240,12 @@ export class AppLayout implements OnInit  {
    */
   setInitMenuGroup() {
     const stringMenuGroupList = sessionStorage.getItem('menuGroupList') as string;
-    this.menuGroupInfo.list   = JSON.parse(stringMenuGroupList);
+    //this.menuGroupInfo.list   = JSON.parse(stringMenuGroupList);
+    this.menuGroupInfo.update(current => ({...current, list: JSON.parse(stringMenuGroupList)}));
   }
 
   getMenuGroupCode(url: string) {
-    for (const menuGroup of this.menuGroupInfo.list) {
+    for (const menuGroup of this.menuGroupInfo().list) {
       if (menuGroup.menuGroupUrl === url) {
         return menuGroup.menuGroupCode;
       }
@@ -254,15 +254,15 @@ export class AppLayout implements OnInit  {
   }
 
   moveToMenuGroupUrl(menuGroupCode: string) {
-    this.menuGroupInfo.selectedId = menuGroupCode;
-    this.sideMenu.menuGroupCode = menuGroupCode;
+    this.menuGroupInfo.update(current => ({...current, selectedId: menuGroupCode}));
+
     sessionStorage.setItem('selectedMenuGroup', menuGroupCode);
 
     this.router.navigate([this.getMenuGroupUrl(menuGroupCode)]);
   }
 
   getMenuGroupUrl(menuGroupCode: string) {
-    for (const menuGroup of this.menuGroupInfo.list) {
+    for (const menuGroup of this.menuGroupInfo().list) {
       if (menuGroup.menuGroupCode === menuGroupCode) {
         return menuGroup.menuGroupUrl;
       }
