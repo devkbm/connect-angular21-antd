@@ -2,7 +2,7 @@ import { Component, TemplateRef, inject, input } from '@angular/core';
 import { Location } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { MenuBreadCrumb, SessionManager } from '@src/app/core/session-manager';
+import { MenuBreadCrumb } from '@src/app/core/session-manager';
 
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
@@ -37,21 +37,13 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 })
 export class NzPageHeaderCustom {
 
-  //menuBreadCrumb: MenuBreadCrumb[] = SessionManager.createBreadCrumb();
+  protected _location = inject(Location);
+
   menuBreadCrumb: MenuBreadCrumb[] = this.createBreadCrumb();
 
   title = input<string | TemplateRef<void>>('');
   subtitle = input<string | TemplateRef<void>>('');
 
-  protected _location = inject(Location);
-
-  goBack() {
-    this._location.back();
-  }
-
-  goFoward() {
-    this._location.forward();
-  }
 
   createBreadCrumb(): MenuBreadCrumb[] {
     const menuGroupList       = JSON.parse(sessionStorage.getItem('menuGroupList') as string);
@@ -89,6 +81,14 @@ export class NzPageHeaderCustom {
 
     //console.log(names);
     return names;
+  }
+
+  goBack() {
+    this._location.back();
+  }
+
+  goFoward() {
+    this._location.forward();
   }
 
 }

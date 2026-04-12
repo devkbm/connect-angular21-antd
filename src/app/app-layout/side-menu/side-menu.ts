@@ -47,7 +47,7 @@ export interface MenuHierarchy {
       <div class="logo">LOGO</div>
 
       <ul class="menu" nz-menu [nzTheme]="menuInfo().theme" [nzMode]="menuInfo().mode" [nzInlineIndent]="menuInfo().inline_indent">
-        <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: gridResource.value()?.data }"></ng-container>
+        <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: menuItems() }"></ng-container>
         <ng-template #menuTpl let-menus>
           @for (menu of menus; track menu.key) {
             @if (!menu.children) {
@@ -143,14 +143,13 @@ export class SideMenu implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    /*
     const menuGroupCode = changes['menuGroupCode'].currentValue;
     if ( menuGroupCode !== '') {
       this.getMenuList(menuGroupCode);
     }
-      */
   }
 
+  /*
   gridResource = rxResource({
     params: () => ({id : this.menuGroupCode()}),
     stream: ({params}) => this.http.get<ResponseList<MenuHierarchy>>(
@@ -158,6 +157,7 @@ export class SideMenu implements OnChanges {
       getHttpOptions(params)
     )
   })
+  */
 
   saveSessionUrl(ev: any) {
     sessionStorage.setItem('lastVisitUrl', this.router.currentNavigation()?.initialUrl.toString()!);
